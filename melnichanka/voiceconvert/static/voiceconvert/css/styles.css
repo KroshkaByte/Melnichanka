@@ -76,3 +76,8 @@ footer {
     position: fixed;
     bottom: 0;
 }
+
+start-recognition {
+    width: 200px;
+    height: 200px;
+}
