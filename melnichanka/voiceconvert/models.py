@@ -10,7 +10,7 @@ class User(AbstractUser):
     email = models.EmailField(max_length=50, unique=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
-    password = models.CharField(max_length=50)
+    password = models.CharField(max_length=150)
 
     USERNAME_FIELD = 'username'
 
