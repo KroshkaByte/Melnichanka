@@ -16,8 +16,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from django.views.generic.base import TemplateView
+from voiceconvert import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('voiceconvert.urls')),
+    path("", TemplateView.as_view(template_name="home.html"), name="home"),
+    path("", include("voiceconvert.urls")),
+    path("admin/", admin.site.urls),
+    path("account/", include("voiceconvert.urls")),
+    path("account/", include("django.contrib.auth.urls")),
 ]
+
+
+handler404 = views.page_not_found_view
