@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('voiceconvert', '0001_initial'),
+        ("voiceconvert", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='user',
-            name='password',
+            model_name="user",
+            name="password",
             field=models.CharField(max_length=150),
         ),
     ]
