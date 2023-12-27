@@ -13,7 +13,7 @@ class SignUpView(CreateView):
 
 def home_view(request):
     return render(request, "home.html")
-  
+
 def recognize_speech_view(request):
     return recognize_speech(request)
 

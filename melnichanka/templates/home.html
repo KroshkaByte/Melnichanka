@@ -7,8 +7,70 @@
     Hi, {{user.username }}!
     <p><a href="{% url 'logout' %}">Log Out</a></p>
 {% else %}
+
+<header>
+    <h1>Добро пожаловать в Мой Проект!</h1>
+</header>
+
+<main>
+    <section>
+        <h2>Начнем с чего-то нового</h2>
+        <p>Здесь вы можете начать добавлять свой контент или заполнить форму</p>
+    </section>
+
+    <button id="start-recognition">Начать распознавание</button>
+    <div id="result"></div>
+
+    <script>
+        $(document).ready(function() {
+            $('#start-recognition').click(function() {
+                $.ajax({
+                    type: 'GET',
+                    url: '/recognize_speech/',
+                    success: function(response) {
+                        if (response.success) {
+                            $('#result').text('Вы сказали: ' + response.text);
+                        } else {
+                            $('#result').text('Ошибка: ' + response.error);
+                        }
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            });
+        });
+    </script>
+</main>
+
+<script>
+    $(document).ready(function() {
+        $('#start-recognition').click(function() {
+            $.ajax({
+                type: 'GET',
+                url: '/recognize_speech/',
+                success: function(response) {
+                    if (response.success) {
+                        $('#result').text('Вы сказали: ' + response.text);
+                    } else {
+                        $('#result').text('Ошибка: ' + response.error);
+                    }
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        });
+    });
+</script>
+
     <p>You are not logged in</p>
     <a href="{% url 'login' %}">Log In</a> |
     <a href="{% url 'signup' %}">Sign Up</a>
+
+<footer>
+    <p>&copy; 2023 Мой Проект</p>
+</footer>
+
 {% endif %}
 {% endblock %}
