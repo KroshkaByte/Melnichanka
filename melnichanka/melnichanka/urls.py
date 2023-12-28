@@ -21,7 +21,6 @@ from voiceconvert import views
 
 urlpatterns = [
     path("", TemplateView.as_view(template_name="home.html"), name="home"),
-    path("", include("voiceconvert.urls")),
     path("admin/", admin.site.urls),
     path("account/", include("voiceconvert.urls")),
     path("account/", include("django.contrib.auth.urls")),
