@@ -1,83 +1,105 @@
-/* styles.css */
-
 body {
     font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
+    background-color: #f4f4f4;
+    color: #333;
 }
 
 header {
-    background-color: #333;
-    color: white;
-    padding: 1em;
-    text-align: center;
-    width: 100%;
-}
-
-main {
+    background-color: #FFC107;
+    color: #333;
     padding: 20px;
     text-align: center;
 }
 
+main {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+section {
+    margin-bottom: 20px;
+    color: #333;
+}
+
 button {
-    padding: 10px;
-    font-size: 16px;
-    background-color: #4CAF50;
-    color: white;
+    background-color: #FFC107;
+    color: #333;
+    padding: 10px 20px;
     border: none;
+    border-radius: 5px;
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #FFD54F;
 }
 
-form {
-    max-width: 400px;
-    margin: 0 auto;
-    text-align: left; /* Добавлено для выравнивания содержимого формы по левому краю */
-}
-
-label {
-    display: block;
-    margin-bottom: 8px;
-}
-
-input {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 15px;
-    box-sizing: border-box;
-}
-
-button[type="submit"] {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    cursor: pointer;
-}
-
-button[type="submit"]:hover {
-    background-color: #45a049;
+#result {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #FFC107;
 }
 
 footer {
-    background-color: #333;
-    color: white;
-    padding: 1em;
+    margin-top: 20px;
     text-align: center;
-    width: 100%;
-    position: fixed;
-    bottom: 0;
+    color: #777;
 }
 
-start-recognition {
-    width: 200px;
-    height: 200px;
+a, section p a {
+    color: #FFC107;
+}
+
+a:hover, section p a:hover {
+    text-decoration: underline;
+    color: #FFD54F;
+}
+
+.login-signup {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.login-signup .login,
+.login-signup .signup {
+    display: inline-block;
+    margin: 0 10px;
+}
+
+.login-signup a {
+    color: #333;
+    font-size: 18px;
+    margin: 0 10px;
+}
+
+.login-signup a:hover {
+    text-decoration: underline;
+    color: #555;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.container h3,
+.container p {
+    margin-bottom: 15px;
+}
+
+.user-section {
+    text-align: center;
+}
+
+.recognition-section {
+    text-align: center;
+    margin-top: 20px; /* Добавим небольшой отступ для разделения секций */
 }

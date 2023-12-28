@@ -13,6 +13,10 @@ def recognize_speech(request):
     try:
         text = recognizer.recognize_google(audio, language="ru-RU")
         response_data = {'success': True, 'text': text}
+
+        # Тут хранится наш текст
+        print(type(text))
+        print(text)
     except sr.UnknownValueError:
         response_data = {'success': False, 'error': 'Речь не распознана'}
     except sr.RequestError as e:

@@ -1,76 +1,62 @@
 {% extends 'base.html' %}
 
-{% block title %}Home placeholder{% endblock %}
+{% block title %}VoiceParseHub{% endblock %}
 
 {% block content %}
-{% if user.is_authenticated %}
-    Hi, {{user.username }}!
-    <p><a href="{% url 'logout' %}">Log Out</a></p>
-{% else %}
+    <div class="container">
+        <header>
+            <h1>Ваш Голос, Ваш Excel: VoiceParseHub.com - Новый Уровень Табличной Продуктивности!</h1>
+        </header>
+        <main>
+            {% if user.is_authenticated %}
+                <section class="user-section">
+                    <p>Привет, {{ user.username }}!</p>
 
-<header>
-    <h1>Добро пожаловать в Мой Проект!</h1>
-</header>
+                    <section class="recognition-section">
+                        <button id="start-recognition">Начать распознавание</button>
+                        <div id="result"></div>
 
-<main>
-    <section>
-        <h2>Начнем с чего-то нового</h2>
-        <p>Здесь вы можете начать добавлять свой контент или заполнить форму</p>
-    </section>
+                        <script>
+                            $(document).ready(function() {
+                                $('#start-recognition').click(function() {
+                                    $.ajax({
+                                        type: 'GET',
+                                        url: '/recognize_speech/',
+                                        success: function(response) {
+                                            if (response.success) {
+                                                $('#result').text('Вы сказали: ' + response.text);
+                                            } else {
+                                                $('#result').text('Ошибка: ' + response.error);
+                                            }
+                                        },
+                                        error: function(error) {
+                                            console.log(error);
+                                        }
+                                    });
+                                });
+                            });
+                        </script>
+                    </section>
+                    <p><a href="{% url 'logout' %}">Выйти</a></p>
+                </section>
+            {% else %}
+                <section class="login-signup">
+                    <div class="login">
+                        <a href="{% url 'login' %}" class="button button-large">
+                            <span class="text">Войти</span>
+                        </a>
+                    </div>
+                    <div class="signup">
+                        <a href="{% url 'signup' %}" class="button button-large">
+                            <span class="text">Зарегистрироваться</span>
+                        </a>
+                    </div>
+                </section>
+            {% endif %}
+        </main>
 
-    <button id="start-recognition">Начать распознавание</button>
-    <div id="result"></div>
-
-    <script>
-        $(document).ready(function() {
-            $('#start-recognition').click(function() {
-                $.ajax({
-                    type: 'GET',
-                    url: '/recognize_speech/',
-                    success: function(response) {
-                        if (response.success) {
-                            $('#result').text('Вы сказали: ' + response.text);
-                        } else {
-                            $('#result').text('Ошибка: ' + response.error);
-                        }
-                    },
-                    error: function(error) {
-                        console.log(error);
-                    }
-                });
-            });
-        });
-    </script>
-</main>
-
-<script>
-    $(document).ready(function() {
-        $('#start-recognition').click(function() {
-            $.ajax({
-                type: 'GET',
-                url: '/recognize_speech/',
-                success: function(response) {
-                    if (response.success) {
-                        $('#result').text('Вы сказали: ' + response.text);
-                    } else {
-                        $('#result').text('Ошибка: ' + response.error);
-                    }
-                },
-                error: function(error) {
-                    console.log(error);
-                }
-            });
-        });
-    });
-</script>
-
-    <p>You are not logged in</p>
-    <a href="{% url 'login' %}">Log In</a> |
-    <a href="{% url 'signup' %}">Sign Up</a>
-
-<footer>
-    <p>&copy; 2023 Мой Проект</p>
-</footer>
-
-{% endif %}
+        <footer>
+            <p>&copy; VoiceParseHub</p>
+        </footer>
+    </div>
 {% endblock %}
