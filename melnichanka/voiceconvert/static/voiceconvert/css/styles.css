@@ -1,83 +1,127 @@
-/* styles.css */
-
 body {
     font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
+    background-color: #f0f5f0; /* Light green background */
+    color: #002200; /* Dark green text color */
 }
 
 header {
-    background-color: #333;
-    color: white;
-    padding: 1em;
-    text-align: center;
-    width: 100%;
-}
-
-main {
+    background-color: #343434; /* Dark green for header */
+    color: #f0f5f0; /* Light green text color */
     padding: 20px;
     text-align: center;
 }
 
+main {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ebf3ebe9; /* Lighter green background for main content */
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+    text-align: center; /* Добавьте этот стиль для центрирования содержимого по центру */
+}
+
+section {
+    margin-bottom: 20px;
+    color: #002200; /* Dark green text color */
+}
+
 button {
-    padding: 10px;
-    font-size: 16px;
-    background-color: #4CAF50;
-    color: white;
+    background-color: #006600; /* Dark green for buttons */
+    color: #f0f5f0; /* Light green text color */
+    padding: 10px 20px;
     border: none;
+    border-radius: 5px;
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #005500; /* Slightly darker green on hover */
 }
 
-form {
-    max-width: 400px;
-    margin: 0 auto;
-    text-align: left; /* Добавлено для выравнивания содержимого формы по левому краю */
-}
-
-label {
-    display: block;
-    margin-bottom: 8px;
-}
-
-input {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 15px;
-    box-sizing: border-box;
-}
-
-button[type="submit"] {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    cursor: pointer;
-}
-
-button[type="submit"]:hover {
-    background-color: #45a049;
+#result {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #006600; /* Dark green for highlighted text */
 }
 
 footer {
-    background-color: #333;
-    color: white;
-    padding: 1em;
+    margin-top: 20px;
     text-align: center;
-    width: 100%;
-    position: fixed;
-    bottom: 0;
+    color: #002200; /* Dark green text color */
 }
 
-start-recognition {
-    width: 200px;
-    height: 200px;
+a,
+section p a {
+    color: #006600; /* Dark green for links */
+}
+
+a:hover,
+section p a:hover {
+    text-decoration: underline;
+    color: #005500; /* Slightly darker green on hover for links */
+}
+
+.login-signup {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.login-login {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.login-signup .login,
+.login-signup .signup {
+    display: inline-block;
+    margin: 0 10px;
+}
+
+.login-signup a {
+    color: #002200; /* Dark green text color */
+    font-size: 18px;
+    margin: 0 10px;
+}
+
+.login-signup a:hover {
+    text-decoration: underline;
+    color: #004400; /* Darker green on hover for links in login/registration */
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    /* background-color: #f1fef1a7; Lighter green background for containers */
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-image: url('../images/background.png');
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+    opacity: 0.9;
+}
+
+.container h3,
+.container p {
+    margin-bottom: 15px;
+}
+
+.user-section {
+    text-align: center;
+}
+
+.recognition-section {
+    text-align: center;
+    margin-top: 20px;
+}
+
+form {
+    max-width: 500px; /* Установите максимальную ширину формы, чтобы не занимать весь контейнер */
+    margin: 0 auto; /* Центрируйте форму внутри блока main */
+    text-align:left;
+
 }
