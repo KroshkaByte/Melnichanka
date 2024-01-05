@@ -29,3 +29,4 @@ urlpatterns = [
 
 
 handler404 = views.page_not_found_view
+handler500 = views.server_error_view
