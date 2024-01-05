@@ -27,8 +27,7 @@ SECRET_KEY = str(os.getenv("SECRET_KEY"))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-if DEBUG:
-    load_dotenv()
+load_dotenv()
 
 ALLOWED_HOSTS = ["127.0.0.1"]
 
