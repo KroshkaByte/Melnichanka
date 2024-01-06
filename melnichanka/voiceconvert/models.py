@@ -7,13 +7,15 @@ class User(AbstractUser):
     username = models.CharField(max_length=50, unique=True)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
+    patronymic = models.CharField(max_length=50)
+    position = models.CharField(max_length=50)
+    department = models.CharField(max_length=50)
     email = models.EmailField(max_length=50, unique=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     password = models.CharField(max_length=150)
     phone_number_work = PhoneNumberField(null=False, blank=False, unique=True)
     phone_number_personal = PhoneNumberField(null=False, blank=False, unique=True)
-
 
     USERNAME_FIELD = "username"
 
