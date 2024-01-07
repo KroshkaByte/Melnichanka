@@ -1,7 +1,10 @@
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f0f5f0; /* Light green background */
-    color: #002200; /* Dark green text color */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: top;
+    justify-content: center;
+    min-height: 100vh;
 }
 
 header {
@@ -12,7 +15,7 @@ header {
 }
 
 main {
-    max-width: 800px;
+    max-width: 100%;
     margin: 20px auto;
     padding: 20px;
     background-color: #ebf3ebe9; /* Lighter green background for main content */
@@ -44,12 +47,6 @@ button:hover {
     margin-top: 10px;
     font-weight: bold;
     color: #006600; /* Dark green for highlighted text */
-}
-
-footer {
-    margin-top: 20px;
-    text-align: center;
-    color: #002200; /* Dark green text color */
 }
 
 a,
@@ -91,18 +88,17 @@ section p a:hover {
 }
 
 .container {
-    max-width: 800px;
-    margin: 20px auto;
+    max-width: 100%;
+    width: 80%; /* Процент ширины контейнера */
     padding: 20px;
-    background-color: rgba(255, 255, 255, 0.9);
-    /* background-color: #f1fef1a7; Lighter green background for containers */
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     background-image: url('../images/background.png');
     background-size: cover;
     background-position: center center;
     background-attachment: fixed;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     opacity: 0.9;
+    text-align: center; /* Для центрирования содержимого внутри контейнера */
 }
 
 .container h3,
@@ -124,4 +120,10 @@ form {
     margin: 0 auto; /* Центрируйте форму внутри блока main */
     text-align:left;
 
+}
+
+
+#column1, #column2, #column3 {
+    width: 30%;
+    float: left;
 }
