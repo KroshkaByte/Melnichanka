@@ -10,22 +10,42 @@
     <div id="result"></div>
 
     <p><a href="{% url 'logout' %}">Log Out</a></p>
+
+
+        <div id="column1">
+            <p>Колонка 1</p>
+        </div>
+
+        <div id="column2">
+            <p>Колонка 2</p>
+        </div>
+
+        <div id="column3">
+            <p>Колонка 3</p>
+            <p>Колонка 3</p>
+            <p>Колонка 3</p>
+            <p>Колонка 3</p>
+            <p>Колонка 3</p>
+        </div>
+
+
+
+
 {% else %}
-    <p>You are not logged in</p>
+    <p>Для того что бы воспользоваться сервисом пожалуйста войдите в свой профиль или зарегистрируйтесь</p>
     <section class="login-signup">
 
-    <form action="{% url 'login' %}" method="get" class="login">
-        <button type="submit" class="button button-large">
-            <span class="text">Войти</span>
-        </button>
-    </form>
+        <form action="{% url 'login' %}" method="get" class="login">
+            <button type="submit" class="button button-large">
+                <span class="text">Войти</span>
+            </button>
+        </form>
 
-
-    <form action="{% url 'signup' %}" method="get" class="signup">
-        <button type="submit" class="button button-large">
-            <span class="text">Зарегистрироваться</span>
-        </button>
-    </form>
-</section>
+        <form action="{% url 'signup' %}" method="get" class="signup">
+            <button type="submit" class="button button-large">
+                <span class="text">Зарегистрироваться</span>
+            </button>
+        </form>
+    </section>
 {% endif %}
 {% endblock %}

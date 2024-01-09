@@ -4,23 +4,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Title placeholder{% endblock %}</title>
+    <title>{% block title %}Title placeholder(зачем нам это){% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'voiceconvert/css/styles.css' %}">
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>-VoiceParseHub-</h1>
+            {% if user.is_authenticated %}
+                <h2>тут должны быть кнопки</h2>
+            {% else %}
+                <h2>тут что-то должно быть написано или ссылки</h2>
+            {% endif %}
         </header>
 
         {% block content %}
         {% endblock %}
-
-        <footer>
-            <p>&copy; VoiceParseHub</p>
-        </footer>
     </div>
 </body>
 </html>
