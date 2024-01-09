@@ -5,7 +5,7 @@ from phonenumber_field.formfields import PhoneNumberField
 from .models import User
 
 
-class UserCreationForm(UserCreationForm):
+class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = User
         fields = (
@@ -21,7 +21,7 @@ class UserCreationForm(UserCreationForm):
         )
 
 
-class UserChangeForm(UserChangeForm):
+class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = User
         fields = ("username", "email")

@@ -3,6 +3,70 @@ from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 
 
+# Информация о заводах-производителях
+class Factory(models.Model):
+    class FactoryFlour(models.TextChoices):
+        KKHP = "ККХП", 'АО "Курский Комбинат Хлебопродуктов'
+        KHPS = "КХПС", 'АО "Комбинат Хлебопродуктов Старооскольский'
+        GKHP = "ГКХП", 'АО "Городищенский Комбинат Хлебопродуктов'
+
+    factory_name = models.CharField(
+        max_length=4, choices=FactoryFlour.choices, default=FactoryFlour.KKHP
+    )
+    factory_city = models.CharField(max_length=50)
+    factory_adress = models.CharField(max_length=150)
+
+    def __str__(self):
+        return f"Производитель: {self.factory_name}"
+
+
+# Данные по логистике авто
+class LogisticsAuto(models.Model):
+    departure_city = models.CharField(max_length=50)
+    destination_city = models.CharField(max_length=50)
+    cost_per_tonn_auto = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f"Цена за рейс {self.departure_city} - {self.destination_city}: {self.cost_per_tonn_auto}"
+
+
+# Данные по логистике жд
+class LogisticsRailwayStations(models.Model):
+    departure_station_name = models.CharField(max_length=100)
+    departure_station_id = models.PositiveIntegerField()
+    departure_station_branch = models.CharField(max_length=100)
+    destination_station_name = models.CharField(max_length=100)
+    destination_station_id = models.PositiveIntegerField()
+    destination_station_branch = models.CharField(max_length=100)
+    cost_per_tonn_rw = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f"Цена за жд перевозку {self.departure_station_name} - {self.destination_station_name}: {self.cost_per_tonn_rw}"
+
+
+# Информация о контрагенте
+class Client(models.Model):
+    # Основная информация
+    company_name = models.CharField(max_length=100)
+    contract_number = models.CharField(max_length=50, unique=True)
+    contract_date = models.DateField()
+    director_position = models.CharField(max_length=100)
+    director_name = models.CharField(max_length=100)
+
+    # ЖД реквизиты
+    destination_station_name = models.CharField(max_length=100)
+    destination_station_id = models.PositiveIntegerField()
+    receiver_name = models.CharField(max_length=100)
+    receiver_id = models.PositiveIntegerField()
+    receiver_okpo = models.PositiveIntegerField()
+    receiver_adress = models.CharField(max_length=200)
+    special_marks = models.CharField(max_length=200)
+
+    # Номер приложения
+    last_application_number = models.CharField(max_length=50)
+
+
+# Информация о пользователе приложения
 class User(AbstractUser):
     username = models.CharField(max_length=50, unique=True)
     first_name = models.CharField(max_length=50)
@@ -25,14 +89,26 @@ class User(AbstractUser):
         verbose_name_plural = "users"
 
     def __str__(self):
-        return self.username
+        return f"Пользователь {self.username}"
 
+    # class RailwayBranch(models.TextChoices):
+    #     OZD = "ОЖД", "Октябрьская железная дорога"
+    #     KaZD = "КаЖД", "Калининградская железная дорога"
+    #     MZD = "МЖД", "Московская железная дорога"
+    #     GZD = "ГЖД", "Горьковская железная дорога"
+    #     SeZD = "СеЖД", "Северная железная дорога"
+    #     SKZD = "СКЖД", "Северо-Кавказская железная дорога"
+    #     YVZD = "ЮВЖД", "Юго-Восточная железная дорога"
+    #     PZD = "ПЖД", "Приволжская железная дорога"
+    #     KUZD = "КуЖД", "Куйбышевская железная дорога"
+    #     SvZD = "СвЖД", "Свердловская железная дорога"
+    #     YUZD = "ЮУЖД", "Южно-Уральская железная дорога"
+    #     ZSZD = "ЗСЖД", "Западно-Сибирская железная дорога"
+    #     KZD = "КЖД", "Красноярская железная дорога"
+    #     VSZD = "ВСЖД", "Восточно-Сибирская железная дорога"
+    #     ZZD = "ЗЖД", "Забайкальская железная дорога"
+    #     DVZD = "ДВЖД", "Дальневосточная железная дорога"
 
-class Factory(models.Model):
-    factory_full_name = models.CharField(max_length=100, unique=True)
-    factory_short_name = models.CharField(max_length=50)
-    factory_city = models.CharField(max_length=50)
-    factory_adress = models.CharField(max_length=100, unique=True)
-
-    def __str__(self):
-        return self.factory_full_name
+    # branch_name = models.CharField(
+    #     max_length=4, choices=RailwayBranch.choices, default=RailwayBranch.MZD
+    # )

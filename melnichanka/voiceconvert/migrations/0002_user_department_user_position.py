@@ -4,21 +4,20 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('voiceconvert', '0001_initial'),
+        ("voiceconvert", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='user',
-            name='department',
+            model_name="user",
+            name="department",
             field=models.CharField(default=1, max_length=50),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='user',
-            name='position',
+            model_name="user",
+            name="position",
             field=models.CharField(default=1, max_length=50),
             preserve_default=False,
         ),
