@@ -157,3 +157,44 @@ html {
 	  from{box-shadow: inset -3px 0px 0px #888;}
 	  to{box-shadow: inset -3px 0px 0px transparent;}
 }
+
+.button-group {
+    display: flex; /* Устанавливаем флекс-контейнер для дочерних элементов */
+    justify-content: space-between; /* Распределяем дочерние элементы, чтобы они занимали максимальное пространство */
+    margin-top: 20%; /* Отступ сверху, можно регулировать */
+    font-size: 48px; /* Устанавливаем размер шрифта для всего содержимого контейнера */
+
+}
+
+.button-header {
+    display: inline-block;
+    background-color: #006600;
+    color: #f0f5f0;
+    padding: 15px 30px;
+    text-decoration: none;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+}
+
+
+.button-header:hover {
+    background-color: #005500;
+}
+
+.button-group .button-header {
+    display: inline-block;
+    background-color: #006600;
+    color: #f0f5f0;
+    padding: 15px 30px 15px 30px; /* Устанавливаем расстояние между элементом и соседними элементами */
+    text-decoration: none;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    /* Устанавливаем расстояние между кнопками */
+    margin-right: 50px;
+}
