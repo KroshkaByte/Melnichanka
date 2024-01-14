@@ -20,30 +20,6 @@ class Factory(models.Model):
         return f"Производитель: {self.factory_name}"
 
 
-# Данные по логистике авто
-class LogisticsAuto(models.Model):
-    departure_city = models.CharField(max_length=50)
-    destination_city = models.CharField(max_length=50)
-    cost_per_tonn_auto = models.PositiveIntegerField()
-
-    def __str__(self):
-        return f"Цена за рейс {self.departure_city} - {self.destination_city}: {self.cost_per_tonn_auto}"
-
-
-# Данные по логистике жд
-class LogisticsRailwayStations(models.Model):
-    departure_station_name = models.CharField(max_length=100)
-    departure_station_id = models.PositiveIntegerField()
-    departure_station_branch = models.CharField(max_length=100)
-    destination_station_name = models.CharField(max_length=100)
-    destination_station_id = models.PositiveIntegerField()
-    destination_station_branch = models.CharField(max_length=100)
-    cost_per_tonn_rw = models.PositiveIntegerField()
-
-    def __str__(self):
-        return f"Цена за жд перевозку {self.departure_station_name} - {self.destination_station_name}: {self.cost_per_tonn_rw}"
-
-
 # Информация о контрагенте
 class Client(models.Model):
     # Основная информация

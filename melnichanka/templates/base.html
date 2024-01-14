@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Title placeholder(зачем нам это){% endblock %}</title>
+    <title>{% block title %}title{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'users/css/styles.css' %}">
 </head>
@@ -13,7 +13,7 @@
         <header>
             {% if user.is_authenticated %}
             <div class="button-group">
-                <a href="{% url 'login' %}" class="button-header">
+                <a href="{% url 'home' %}" class="button-header">
                     <span class="text">Главная</span>
                 </a>
 
@@ -21,7 +21,7 @@
                     <span class="text">Список клиентов</span>
                 </a>
 
-                <a href="#" class="button-header">
+                <a href="{% url 'logistics_home' %}" class="button-header">
                     <span class="text">Логистика</span>
                 </a>
 

@@ -1,5 +1,9 @@
 from django.shortcuts import render
 
+from .models import LogisticsAuto
+
 
 def logistics_home_view(request):
-    return render(request, "logistics/log_home.html")
+    data = LogisticsAuto.objects.all()
+    context = {"logistics_table": data}
+    return render(request, "logistics/log_home.html", context)

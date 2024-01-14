@@ -3,6 +3,25 @@
 {% block title %}title{% endblock %}
 
 {% block content %}
-<button id="add_string">Добавить рейс</button>
-<button id="edit_string">Изменить рейс</button>
+<button id="add_string">Добавить</button>
+<button id="edit_string">Изменить цену</button>
+<button id="del_string">Удалить</button>
+
+<br />
+<table border="1" align="center">
+    <thead>
+        <tr style="text-align: right;">
+          <th>Город отправления</th>
+          <th>Город назначения</th>
+          <th>Прайс, руб./тн</th>
+        </tr>
+    </thead>
+    {% for entry in logistics_table %}
+    <tr>
+       <td class="log_departure">{{entry.departure_city}}</td>
+       <td class="log_destination">{{entry.destination_city}}</td>
+       <td class="log_price">{{entry.cost_per_tonn_auto}}</td>
+    </tr>
+    {% endfor %}
+    </table>
 {% endblock %}
