@@ -24,4 +24,5 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("account/", include("voiceconvert.urls")),
     path("account/", include("django.contrib.auth.urls")),
+    path("logistics/", include("logistics.urls")),
 ]
