@@ -45,24 +45,24 @@ class Client(models.Model):
 # Информация о пользователе приложения
 class User(AbstractUser):
     username = models.CharField(max_length=50, unique=True)
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
+    first_name = models.CharField(max_length=50, verbose_name="Имя")
+    last_name = models.CharField(max_length=50, verbose_name="Фамилия")
     patronymic = models.CharField(max_length=50)
-    position = models.CharField(max_length=50)
-    department = models.CharField(max_length=50)
+    position = models.CharField(max_length=50, verbose_name="Должность") # Можно сделать выпадающий список
+    department = models.CharField(max_length=50, verbose_name="Отдел")   # Можно сделать выпадающий список
     email = models.EmailField(max_length=50, unique=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     password = models.CharField(max_length=150)
-    phone_number_work = PhoneNumberField(null=False, blank=False, unique=True)
-    phone_number_personal = PhoneNumberField(null=False, blank=False, unique=True)
+    phone_number_work = PhoneNumberField(verbose_name="Личный телефон")
+    phone_number_personal = PhoneNumberField(verbose_name="Рабочий телефон")
 
     USERNAME_FIELD = "username"
 
     class Meta:
         ordering = ["username"]
-        verbose_name = "user"
-        verbose_name_plural = "users"
+        verbose_name = "Пользователи"
+        verbose_name_plural = "Пользователи"
 
     def __str__(self):
         return f"Пользователь {self.username}"

@@ -4,33 +4,47 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='LogisticsAuto',
+            name="LogisticsAuto",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('departure_city', models.CharField(max_length=50)),
-                ('destination_city', models.CharField(max_length=50)),
-                ('cost_per_tonn_auto', models.PositiveIntegerField()),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("departure_city", models.CharField(max_length=50)),
+                ("destination_city", models.CharField(max_length=50)),
+                ("cost_per_tonn_auto", models.PositiveIntegerField()),
             ],
         ),
         migrations.CreateModel(
-            name='LogisticsRailwayStations',
+            name="LogisticsRailwayStations",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('departure_station_name', models.CharField(max_length=100)),
-                ('departure_station_id', models.PositiveIntegerField()),
-                ('departure_station_branch', models.CharField(max_length=100)),
-                ('destination_station_name', models.CharField(max_length=100)),
-                ('destination_station_id', models.PositiveIntegerField()),
-                ('destination_station_branch', models.CharField(max_length=100)),
-                ('cost_per_tonn_rw', models.PositiveIntegerField()),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("departure_station_name", models.CharField(max_length=100)),
+                ("departure_station_id", models.PositiveIntegerField()),
+                ("departure_station_branch", models.CharField(max_length=100)),
+                ("destination_station_name", models.CharField(max_length=100)),
+                ("destination_station_id", models.PositiveIntegerField()),
+                ("destination_station_branch", models.CharField(max_length=100)),
+                ("cost_per_tonn_rw", models.PositiveIntegerField()),
             ],
         ),
     ]

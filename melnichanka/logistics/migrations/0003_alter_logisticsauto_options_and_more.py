@@ -4,18 +4,19 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('logistics', '0002_alter_logisticsauto_unique_together_and_more'),
+        ("logistics", "0002_alter_logisticsauto_unique_together_and_more"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='logisticsauto',
-            options={'ordering': ['departure_city', 'destination_city']},
+            name="logisticsauto",
+            options={"ordering": ["departure_city", "destination_city"]},
         ),
         migrations.AlterModelOptions(
-            name='logisticsrailwaystations',
-            options={'ordering': ['departure_station_name', 'destination_station_name']},
+            name="logisticsrailwaystations",
+            options={
+                "ordering": ["departure_station_name", "destination_station_name"]
+            },
         ),
     ]

@@ -7,3 +7,9 @@ def logistics_home_view(request):
     data = LogisticsAuto.objects.all()
     context = {"logistics_table": data}
     return render(request, "logistics/log_home.html", context)
+
+
+def logistics_add_view(request):
+    data = LogisticsAuto.objects.all()
+    context = {"logistics_table": data}
+    return render(request, "logistics/log_add.html", context)
