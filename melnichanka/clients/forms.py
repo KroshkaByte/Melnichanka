@@ -10,7 +10,6 @@ class ClientsAddForm(forms.Form):
     client_name = forms.CharField(max_length=100, label="Название предприятия")
     contract_number = forms.CharField(max_length=50, label="Номер договора")
     contract_date = forms.DateField(
-        required=False,
         label="Дата заключения договора",
         widget=forms.DateInput(attrs={"type": "date"}),
     )
