@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "phonenumber_field",
     "logistics.apps.LogisticsConfig",
     "users.apps.UsersConfig",
+    "clients.apps.ClientsConfig",
 ]
 
 MIDDLEWARE = [

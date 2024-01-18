@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}title{% endblock %}
+
+{% block content %}
+<button onclick="location.href = '/clients/clients_add'">Добавить</button>
+<button onclick="location.href = '#'">Изменить клиента</button>
+<button onclick="location.href = '#'">Удалить клиента</button>
+
+<table border="1" align="center">
+    <thead>
+        <tr style="text-align: right;">
+          <th>Название предприятия</th>
+          <th>Номер договора</th>
+          <th>Дата заключения договора</th>
+          <th>Имя директора</th>
+          <th>Специальнные отметки</th>
+        </tr>
+    </thead>
+    {% for entry in clients_table %}
+    <tr>
+       <td>{{entry.client_name}}</td>
+       <td>{{entry.contract_number}}</td>
+       <td>{{entry.contract_date}}</td>
+       <td>{{entry.director_name}}</td>
+       <td>{{entry.special_marks}}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
