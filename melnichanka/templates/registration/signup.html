@@ -6,7 +6,13 @@
 <h2>Зарегистрироваться</h2>
 <form method="post">
   {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Зарегистрироваться</button>
+  <div class="form-error">{{ form.non_field_errors }}</div>
+  {% for f in form %}
+  <p><label class="form-label-reg" for="{{ f.id_for_label }}">{{ f.label }}</label>{{ f }}</p>
+  <div class="form-error">{{ f.errors }}</div>
+  {% endfor %}
+  <div class="button-reg">
+  <button type="submit" >Зарегистрироваться</button>
+  </div>
 </form>
 {% endblock %}

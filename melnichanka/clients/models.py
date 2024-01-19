@@ -4,7 +4,7 @@ from django.db import models
 class Clients(models.Model):
     # Основная информация
     client_name = models.CharField(
-        max_length=100, blank=True, verbose_name="Название предприятия"
+        max_length=100, blank=True, verbose_name="Наименование организации"
     )
     contract_number = models.CharField(
         max_length=50, blank=True, verbose_name="Номер договора", unique=True
@@ -13,14 +13,11 @@ class Clients(models.Model):
     director_position = models.CharField(
         max_length=100, verbose_name="Должность директора"
     )
-    director_name = models.CharField(max_length=100, verbose_name="Имя директора")
-    special_marks = models.CharField(
-        max_length=200, verbose_name="Специальнные отметки"
-    )
+    director_name = models.CharField(max_length=100, verbose_name="ФИО директора")
 
     # ЖД реквизиты
     destination_station_name = models.CharField(
-        max_length=100, verbose_name="Имя ЖД станции"
+        max_length=100, verbose_name="Наименование ЖД станции"
     )
     destination_station_id = models.PositiveIntegerField(
         verbose_name="Номер ЖД станции"
@@ -29,6 +26,7 @@ class Clients(models.Model):
     receiver_id = models.PositiveIntegerField(verbose_name="Номер получателя")
     receiver_okpo = models.PositiveIntegerField(verbose_name="ОКПО")
     receiver_adress = models.CharField(max_length=200, verbose_name="Адрес получателя")
+    special_marks = models.CharField(max_length=200, verbose_name="Особые отметки")
 
     # Номер приложения
     last_application_number = models.CharField(

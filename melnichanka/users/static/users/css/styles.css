@@ -204,6 +204,30 @@ html {
     vertical-align: top;
 }
 
+.form-label-cli {
+    display: inline-block;
+    min-width: 190px;
+    vertical-align: top;
+    margin-right: 20px;
+    text-align: right;
+}
+
+.button-client-add{
+    text-align: center;
+}
+
+.form-label-reg {
+    display: inline-block;
+    min-width: 180px;
+    vertical-align: top;
+    margin-right: 20px;
+    text-align: right;
+}
+
+.button-reg{
+        text-align: center;
+}
+
 .form-error ul {
     list-style: none;
     padding: 0;
