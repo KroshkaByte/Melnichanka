@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
-{% block title %}title{% endblock %}
+{% block title %}{% endblock %}
 
 {% block content %}
 <button onclick="location.href = '/logistics/log_add'">Добавить</button>
-<button onclick="location.href = '#'">Изменить цену</button>
-<button onclick="location.href = '#'">Удалить</button>
+<button onclick="location.href = '/logistics/log_edit'">Изменить</button>
+<button onclick="location.href = '/logistics/log_del'">Удалить</button>
 
 
 <br />
@@ -19,9 +19,9 @@
     </thead>
     {% for entry in logistics_table %}
     <tr>
-       <td class="log_departure">{{entry.departure_city}}</td>
-       <td class="log_destination">{{entry.destination_city}}</td>
-       <td class="log_price">{{entry.cost_per_tonn_auto}}</td>
+       <td class="log_departure">{{ entry.departure_city }}</td>
+       <td class="log_destination">{{ entry.destination_city }}</td>
+       <td class="log_price">{{ entry.cost_per_tonn_auto }}</td>
     </tr>
     {% endfor %}
     </table>
