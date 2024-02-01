@@ -44,12 +44,18 @@ class Client(models.Model):
 
 # Информация о пользователе приложения
 class User(AbstractUser):
-    username = models.CharField(max_length=50, unique=True)
+    username = models.CharField(
+        max_length=50, unique=True, verbose_name="Имя пользователя"
+    )
     first_name = models.CharField(max_length=50, verbose_name="Имя")
     last_name = models.CharField(max_length=50, verbose_name="Фамилия")
-    patronymic = models.CharField(max_length=50)
-    position = models.CharField(max_length=50, verbose_name="Должность") # Можно сделать выпадающий список
-    department = models.CharField(max_length=50, verbose_name="Отдел")   # Можно сделать выпадающий список
+    patronymic = models.CharField(max_length=50, verbose_name="Отчество")
+    position = models.CharField(
+        max_length=50, verbose_name="Должность"
+    )  # Можно сделать выпадающий список
+    department = models.CharField(
+        max_length=50, verbose_name="Отдел"
+    )  # Можно сделать выпадающий список
     email = models.EmailField(max_length=50, unique=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
@@ -66,25 +72,3 @@ class User(AbstractUser):
 
     def __str__(self):
         return f"Пользователь {self.username}"
-
-    # class RailwayBranch(models.TextChoices):
-    #     OZD = "ОЖД", "Октябрьская железная дорога"
-    #     KaZD = "КаЖД", "Калининградская железная дорога"
-    #     MZD = "МЖД", "Московская железная дорога"
-    #     GZD = "ГЖД", "Горьковская железная дорога"
-    #     SeZD = "СеЖД", "Северная железная дорога"
-    #     SKZD = "СКЖД", "Северо-Кавказская железная дорога"
-    #     YVZD = "ЮВЖД", "Юго-Восточная железная дорога"
-    #     PZD = "ПЖД", "Приволжская железная дорога"
-    #     KUZD = "КуЖД", "Куйбышевская железная дорога"
-    #     SvZD = "СвЖД", "Свердловская железная дорога"
-    #     YUZD = "ЮУЖД", "Южно-Уральская железная дорога"
-    #     ZSZD = "ЗСЖД", "Западно-Сибирская железная дорога"
-    #     KZD = "КЖД", "Красноярская железная дорога"
-    #     VSZD = "ВСЖД", "Восточно-Сибирская железная дорога"
-    #     ZZD = "ЗЖД", "Забайкальская железная дорога"
-    #     DVZD = "ДВЖД", "Дальневосточная железная дорога"
-
-    # branch_name = models.CharField(
-    #     max_length=4, choices=RailwayBranch.choices, default=RailwayBranch.MZD
-    # )
