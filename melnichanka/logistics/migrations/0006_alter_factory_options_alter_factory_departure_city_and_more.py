@@ -4,54 +4,59 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('logistics', '0005_factory_and_more'),
+        ("logistics", "0005_factory_and_more"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='factory',
-            options={'ordering': ['full_name'], 'verbose_name': 'Комбинат', 'verbose_name_plural': 'Комбинаты'},
+            name="factory",
+            options={
+                "ordering": ["full_name"],
+                "verbose_name": "Комбинат",
+                "verbose_name_plural": "Комбинаты",
+            },
         ),
         migrations.AlterField(
-            model_name='factory',
-            name='departure_city',
+            model_name="factory",
+            name="departure_city",
             field=models.CharField(max_length=50),
         ),
         migrations.AlterField(
-            model_name='factory',
-            name='departure_station_branch',
+            model_name="factory",
+            name="departure_station_branch",
             field=models.CharField(max_length=9),
         ),
         migrations.AlterField(
-            model_name='factory',
-            name='departure_station_id',
+            model_name="factory",
+            name="departure_station_id",
             field=models.CharField(max_length=9),
         ),
         migrations.AlterField(
-            model_name='factory',
-            name='full_address',
+            model_name="factory",
+            name="full_address",
             field=models.CharField(max_length=255),
         ),
         migrations.AlterField(
-            model_name='factory',
-            name='full_name',
+            model_name="factory",
+            name="full_name",
             field=models.CharField(max_length=100),
         ),
         migrations.AlterField(
-            model_name='factory',
-            name='short_name',
+            model_name="factory",
+            name="short_name",
             field=models.CharField(max_length=50),
         ),
         migrations.AlterField(
-            model_name='logisticsauto',
-            name='departure_city',
-            field=models.CharField(max_length=100, verbose_name='Комбинат грузоотправитель'),
+            model_name="logisticsauto",
+            name="departure_city",
+            field=models.CharField(
+                max_length=100, verbose_name="Комбинат грузоотправитель"
+            ),
         ),
         migrations.AlterField(
-            model_name='logisticsauto',
-            name='destination_city',
-            field=models.CharField(max_length=100, verbose_name='Город назначения'),
+            model_name="logisticsauto",
+            name="destination_city",
+            field=models.CharField(max_length=100, verbose_name="Город назначения"),
         ),
     ]

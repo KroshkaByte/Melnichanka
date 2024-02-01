@@ -4,20 +4,21 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('users', '0003_alter_user_options_alter_user_department_and_more'),
+        ("users", "0003_alter_user_options_alter_user_department_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='user',
-            name='patronymic',
-            field=models.CharField(max_length=50, verbose_name='Отчество'),
+            model_name="user",
+            name="patronymic",
+            field=models.CharField(max_length=50, verbose_name="Отчество"),
         ),
         migrations.AlterField(
-            model_name='user',
-            name='username',
-            field=models.CharField(max_length=50, unique=True, verbose_name='Имя пользователя'),
+            model_name="user",
+            name="username",
+            field=models.CharField(
+                max_length=50, unique=True, verbose_name="Имя пользователя"
+            ),
         ),
     ]

@@ -47,8 +47,8 @@ def logistics_delete_view(request):
         form = LogisticsDeleteForm(request.POST)
         if form.is_valid():
             try:
-                print("here")
-                print(form.cleaned_data)
+                del_trip = LogisticsAuto.objects.get(id=form.cleaned_data["trip"])
+                del_trip.delete()
                 return redirect("logistics_home")
             except LogisticsAuto.DoesNotExist:
                 form.add_error(None, "Ошибка изменения рейса (не найдено)")
@@ -77,7 +77,7 @@ def logistics_edit_view(request):
                 query_trip.save()
                 return redirect("logistics_home")
             except LogisticsAuto.DoesNotExist:
-                form.add_error(None, "Ошибка изменения рейса (не найдено)")
+                form.add_error(None, "Ошибка изменения рейса (направление не найдено)")
             except LogisticsAuto.MultipleObjectsReturned:
                 form.add_error(None, "Ошибка изменения рейса (найдено больше 1)")
 

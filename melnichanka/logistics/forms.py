@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import LogisticsAuto
+from .services import get_all_choices, get_dep_choices, get_dest_choices
 
 
 class LogisticsAddForm(forms.Form):
@@ -12,23 +12,14 @@ class LogisticsAddForm(forms.Form):
 
 
 class LogisticsEditForm(forms.Form):
-    DEP_CHOICES = (
-        LogisticsAuto.objects.order_by()
-        .values_list("departure_city", "departure_city")
-        .distinct()
-    )
-    DEST_CHOICES = (
-        LogisticsAuto.objects.order_by()
-        .values_list("destination_city", "destination_city")
-        .distinct()
-    )
-
-    departure_city = forms.CharField(
-        widget=forms.Select(choices=DEP_CHOICES, attrs={"class": "select_form"}),
+    departure_city = forms.ChoiceField(
+        widget=forms.Select(attrs={"class": "select_form"}),
+        choices=get_dep_choices,
         label="Город отправления",
     )
-    destination_city = forms.CharField(
-        widget=forms.Select(choices=DEST_CHOICES, attrs={"class": "select_form"}),
+    destination_city = forms.ChoiceField(
+        widget=forms.Select(attrs={"class": "select_form"}),
+        choices=get_dest_choices,
         label="Город назначения",
     )
     cost_per_tonn_auto = forms.IntegerField(
@@ -37,9 +28,8 @@ class LogisticsEditForm(forms.Form):
 
 
 class LogisticsDeleteForm(forms.Form):
-    TRIP_CHOICES = LogisticsAuto.objects.order_by()
-
-    trip = forms.CharField(
-        widget=forms.Select(choices=TRIP_CHOICES, attrs={"class": "select_form"}),
+    trip = forms.ChoiceField(
+        widget=forms.Select(attrs={"class": "select_form"}),
+        choices=get_all_choices,
         label="Рейс",
     )
