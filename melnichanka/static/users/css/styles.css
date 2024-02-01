@@ -116,15 +116,10 @@ section p a:hover {
 }
 
 form {
-<<<<<<<< HEAD:melnichanka/static/users/css/styles.css
     max-width: 500px;
     margin: 0 auto;
     text-align:left;
-========
-    width: 80%;
-    margin: 0 auto;
   }
->>>>>>>> 1cacb0d1fda4afa971c820f831bcf7da9df10ef4:melnichanka/users/static/users/css/styles.css
 
   label,
   input {
@@ -232,7 +227,6 @@ html {
     transition: background-color 0.3s ease;
     margin-right: 50px;
 }
-<<<<<<<< HEAD:melnichanka/static/users/css/styles.css
 
 .form-label {
     display: inline-block;
@@ -269,5 +263,3 @@ html {
     padding: 0;
     color: #CC0000;
 }
-========
->>>>>>>> 1cacb0d1fda4afa971c820f831bcf7da9df10ef4:melnichanka/users/static/users/css/styles.css
