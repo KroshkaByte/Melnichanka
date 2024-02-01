@@ -1,16 +1,9 @@
 {% extends 'base.html' %}
 
-{% block title %}VoiceParseHub{% endblock %}
+{% block title %}{% endblock %}
 
 {% block content %}
 {% if user.is_authenticated %}
-    Hi, {{user.username }}!
-
-    <button id="start-recognition">Тут была кнопка'Начать распознавание'</button>
-    <div id="result"></div>
-
-    <p><a href="{% url 'logout' %}">Log Out</a></p>
-
 
         <div id="column1">
             <p>Колонка 1</p>
@@ -32,7 +25,6 @@
 
 
 {% else %}
-    <p>Для того что бы воспользоваться сервисом пожалуйста войдите в свой профиль или зарегистрируйтесь</p>
     <section class="login-signup">
 
         <form action="{% url 'login' %}" method="get" class="login">

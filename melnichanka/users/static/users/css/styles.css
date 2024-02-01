@@ -8,8 +8,8 @@ body {
 }
 
 header {
-    background-color: #343434; /* Dark green for header */
-    color: #f0f5f0; /* Light green text color */
+    background-color: #343434;
+    color: #f0f5f0;
     padding: 20px;
     text-align: center;
 }
@@ -18,21 +18,21 @@ main {
     max-width: 100%;
     margin: 20px auto;
     padding: 20px;
-    background-color: #ebf3ebe9; /* Lighter green background for main content */
+    background-color: #ebf3ebe9;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 
-    text-align: center; /* Добавьте этот стиль для центрирования содержимого по центру */
+    text-align: center;
 }
 
 section {
     margin-bottom: 20px;
-    color: #002200; /* Dark green text color */
+    color: #002200;
 }
 
 button {
-    background-color: #006600; /* Dark green for buttons */
-    color: #f0f5f0; /* Light green text color */
+    background-color: #006600;
+    color: #f0f5f0;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
@@ -40,24 +40,24 @@ button {
 }
 
 button:hover {
-    background-color: #005500; /* Slightly darker green on hover */
+    background-color: #005500;
 }
 
 #result {
     margin-top: 10px;
     font-weight: bold;
-    color: #006600; /* Dark green for highlighted text */
+    color: #006600;
 }
 
 a,
 section p a {
-    color: #006600; /* Dark green for links */
+    color: #006600;
 }
 
 a:hover,
 section p a:hover {
     text-decoration: underline;
-    color: #005500; /* Slightly darker green on hover for links */
+    color: #005500;
 }
 
 .login-signup {
@@ -77,19 +77,19 @@ section p a:hover {
 }
 
 .login-signup a {
-    color: #002200; /* Dark green text color */
+    color: #002200;
     font-size: 18px;
     margin: 0 10px;
 }
 
 .login-signup a:hover {
     text-decoration: underline;
-    color: #004400; /* Darker green on hover for links in login/registration */
+    color: #004400;
 }
 
 .container {
     max-width: 100%;
-    width: 80%; /* Процент ширины контейнера */
+    width: 80%;
     padding: 20px;
     background-image: url('../images/background.png');
     background-size: cover;
@@ -98,7 +98,7 @@ section p a:hover {
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     opacity: 0.9;
-    text-align: center; /* Для центрирования содержимого внутри контейнера */
+    text-align: center;
 }
 
 .container h3,
@@ -116,12 +116,41 @@ section p a:hover {
 }
 
 form {
-    max-width: 500px; /* Установите максимальную ширину формы, чтобы не занимать весь контейнер */
-    margin: 0 auto; /* Центрируйте форму внутри блока main */
-    text-align:left;
+    width: 80%;
+    margin: 0 auto;
+  }
 
-}
+  label,
+  input {
+    /* In order to define widths */
+    display: inline-block;
+  }
 
+  label {
+    width: 30%;
+    /* Positions the label text beside the input */
+    text-align: right;
+  }
+
+  label+input {
+    width: 30%;
+    /* Large margin-right to force the next element to the new-line
+             and margin-left to create a gutter between the label and input */
+    margin: 0 30% 0 4%;
+  }
+
+
+  /* Only the submit button is matched by this selector,
+         but to be sure you could use an id or class for that button */
+
+  input+input {
+    float: right;
+  }
+
+.select_form {
+    width: 30%;
+    margin: 0 30% 0 4%;
+  }
 
 #column1, #column2, #column3 {
     width: 30%;
@@ -156,4 +185,44 @@ html {
 @keyframes type{
 	  from{box-shadow: inset -3px 0px 0px #888;}
 	  to{box-shadow: inset -3px 0px 0px transparent;}
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20%;
+    font-size: 48px;
+
+}
+
+.button-header {
+    display: inline-block;
+    background-color: #006600;
+    color: #f0f5f0;
+    padding: 15px 30px;
+    text-decoration: none;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+}
+
+
+.button-header:hover {
+    background-color: #005500;
+}
+
+.button-group .button-header {
+    display: inline-block;
+    background-color: #006600;
+    color: #f0f5f0;
+    padding: 15px 30px 15px 30px;
+    text-decoration: none;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 50px;
 }

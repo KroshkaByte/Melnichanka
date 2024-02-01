@@ -4,17 +4,33 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Title placeholder(зачем нам это){% endblock %}</title>
+    <title>{% block title %}{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'voiceconvert/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/styles.css' %}">
 </head>
 <body>
     <div class="container">
         <header>
             {% if user.is_authenticated %}
-                <h2>тут должны быть кнопки</h2>
+            <div class="button-group">
+                <a href="{% url 'home' %}" class="button-header">
+                    <span class="text">Главная</span>
+                </a>
+
+                <a href="#" class="button-header">
+                    <span class="text">Список клиентов</span>
+                </a>
+
+                <a href="{% url 'logistics_home' %}" class="button-header">
+                    <span class="text">Логистика</span>
+                </a>
+
+                <a href="{% url 'logout' %}" class="button-header">
+                    <span class="text">Выйти</span>
+                </a>
+            </div>
             {% else %}
-                <h2>тут что-то должно быть написано или ссылки</h2>
+            Привет!
             {% endif %}
         </header>
 

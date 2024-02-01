@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+{% include 'edit_navbar.html' %}
+
+<br />
+<table border="1" align="center">
+    <thead>
+        <tr style="text-align: right;">
+          <th>Город отправления</th>
+          <th>Город назначения</th>
+          <th>Прайс, руб./тн</th>
+        </tr>
+    </thead>
+    {% for entry in logistics_table %}
+    <tr>
+       <td class="log_departure">{{ entry.departure_city }}</td>
+       <td class="log_destination">{{ entry.destination_city }}</td>
+       <td class="log_price">{{ entry.cost_per_tonn_auto }}</td>
+    </tr>
+    {% endfor %}
+    </table>
+{% endblock %}
