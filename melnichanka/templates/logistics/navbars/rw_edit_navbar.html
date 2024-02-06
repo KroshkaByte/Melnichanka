@@ -1,18 +1,27 @@
 {% block navbar %}
 <button type="button">
-    <a href="{% url 'rw_add' %}" class="navbar_button">Добавить</a>
+    <a href="{% url 'rw_add' %}" class="navbar_button">Добавить перевозку</a>
 </button>
 
 <button type="button">
-    <a href="{% url 'rw_edit_price' %}" class="navbar_button">Изменить цену</a>
-</button>
-
-<button type="button">
-    <a href="{% url 'rw_edit_requisites' %}" class="navbar_button">Изменить жд реквизиты</a>
+    <a href="{% url 'rw_edit' %}" class="navbar_button">Изменить цену перевозки</a>
 </button>
 
 
 <button type="button">
-    <a href="{% url 'rw_del' %}" class="navbar_button">Удалить</a>
+    <a href="{% url 'rw_del' %}" class="navbar_button">Удалить перевозку</a>
 </button>
+
+<button type="button">
+    <a href="{% url 'rw_add_requisites' %}" class="navbar_button">Добавить ж/д станцию</a>
+</button>
+
+<button type="button">
+    <a href="{% url 'rw_edit_requisites' %}" class="navbar_button">Изменить ж/д реквизиты</a>
+</button>
+
+<button type="button">
+    <a href="{% url 'rw_del_requisites' %}" class="navbar_button">Удалить ж/д станцию</a>
+</button>
+
 {% endblock %}

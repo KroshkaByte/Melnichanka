@@ -5,6 +5,7 @@ from .constants import (BRANCHES, FACTORY_ADRESS, FACTORY_BRANCH,
                         FACTORY_NAME_SHORT, FACTORY_STATION)
 
 
+# Данные по заводам
 class Factory(models.Model):
     full_name = models.CharField(
         max_length=100,
@@ -51,25 +52,44 @@ class LogisticsAuto(models.Model):
         return f"{self.departure_city} - {self.destination_city}: {self.cost_per_tonn_auto} руб./тн"
 
 
-# Данные по логистике жд
-class LogisticsRailwayStations(models.Model):
-    departure_station_name = models.CharField(
+# Таблица ж/д станций
+class RailwayStations(models.Model):
+    station_name = models.CharField(
         max_length=255,
         choices=FACTORY_STATION,
         blank=False,
-        verbose_name="Комбинат грузоотправитель",
+        verbose_name="Станция",
     )
 
-    departure_station_id = models.PositiveIntegerField()
-    departure_station_branch = models.CharField(
+    station_id = models.PositiveIntegerField()
+    station_branch = models.CharField(
         max_length=255,
         choices=BRANCHES,
     )
-    destination_station_name = models.CharField(max_length=100)
-    destination_station_id = models.PositiveIntegerField()
-    destination_station_branch = models.CharField(
-        max_length=255,
-        choices=BRANCHES,
+
+    class Meta:
+        verbose_name = "Ж/д станция"
+        verbose_name_plural = "Ж/д станции"
+        ordering = ["station_name"]
+
+    def __str__(self):
+        return f"{self.station_name}, {self.station_id}, {self.station_branch}"
+
+
+# Данные по логистике жд
+class LogisticsRailwayStations(models.Model):
+    departure_station_name = models.ForeignKey(
+        RailwayStations,
+        db_column="departure_station_name",
+        on_delete=models.CASCADE,
+        related_name="departure_station_name",
+    )
+
+    destination_station_name = models.ForeignKey(
+        RailwayStations,
+        db_column="destination_station_name",
+        on_delete=models.CASCADE,
+        related_name="destination_station_name",
     )
     cost_per_tonn_rw = models.PositiveIntegerField()
 

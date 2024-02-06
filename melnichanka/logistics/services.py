@@ -40,10 +40,13 @@ def get_rw_dest_choices():
         .distinct()
     )
 
+
 def get_all_rw_stations():
-    a =  LogisticsRailwayStations.objects.values("departure_station_name", "destination_station_name")
+    a = LogisticsRailwayStations.objects.values(
+        "departure_station_name", "destination_station_name"
+    )
     set_choice = set()
     for x in a:
-        set_choice.add(x.get('departure_station_name'))
-        set_choice.add(x.get('destination_station_name'))
+        set_choice.add(x.get("departure_station_name"))
+        set_choice.add(x.get("destination_station_name"))
     return [(x, x) for x in set_choice]
