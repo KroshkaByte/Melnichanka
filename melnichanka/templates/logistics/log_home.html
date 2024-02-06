@@ -1,25 +1,18 @@
 {% extends 'base.html' %}
 
-{% block title %}{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
 {% block content %}
-{% include 'edit_navbar.html' %}
+<p></p>
+<div class="button-group">
 
-<br />
-<table border="1" align="center">
-    <thead>
-        <tr style="text-align: right;">
-          <th>Город отправления</th>
-          <th>Город назначения</th>
-          <th>Прайс, руб./тн</th>
-        </tr>
-    </thead>
-    {% for entry in logistics_table %}
-    <tr>
-       <td class="log_departure">{{ entry.departure_city }}</td>
-       <td class="log_destination">{{ entry.destination_city }}</td>
-       <td class="log_price">{{ entry.cost_per_tonn_auto }}</td>
-    </tr>
-    {% endfor %}
-    </table>
+    <a href="{% url 'auto_home' %}" class="button-header">
+        <span class="text">АВТО</span>
+    </a>
+
+    <a href="{% url 'rw_home' %}" class="button-header">
+        <span class="text">ЖД</span>
+    </a>
+</div>
+
 {% endblock %}

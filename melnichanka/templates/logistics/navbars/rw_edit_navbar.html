@@ -1,0 +1,18 @@
+{% block navbar %}
+<button type="button">
+    <a href="{% url 'rw_add' %}" class="navbar_button">Добавить</a>
+</button>
+
+<button type="button">
+    <a href="{% url 'rw_edit_price' %}" class="navbar_button">Изменить цену</a>
+</button>
+
+<button type="button">
+    <a href="{% url 'rw_edit_requisites' %}" class="navbar_button">Изменить жд реквизиты</a>
+</button>
+
+
+<button type="button">
+    <a href="{% url 'rw_del' %}" class="navbar_button">Удалить</a>
+</button>
+{% endblock %}

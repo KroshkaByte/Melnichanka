@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+{% include 'logistics/navbars/auto_edit_navbar.html' %}
+<form action= "" method="post">
+    {{ title }}
+    {% csrf_token %}
+    {{ form.as_p }}
+
+  <button type="submit" value="Подтвердить">Подтвердить</button>
+
+</form>
+
+{% endblock %}

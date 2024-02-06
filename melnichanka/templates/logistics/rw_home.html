@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+
+{% include 'logistics/navbars/rw_edit_navbar.html' %}
+
+<table align="center">
+    <thead>
+        <tr>
+            <th>Станция отправления</th>
+            <th>Код станции отправления</th>
+            <th>Ветка станции отправления</th>
+            <th>Станция отправления</th>
+            <th>Код станции отправления</th>
+            <th>Ветка станции отправления</th>
+            <th>Цена, руб./тн</th>
+        </tr>
+    </thead>
+
+  {% for entry in rw_table %}
+  <tr>
+     <td>{{ entry.departure_station_name }}</td>
+     <td>{{ entry.departure_station_id }}</td>
+     <td>{{ entry.departure_station_branch }}</td>
+     <td>{{ entry.destination_station_name }}</td>
+     <td>{{ entry.destination_station_id }}</td>
+     <td>{{ entry.destination_station_branch }}</td>
+     <td>{{ entry.cost_per_tonn_rw }}</td>
+  </tr>
+  {% endfor %}
+
+
+  </table>
+{% endblock %}
