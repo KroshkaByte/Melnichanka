@@ -12,7 +12,7 @@ urlpatterns = [
     path("rw/add/", views.rw_add_view, name="rw_add"),
     path("rw/edit/", views.rw_edit_view, name="rw_edit"),
     path("rw/del/", views.rw_delete_view, name="rw_del"),
-    path("rw/req/add/", views.rw_requisites_add_view, name="rw_add_requisites"),
+    path("rw/req/add/", views.rw_add_requisites_view, name="rw_add_requisites"),
     path("rw/req/edit/", views.rw_edit_requisites_view, name="rw_edit_requisites"),
     path("rw/req/del/", views.rw_delete_requisites_view, name="rw_del_requisites"),
 ]

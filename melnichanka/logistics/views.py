@@ -1,7 +1,8 @@
 from django.shortcuts import redirect, render
 
-from .forms import (AutoAddForm, AutoDeleteForm, AutoEditForm, RwAddForm, RwAddRequisitesForm,
-                    RwDeleteForm, RwDeleteRequisitesForm, RwEditForm, RwEditRequisitesForm)
+from .forms import (AutoAddForm, AutoDeleteForm, AutoEditForm, RwAddForm,
+                    RwAddRequisitesForm, RwDeleteForm, RwDeleteRequisitesForm,
+                    RwEditForm, RwEditRequisitesForm)
 from .models import LogisticsAuto, LogisticsRailwayStations, RailwayStations
 
 
@@ -125,23 +126,25 @@ def rw_add_view(request):
     if request.method == "POST":
         form = RwAddForm(request.POST)
         if form.is_valid():
-            dep_station_name = form.cleaned_data.get(
+            print(form.cleaned_data)
+            dep_station = form.cleaned_data.get(
                 "departure_station_name"
             ).capitalize()
-            dest_station_name = form.cleaned_data.get(
+
+            dest_station = form.cleaned_data.get(
                 "destination_station_name"
             ).capitalize()
             cost_per_tonn_rw = form.cleaned_data.get("cost_per_tonn_rw")
             try:
                 LogisticsRailwayStations.objects.get(
-                    departure_station_name=dep_station_name,
-                    destination_station_name=dest_station_name,
+                    departure_station_name=dep_station,
+                    destination_station_name=dest_station,
                 )
-                return redirect("rw_edit")
+                return redirect("rw_home")
             except LogisticsRailwayStations.DoesNotExist:
                 LogisticsRailwayStations.objects.create(
-                    departure_station_name=dep_station_name,
-                    destination_station_name=dest_station_name,
+                    departure_station_name=dep_station,
+                    destination_station_name=dest_station,
                     cost_per_tonn_rw=cost_per_tonn_rw,
                 )
                 return redirect("rw_home")
@@ -214,27 +217,27 @@ def rw_edit_view(request):
 
 
 # Добавление реквизитов ж/д перевозки
-def rw_requisites_add_view(request):
+def rw_add_requisites_view(request):
     if request.method == "POST":
         form = RwAddRequisitesForm(request.POST)
         if form.is_valid():
-            dep_station_name = form.cleaned_data.get(
-                "departure_station_name"
+            form_station_name = form.cleaned_data.get(
+                "station_name"
             ).capitalize()
-            dep_station_id = form.cleaned_data.get("departure_station_id")
-            dep_station_branch = form.cleaned_data.get(
-                "departure_station_branch"
+            form_station_id = form.cleaned_data.get("station_id")
+            form_station_branch = form.cleaned_data.get(
+                "station_branch"
             ).upper()
             try:
                 RailwayStations.objects.get(
-                    departure_station_name=dep_station_name,
+                    station_name=form_station_name,
                 )
-                return redirect("rw_edit")
+                return redirect("rw_home")
             except RailwayStations.DoesNotExist:
                 RailwayStations.objects.create(
-                    departure_station_name=dep_station_name,
-                    departure_station_id=dep_station_id,
-                    departure_station_branch=dep_station_branch,
+                    station_name=form_station_name,
+                    station_id=form_station_id,
+                    station_branch=form_station_branch,
                 )
                 return redirect("rw_home")
             except RailwayStations.MultipleObjectsReturned:
@@ -246,15 +249,13 @@ def rw_requisites_add_view(request):
     return render(request, "logistics/rw_edit.html", context)
 
 
-
-
 # Удаление реквизитов ж/д перевозки
 def rw_delete_requisites_view(request):
     if request.method == "POST":
         form = RwDeleteRequisitesForm(request.POST)
         if form.is_valid():
             try:
-                del_trip = RailwayStations.objects.get(id=form.cleaned_data["trip"])
+                del_trip = RailwayStations.objects.get(station_name=form.cleaned_data["station"])
                 del_trip.delete()
                 return redirect("rw_home")
             except RailwayStations.DoesNotExist:
@@ -272,24 +273,23 @@ def rw_delete_requisites_view(request):
     return render(request, "logistics/auto_edit.html", context)
 
 
-
 # Изменение реквизитов ж/д перевозки
 def rw_edit_requisites_view(request):
     if request.method == "POST":
         form = RwEditRequisitesForm(request.POST)
         if form.is_valid():
-            dep_station = form.cleaned_data.get("departure_station_name").capitalize()
-            dep_station_id = form.cleaned_data.get("departure_station_id")
-            dep_station_branch = form.cleaned_data.get(
-                "departure_station_branch"
+            form_station_name = form.cleaned_data.get("station_name").capitalize()
+            form_station_id = form.cleaned_data.get("station_id")
+            form_station_branch = form.cleaned_data.get(
+                "station_branch"
             ).upper()
             try:
-                query_trip = RailwayStations.objects.get(
-                    departure_station_name=dep_station
+                edit_trip = RailwayStations.objects.get(
+                    station_name=form_station_name
                 )
-                query_trip.departure_station_id = dep_station_id
-                query_trip.departure_station_branch = dep_station_branch
-                query_trip.save()
+                edit_trip.station_id = form_station_id
+                edit_trip.station_branch = form_station_branch
+                edit_trip.save()
                 return redirect("rw_home")
             except RailwayStations.DoesNotExist:
                 form.add_error(None, "Ошибка изменения рейса (направление не найдено)")

@@ -79,16 +79,16 @@ class RailwayStations(models.Model):
 # Данные по логистике жд
 class LogisticsRailwayStations(models.Model):
     departure_station_name = models.ForeignKey(
-        RailwayStations,
+        "RailwayStations",
         db_column="departure_station_name",
-        on_delete=models.CASCADE,
+        on_delete=models.DO_NOTHING,
         related_name="departure_station_name",
     )
 
     destination_station_name = models.ForeignKey(
-        RailwayStations,
+        "RailwayStations",
         db_column="destination_station_name",
-        on_delete=models.CASCADE,
+        on_delete=models.DO_NOTHING,
         related_name="destination_station_name",
     )
     cost_per_tonn_rw = models.PositiveIntegerField()

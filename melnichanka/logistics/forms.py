@@ -40,29 +40,16 @@ class AutoDeleteForm(forms.Form):
 
 
 class RwAddForm(forms.Form):
-    departure_station_name = forms.CharField(
-        max_length=255, label="Станция отправления"
+    departure_station_name = forms.ChoiceField(
+        widget=forms.Select(attrs={"class": "select_form"}),
+        choices=get_all_rw_stations,
+        label="Станция отправления",
     )
-    # departure_station_id = forms.IntegerField(
-    #     label="Код станции отправления", min_value=0
-    # )
-    # departure_station_branch = forms.ChoiceField(
-    #     label="Ветка станции отправления",
-    #     widget=forms.Select(attrs={"class": "select_form"}),
-    #     choices=BRANCHES,
-    # )
-
-    destination_station_name = forms.CharField(
-        max_length=255, label="Станция назначения"
+    destination_station_name = forms.ChoiceField(
+        widget=forms.Select(attrs={"class": "select_form"}),
+        choices=get_all_rw_stations,
+        label="Станция назначения",
     )
-    # destination_station_id = forms.IntegerField(
-    #     label="Код станции назначения", min_value=0
-    # )
-    # destination_station_branch = forms.ChoiceField(
-    #     label="Ветка станции назначения",
-    #     widget=forms.Select(attrs={"class": "select_form"}),
-    #     choices=BRANCHES,
-    # )
     cost_per_tonn_rw = forms.IntegerField(
         label="Цена, руб./тн", step_size=100, min_value=0
     )
@@ -93,39 +80,40 @@ class RwEditForm(forms.Form):
 
 
 class RwAddRequisitesForm(forms.Form):
-    departure_station_name = forms.CharField(
-        max_length=255, label="Станция отправления"
+    station_name = forms.CharField(
+        max_length=255, label="Станция"
     )
-    departure_station_id = forms.IntegerField(
-        label="Код станции отправления",
+    station_id = forms.IntegerField(
+        label="Код ж/д станции",
         min_value=0,
     )
-    departure_station_branch = forms.ChoiceField(
-        label="Ветка станции отправления",
+    station_branch = forms.ChoiceField(
+        label="Ветка ж/д станции",
         widget=forms.Select(attrs={"class": "select_form"}),
         choices=BRANCHES,
     )
 
 
 class RwDeleteRequisitesForm(forms.Form):
-    trip = forms.ChoiceField(
+    station = forms.ChoiceField(
         widget=forms.Select(attrs={"class": "select_form"}),
         choices=get_all_rw_stations,
         label="Ж/д станция",
     )
 
+
 class RwEditRequisitesForm(forms.Form):
-    departure_station_name = forms.ChoiceField(
+    station_name = forms.ChoiceField(
         widget=forms.Select(attrs={"class": "select_form"}),
         choices=get_all_rw_stations,
-        label="Станция отправления",
+        label="Ж/д станция",
     )
-    departure_station_id = forms.IntegerField(
-        label="Код станции отправления",
+    station_id = forms.IntegerField(
+        label="Код ж/д станции",
         min_value=0,
     )
-    departure_station_branch = forms.ChoiceField(
-        label="Ветка станции отправления",
+    station_branch = forms.ChoiceField(
+        label="Ветка ж/д станции",
         widget=forms.Select(attrs={"class": "select_form"}),
         choices=BRANCHES,
     )

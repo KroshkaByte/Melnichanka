@@ -1,4 +1,4 @@
-from .models import LogisticsAuto, LogisticsRailwayStations
+from .models import LogisticsAuto, LogisticsRailwayStations, RailwayStations
 
 
 def get_auto_dep_choices():
@@ -42,11 +42,5 @@ def get_rw_dest_choices():
 
 
 def get_all_rw_stations():
-    a = LogisticsRailwayStations.objects.values(
-        "departure_station_name", "destination_station_name"
-    )
-    set_choice = set()
-    for x in a:
-        set_choice.add(x.get("departure_station_name"))
-        set_choice.add(x.get("destination_station_name"))
-    return [(x, x) for x in set_choice]
+    stations = RailwayStations.objects.all()
+    return [(x.id, x.station_name) for x in stations]
