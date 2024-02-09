@@ -1,29 +1,36 @@
 {% extends 'base.html' %}
 
-{% block title %}title{% endblock %}
+{% block title %}Список клиентов{% endblock %}
 
 {% block content %}
+<div class="button-client-add-cli">
 <button onclick="location.href = '{% url 'clients_add' %}'">Добавить клиента</button>
-<button onclick="location.href = '#'">Изменить клиента</button>
-<button onclick="location.href = '#'">Удалить клиента</button>
 
+{% comment %} <button onclick="location.href = '{% url 'clients_edit' entry.id %}'">Изменить клиента</button>
+<button onclick="location.href = '/clients/edit/{{ entry.id }}'">Изменить клиента</button>
+<button onclick="location.href = '#'">Удалить клиента</button>{% endcomment %}
+
+<div class="table-client">
 <table border="1" align="center">
     <thead>
         <tr style="text-align: right;">
-          <th>Наименование организации</th>
+          <th>Изменить данные клиента</th>
           <th>Номер договора</th>
           <th>Дата заключения договора</th>
           <th>ФИО директора</th>
           <th>Специальнные отметки</th>
+          <th>Удалить клиента</th>
         </tr>
     </thead>
     {% for entry in clients_table %}
     <tr>
-       <td>{{entry.client_name}}</td>
+      {% comment %} <td><input type="radio" name="selected_entry" onclick="setSelectedEntryId('{{ entry.id }}')"></td> {% endcomment %}
+       <td><a href='{% url 'clients_edit' entry.id %}'>{{entry.client_name}}</a></td>
        <td>{{entry.contract_number}}</td>
        <td>{{entry.contract_date}}</td>
        <td>{{entry.director_name}}</td>
        <td>{{entry.special_marks}}</td>
+       <td><a href='{% url 'clients_delete' entry.id %}'>&#128465</td>
     </tr>
     {% endfor %}
 </table>
