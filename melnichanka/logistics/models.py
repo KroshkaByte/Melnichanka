@@ -2,7 +2,7 @@ from django.db import models
 
 from .constants import (BRANCHES, FACTORY_ADRESS, FACTORY_BRANCH,
                         FACTORY_BRANCH_ID, FACTORY_CITY, FACTORY_NAME_FULL,
-                        FACTORY_NAME_SHORT, FACTORY_STATION)
+                        FACTORY_NAME_SHORT, FACTORY_STATION, FED_DISCTRICT)
 
 
 # Данные по заводам
@@ -30,13 +30,45 @@ class Factory(models.Model):
         ordering = ["full_name"]
 
 
+class LogisticsCity(models.Model):
+    city = models.CharField(
+        max_length=100,
+        blank=False,
+        verbose_name="Населенный пункт",
+    )
+    region = models.CharField(
+        max_length=100,
+        blank=False,
+        verbose_name="Субъект федерации",
+    )
+    federal_district = models.CharField(
+        max_length=100,
+        blank=False,
+        verbose_name="Федеральный округ",
+        choices=FED_DISCTRICT,
+    )
+
+    class Meta:
+        verbose_name = "Населенный пункт"
+        verbose_name_plural = "Населенные пункты"
+        ordering = ["city"]
+
+    def __str__(self):
+        return f"{self.city}, {self.region}"
+
 # Данные по логистике авто
 class LogisticsAuto(models.Model):
-    departure_city = models.CharField(
-        max_length=100, blank=False, verbose_name="Комбинат грузоотправитель"
+    departure_city = models.ForeignKey(
+        "LogisticsCity",
+        db_column="departure_city",
+        on_delete=models.DO_NOTHING,
+        related_name="departure_city",
     )
-    destination_city = models.CharField(
-        max_length=100, blank=False, verbose_name="Город назначения"
+    destination_city = models.ForeignKey(
+        "LogisticsCity",
+        db_column="destination_city",
+        on_delete=models.DO_NOTHING,
+        related_name="destination_city",
     )
     cost_per_tonn_auto = models.PositiveIntegerField(
         verbose_name="Цена за рейс, руб./тн"
@@ -55,7 +87,7 @@ class LogisticsAuto(models.Model):
 # Таблица ж/д станций
 class RailwayStations(models.Model):
     station_name = models.CharField(
-        max_length=255,
+        max_length=100,
         choices=FACTORY_STATION,
         blank=False,
         verbose_name="Станция",
@@ -73,7 +105,7 @@ class RailwayStations(models.Model):
         ordering = ["station_name"]
 
     def __str__(self):
-        return f"{self.station_name}, {self.station_id}, {self.station_branch}"
+        return self.station_name
 
 
 # Данные по логистике жд

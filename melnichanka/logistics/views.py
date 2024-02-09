@@ -1,9 +1,12 @@
 from django.shortcuts import redirect, render
 
-from .forms import (AutoAddForm, AutoDeleteForm, AutoEditForm, RwAddForm,
-                    RwAddRequisitesForm, RwDeleteForm, RwDeleteRequisitesForm,
-                    RwEditForm, RwEditRequisitesForm)
-from .models import LogisticsAuto, LogisticsRailwayStations, RailwayStations
+from .forms import (AutoAddForm, AutoAddRequisitesForm, AutoDeleteForm,
+                    AutoDeleteRequisitesForm, AutoEditForm,
+                    AutoEditRequisitesForm, RwAddForm, RwAddRequisitesForm,
+                    RwDeleteForm, RwDeleteRequisitesForm, RwEditForm,
+                    RwEditRequisitesForm)
+from .models import (LogisticsAuto, LogisticsCity, LogisticsRailwayStations,
+                     RailwayStations)
 
 
 # Выбор вида доставки (авто/жд)
@@ -29,8 +32,8 @@ def auto_add_view(request):
     if request.method == "POST":
         form = AutoAddForm(request.POST)
         if form.is_valid():
-            dep_city = form.cleaned_data.get("departure_city").capitalize()
-            dest_city = form.cleaned_data.get("destination_city").capitalize()
+            dep_city = form.cleaned_data.get("departure_city")
+            dest_city = form.cleaned_data.get("destination_city")
             price = form.cleaned_data.get("cost_per_tonn_auto")
             try:
                 LogisticsAuto.objects.get(
@@ -67,9 +70,9 @@ def auto_delete_view(request):
                 del_trip.delete()
                 return redirect("auto_home")
             except LogisticsAuto.DoesNotExist:
-                form.add_error(None, "Ошибка изменения рейса (не найдено)")
+                form.add_error(None, "Ошибка удаления рейса (не найдено)")
             except LogisticsAuto.MultipleObjectsReturned:
-                form.add_error(None, "Ошибка изменения рейса (найдено больше 1)")
+                form.add_error(None, "Ошибка удаления рейса (найдено больше 1)")
 
     else:
         form = AutoDeleteForm()
@@ -111,6 +114,86 @@ def auto_edit_view(request):
     return render(request, "logistics/auto_edit.html", context)
 
 
+def auto_add_requisites_view(request):
+    if request.method == "POST":
+        form = AutoAddRequisitesForm(request.POST)
+        if form.is_valid():
+            form_city = form.cleaned_data.get("city").capitalize()
+            form_region = form.cleaned_data.get("region").capitalize()
+            form_fed_district = form.cleaned_data.get("federal_district").capitalize()
+            try:
+                LogisticsCity.objects.get(
+                    city=form_city,
+                )
+                return redirect("auto_home")
+            except LogisticsCity.DoesNotExist:
+                LogisticsCity.objects.create(
+                    city=form_city,
+                    region=form_region,
+                    federal_district=form_fed_district,
+                )
+                return redirect("auto_home")
+            except LogisticsCity.MultipleObjectsReturned:
+                form.add_error(None, "Больше одного значения найдено")
+    else:
+        form = AutoAddRequisitesForm()
+
+    context = {"form": form, "title": "Добавление населенного пункта"}
+    return render(request, "logistics/auto_edit.html", context)
+
+
+def auto_edit_requisites_view(request):
+    if request.method == "POST":
+        form = AutoEditRequisitesForm(request.POST)
+        if form.is_valid():
+            form_city = form.cleaned_data.get("city").capitalize()
+            form_region = form.cleaned_data.get("region").capitalize()
+            form_fed_district = form.cleaned_data.get("federal_district").capitalize()
+            try:
+                edit_city = LogisticsCity.objects.get(id=form_city)
+                edit_city.region = form_region
+                edit_city.federal_district = form_fed_district
+                edit_city.save()
+                return redirect("auto_home")
+            except LogisticsCity.DoesNotExist:
+                form.add_error(None, "Ошибка изменения рейса (направление не найдено)")
+            except LogisticsCity.MultipleObjectsReturned:
+                form.add_error(None, "Ошибка изменения рейса (найдено больше 1)")
+
+    else:
+        form = AutoEditRequisitesForm()
+
+    context = {
+        "form": form,
+        "title": "Изменение населенного пункта",
+    }
+    return render(request, "logistics/auto_edit.html", context)
+
+
+def auto_delete_requisites_view(request):
+    if request.method == "POST":
+        form = AutoDeleteRequisitesForm(request.POST)
+        if form.is_valid():
+            try:
+                del_city = LogisticsCity.objects.get(id=form.cleaned_data["city"])
+                del_city.delete()
+                return redirect("auto_home")
+            except LogisticsCity.DoesNotExist:
+                print(form.cleaned_data["city"].capitalize())
+                form.add_error(None, "Ошибка удаления насленного пункта (не найдено)")
+            except LogisticsCity.MultipleObjectsReturned:
+                form.add_error(None, "Ошибка удаления насленного пункта (найдено больше 1)")
+
+    else:
+        form = AutoDeleteRequisitesForm()
+
+    context = {
+        "form": form,
+        "title": "Удаление населенного пункта",
+    }
+    return render(request, "logistics/auto_edit.html", context)
+
+
 # Таблица ж/д перевозок
 def rw_home_view(request):
     data_rw = LogisticsRailwayStations.objects.all()
@@ -126,14 +209,10 @@ def rw_add_view(request):
     if request.method == "POST":
         form = RwAddForm(request.POST)
         if form.is_valid():
-            print(form.cleaned_data)
-            dep_station = form.cleaned_data.get(
-                "departure_station_name"
-            ).capitalize()
-
-            dest_station = form.cleaned_data.get(
-                "destination_station_name"
-            ).capitalize()
+            form_dep_station = form.cleaned_data.get("departure_station_name")
+            form_dest_station = form.cleaned_data.get("destination_station_name")
+            dep_station = RailwayStations.objects.get(pk=form_dep_station)
+            dest_station = RailwayStations.objects.get(pk=form_dest_station)
             cost_per_tonn_rw = form.cleaned_data.get("cost_per_tonn_rw")
             try:
                 LogisticsRailwayStations.objects.get(
@@ -188,23 +267,18 @@ def rw_edit_view(request):
     if request.method == "POST":
         form = RwEditForm(request.POST)
         if form.is_valid():
-            dep_station = form.cleaned_data.get("departure_station_name").capitalize()
-            dest_station = form.cleaned_data.get(
-                "destination_station_name"
-            ).capitalize()
-            price = form.cleaned_data.get("cost_per_tonn_rw")
             try:
                 query_trip = LogisticsRailwayStations.objects.get(
-                    departure_station_name=dep_station,
-                    destination_station_name=dest_station,
+                    id=form.cleaned_data["trip"]
                 )
-                query_trip.cost_per_tonn_rw = price
+                cost_per_tonn_rw = form.cleaned_data.get("cost_per_tonn_rw")
+                query_trip.cost_per_tonn_rw = cost_per_tonn_rw
                 query_trip.save()
                 return redirect("rw_home")
             except LogisticsRailwayStations.DoesNotExist:
-                form.add_error(None, "Ошибка изменения рейса (направление не найдено)")
+                form.add_error(None, "Ошибка изменения (не найдено)")
             except LogisticsRailwayStations.MultipleObjectsReturned:
-                form.add_error(None, "Ошибка изменения рейса (найдено больше 1)")
+                form.add_error(None, "Ошибка изменения (найдено больше 1)")
 
     else:
         form = RwEditForm()
@@ -221,13 +295,9 @@ def rw_add_requisites_view(request):
     if request.method == "POST":
         form = RwAddRequisitesForm(request.POST)
         if form.is_valid():
-            form_station_name = form.cleaned_data.get(
-                "station_name"
-            ).capitalize()
+            form_station_name = form.cleaned_data.get("station_name").capitalize()
             form_station_id = form.cleaned_data.get("station_id")
-            form_station_branch = form.cleaned_data.get(
-                "station_branch"
-            ).upper()
+            form_station_branch = form.cleaned_data.get("station_branch").upper()
             try:
                 RailwayStations.objects.get(
                     station_name=form_station_name,
@@ -255,13 +325,15 @@ def rw_delete_requisites_view(request):
         form = RwDeleteRequisitesForm(request.POST)
         if form.is_valid():
             try:
-                del_trip = RailwayStations.objects.get(station_name=form.cleaned_data["station"])
+                del_trip = RailwayStations.objects.get(
+                    id=form.cleaned_data["station"]
+                )
                 del_trip.delete()
                 return redirect("rw_home")
             except RailwayStations.DoesNotExist:
-                form.add_error(None, "Ошибка изменения рейса (не найдено)")
+                form.add_error(None, "Ошибка удаления ж/д реквизитов (не найдено)")
             except RailwayStations.MultipleObjectsReturned:
-                form.add_error(None, "Ошибка изменения рейса (найдено больше 1)")
+                form.add_error(None, "Ошибка удаления ж/д реквизитов (найдено больше 1)")
 
     else:
         form = RwDeleteRequisitesForm()
@@ -280,21 +352,17 @@ def rw_edit_requisites_view(request):
         if form.is_valid():
             form_station_name = form.cleaned_data.get("station_name").capitalize()
             form_station_id = form.cleaned_data.get("station_id")
-            form_station_branch = form.cleaned_data.get(
-                "station_branch"
-            ).upper()
+            form_station_branch = form.cleaned_data.get("station_branch").upper()
             try:
-                edit_trip = RailwayStations.objects.get(
-                    station_name=form_station_name
-                )
+                edit_trip = RailwayStations.objects.get(station_name=form_station_name)
                 edit_trip.station_id = form_station_id
                 edit_trip.station_branch = form_station_branch
                 edit_trip.save()
                 return redirect("rw_home")
             except RailwayStations.DoesNotExist:
-                form.add_error(None, "Ошибка изменения рейса (направление не найдено)")
+                form.add_error(None, "Ошибка изменения ж/д реквизитов (направление не найдено)")
             except RailwayStations.MultipleObjectsReturned:
-                form.add_error(None, "Ошибка изменения рейса (найдено больше 1)")
+                form.add_error(None, "Ошибка изменения ж/д реквизитов (найдено больше 1)")
 
     else:
         form = RwEditRequisitesForm()
