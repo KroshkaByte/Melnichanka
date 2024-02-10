@@ -1,72 +1,35 @@
 from django.db import models
 
+from .constants import (
+    BRANCHES,
+    FACTORY_ADRESS,
+    FACTORY_BRANCH,
+    FACTORY_BRANCH_ID,
+    FACTORY_CITY,
+    FACTORY_NAME_FULL,
+    FACTORY_NAME_SHORT,
+    FACTORY_STATION,
+    FED_DISCTRICT,
+)
 
+
+# Данные по заводам
 class Factory(models.Model):
-    class FactoryFlourName(models.TextChoices):
-        KKHP = "Курск", "АО Курский Комбинат Хлебопродуктов"
-        KHPS = "Оскол", "АО Комбинат Хлебопродуктов Старооскольский"
-        GKHP = "Волгоград", "АО Городищенский Комбинат Хлебопродуктов"
-
-    class FactoryFlourShort(models.TextChoices):
-        KKHP = "Курск", "ККХП"
-        KHPS = "Оскол", "КХПС"
-        GKHP = "Волгоград", "ГКХП"
-
-    class FactoryFlourAddress(models.TextChoices):
-        KKHP = "Курск", "305025, г. Курск, проезд Магистральный, 22Г "
-        KHPS = (
-            "Оскол",
-            "309506, Белгородская обл., г. Старый Оскол, ул. Первой Конной Армии",
-        )
-        GKHP = (
-            "Волгоград",
-            "403020, Волгоградская обл., р.п. Новый Рогачик, ул. Ленина, 75",
-        )
-
-    class FactoryFlourCity(models.TextChoices):
-        KKHP = "Курск", "Курск"
-        KHPS = "Оскол", "Старый Оскол"
-        GKHP = "Волгоград", "Новый Рогачик"
-
-    class FactoryFlourBranch(models.TextChoices):
-        KKHP = "Курск", "Московская железная дорога"
-        KHPS = "Оскол", "Юго-Восточная железная дорога"
-        GKHP = "Волгоград", "Приволжская железная дорога"
-
-    class FactoryFlourBranchId(models.TextChoices):
-        KKHP = "Курск", "208108"
-        KHPS = "Оскол", "438506"
-        GKHP = "Волгоград", "615904"
-
     full_name = models.CharField(
         max_length=100,
         blank=False,
-        # choices=FactoryFlourName.choices
+        choices=FACTORY_NAME_FULL,
     )
     short_name = models.CharField(
-        max_length=50,
-        blank=False,
-        # choices=FactoryFlourShort.choices
+        max_length=50, blank=False, choices=FACTORY_NAME_SHORT
     )
-    full_address = models.CharField(
-        max_length=255,
-        blank=False,
-        # choices=FactoryFlourAddress.choices
-    )
-    departure_city = models.CharField(
-        max_length=50,
-        blank=False,
-        # choices=FactoryFlourCity.choices
-    )
+    full_address = models.CharField(max_length=255, blank=False, choices=FACTORY_ADRESS)
+    departure_city = models.CharField(max_length=50, blank=False, choices=FACTORY_CITY)
     departure_station_branch = models.CharField(
-        max_length=9,
-        blank=False,
-        # choices=FactoryFlourBranch.choices
+        max_length=9, blank=False, choices=FACTORY_BRANCH
     )
     departure_station_id = models.CharField(
-        max_length=9,
-        blank=False,
-        # choices=FactoryFlourBranchId.choices
+        max_length=9, blank=False, choices=FACTORY_BRANCH_ID
     )
 
     class Meta:
@@ -75,13 +38,46 @@ class Factory(models.Model):
         ordering = ["full_name"]
 
 
+class LogisticsCity(models.Model):
+    city = models.CharField(
+        max_length=100,
+        blank=False,
+        verbose_name="Населенный пункт",
+    )
+    region = models.CharField(
+        max_length=100,
+        blank=False,
+        verbose_name="Субъект федерации",
+    )
+    federal_district = models.CharField(
+        max_length=100,
+        blank=False,
+        verbose_name="Федеральный округ",
+        choices=FED_DISCTRICT,
+    )
+
+    class Meta:
+        verbose_name = "Населенный пункт"
+        verbose_name_plural = "Населенные пункты"
+        ordering = ["city"]
+
+    def __str__(self):
+        return f"{self.city}, {self.region}"
+
+
 # Данные по логистике авто
 class LogisticsAuto(models.Model):
-    departure_city = models.CharField(
-        max_length=100, blank=False, verbose_name="Комбинат грузоотправитель"
+    departure_city = models.ForeignKey(
+        "LogisticsCity",
+        db_column="departure_city",
+        on_delete=models.DO_NOTHING,
+        related_name="departure_city",
     )
-    destination_city = models.CharField(
-        max_length=100, blank=False, verbose_name="Город назначения"
+    destination_city = models.ForeignKey(
+        "LogisticsCity",
+        db_column="destination_city",
+        on_delete=models.DO_NOTHING,
+        related_name="destination_city",
     )
     cost_per_tonn_auto = models.PositiveIntegerField(
         verbose_name="Цена за рейс, руб./тн"
@@ -97,48 +93,44 @@ class LogisticsAuto(models.Model):
         return f"{self.departure_city} - {self.destination_city}: {self.cost_per_tonn_auto} руб./тн"
 
 
+# Таблица ж/д станций
+class RailwayStations(models.Model):
+    station_name = models.CharField(
+        max_length=100,
+        choices=FACTORY_STATION,
+        blank=False,
+        verbose_name="Станция",
+    )
+
+    station_id = models.PositiveIntegerField()
+    station_branch = models.CharField(
+        max_length=255,
+        choices=BRANCHES,
+    )
+
+    class Meta:
+        verbose_name = "Ж/д станция"
+        verbose_name_plural = "Ж/д станции"
+        ordering = ["station_name"]
+
+    def __str__(self):
+        return self.station_name
+
+
 # Данные по логистике жд
 class LogisticsRailwayStations(models.Model):
-    class FactoryFlour(models.TextChoices):
-        KKHP = "Рышково", "АО Курский Комбинат Хлебопродуктов"
-        KHPS = "Старый Оскол", "АО Комбинат Хлебопродуктов Старооскольский"
-        GKHP = "Карповская", "АО Городищенский Комбинат Хлебопродуктов"
-
-    class RailwayBranch(models.TextChoices):
-        OZD = "ОЖД", "Октябрьская железная дорога"
-        KaZD = "КаЖД", "Калининградская железная дорога"
-        MZD = "МЖД", "Московская железная дорога"
-        GZD = "ГЖД", "Горьковская железная дорога"
-        SeZD = "СеЖД", "Северная железная дорога"
-        SKZD = "СКЖД", "Северо-Кавказская железная дорога"
-        YVZD = "ЮВЖД", "Юго-Восточная железная дорога"
-        PZD = "ПЖД", "Приволжская железная дорога"
-        KUZD = "КуЖД", "Куйбышевская железная дорога"
-        SvZD = "СвЖД", "Свердловская железная дорога"
-        YUZD = "ЮУЖД", "Южно-Уральская железная дорога"
-        ZSZD = "ЗСЖД", "Западно-Сибирская железная дорога"
-        KZD = "КЖД", "Красноярская железная дорога"
-        VSZD = "ВСЖД", "Восточно-Сибирская железная дорога"
-        ZZD = "ЗЖД", "Забайкальская железная дорога"
-        DVZD = "ДВЖД", "Дальневосточная железная дорога"
-
-    departure_station_name = models.CharField(
-        max_length=12,
-        choices=FactoryFlour.choices,
-        blank=False,
-        verbose_name="Комбинат грузоотправитель",
+    departure_station_name = models.ForeignKey(
+        "RailwayStations",
+        db_column="departure_station_name",
+        on_delete=models.DO_NOTHING,
+        related_name="departure_station_name",
     )
 
-    departure_station_id = models.PositiveIntegerField()
-    departure_station_branch = models.CharField(
-        max_length=4,
-        choices=RailwayBranch.choices,
-    )
-    destination_station_name = models.CharField(max_length=100)
-    destination_station_id = models.PositiveIntegerField()
-    destination_station_branch = models.CharField(
-        max_length=4,
-        choices=RailwayBranch.choices,
+    destination_station_name = models.ForeignKey(
+        "RailwayStations",
+        db_column="destination_station_name",
+        on_delete=models.DO_NOTHING,
+        related_name="destination_station_name",
     )
     cost_per_tonn_rw = models.PositiveIntegerField()
 
