@@ -212,9 +212,18 @@ html {
     text-align: right;
 }
 
-.button-client-add .button-client-del .button-client-ed{
+.button-client-del {
     text-align: center;
 }
+
+.button-client-add {
+    text-align: center;
+}
+
+.button-client-ed {
+    text-align: center;
+}
+
 
 .button-client-add-cli {
     margin-top: 10px;
@@ -223,6 +232,11 @@ html {
 .table-client {
     margin: 10px;
     border: 2px;
+}
+
+.table-client-edit {
+    color: #000;
+    font-weight: bold;
 }
 
 .form-label-reg {
@@ -234,7 +248,7 @@ html {
 }
 
 .button-reg{
-        text-align: center;
+    text-align: center;
 }
 
 .form-error ul {

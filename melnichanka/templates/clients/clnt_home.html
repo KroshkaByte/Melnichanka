@@ -25,7 +25,7 @@
     {% for entry in clients_table %}
     <tr>
       {% comment %} <td><input type="radio" name="selected_entry" onclick="setSelectedEntryId('{{ entry.id }}')"></td> {% endcomment %}
-       <td><a href='{% url 'clients_edit' entry.id %}'>{{entry.client_name}}</a></td>
+       <td><a class="table-client-edit" href='{% url 'clients_edit' entry.id %}'>{{entry.client_name}}</a></td>
        <td>{{entry.contract_number}}</td>
        <td>{{entry.contract_date}}</td>
        <td>{{entry.director_name}}</td>
