@@ -13,6 +13,6 @@ class SignUpView(CreateView):
 
 
 def home_view(request):
-    data = Clients.objects.all()
+    data = Clients.objects.order_by("client_name")
     context = {"clients_table": data}
     return render(request, "home.html", context)
