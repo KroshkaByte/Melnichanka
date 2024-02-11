@@ -8,10 +8,11 @@ body {
 }
 
 header {
-    background-color: #343434;
+    background-color: #343434df;
     color: #f0f5f0;
     padding: 20px;
     text-align: center;
+    border-radius: 20px;
 }
 
 main {
@@ -129,10 +130,13 @@ form {
 *{
     transition: all 0.6s;
 }
+}
 
 html {
     height: 100%;
 }
+
+
 
 #main{
     display: table;
@@ -159,10 +163,8 @@ html {
 }
 
 .button-group {
-    display: flex;
     justify-content: space-between;
-    margin-top: 20%;
-    font-size: 48px;
+    font-size: 20px;
 
 }
 
@@ -178,11 +180,26 @@ html {
     transition: background-color 0.3s ease;
 }
 
-}
+@keyframes bounce {
+	0%, 20%, 60%, 100% {
+		transform: translateY(0);
+		transform: translateY(0);
+	}
 
+	40% {
+		transform: translateY(-20px);
+		transform: translateY(-20px);
+	}
+
+	80% {
+		transform: translateY(-10px);
+		transform: translateY(-10px);
+	}
+}
 
 .button-header:hover {
     background-color: #005500;
+    animation: bounce 0.8s;
 }
 
 .button-group .button-header {
@@ -259,4 +276,10 @@ html {
 .select_form {
     width: 30%;
     margin: 0 30% 0 4%;
-  }
+}
+
+.columns {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
