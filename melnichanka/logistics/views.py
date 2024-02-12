@@ -13,7 +13,6 @@ from .models import (LogisticsAuto, LogisticsCity, LogisticsRailwayStations,
 def logistics_home_view(request):
     context = {
         "title": "Выбор вида доставки",
-        "title": "Выбор вида доставки",
     }
     return render(request, "logistics/log_home.html", context)
 
@@ -32,19 +31,17 @@ def auto_home_view(request):
 def auto_add_view(request):
     if request.method == "POST":
         form = AutoAddForm(request.POST)
-        form = AutoAddForm(request.POST)
         if form.is_valid():
             form_dep_city = form.cleaned_data["departure_city"]
             form_dest_city = form.cleaned_data["destination_city"]
-            dep_city = LogisticsAuto.objects.get(pk=form_dep_city)
-            dest_city = LogisticsAuto.objects.get(pk=form_dest_city)
+            dep_city = LogisticsCity.objects.get(pk=form_dep_city)
+            dest_city = LogisticsCity.objects.get(pk=form_dest_city)
             price = form.cleaned_data["cost_per_tonn_auto"]
             try:
                 LogisticsAuto.objects.get(
                     departure_city=dep_city,
                     destination_city=dest_city,
                 )
-                return redirect("auto_edit")
                 return redirect("auto_edit")
             except LogisticsAuto.DoesNotExist:
                 LogisticsAuto.objects.create(
@@ -53,54 +50,34 @@ def auto_add_view(request):
                     cost_per_tonn_auto=price,
                 )
                 return redirect("auto_home")
-                return redirect("auto_home")
             except LogisticsAuto.MultipleObjectsReturned:
                 form.add_error(None, "Больше одного значения найдено")
     else:
         form = AutoAddForm()
-        form = AutoAddForm()
 
     context = {
         "form": form,
         "title": "Добавление рейса",
     }
     return render(request, "logistics/auto_edit.html", context)
-    context = {
-        "form": form,
-        "title": "Добавление рейса",
-    }
-    return render(request, "logistics/auto_edit.html", context)
 
 
-# Удаление рейса авто
-def auto_delete_view(request):
 # Удаление рейса авто
 def auto_delete_view(request):
     if request.method == "POST":
-        form = AutoDeleteForm(request.POST)
         form = AutoDeleteForm(request.POST)
         if form.is_valid():
             try:
                 del_trip = LogisticsAuto.objects.get(id=form.cleaned_data["trip"])
                 del_trip.delete()
                 return redirect("auto_home")
-                return redirect("auto_home")
             except LogisticsAuto.DoesNotExist:
                 form.add_error(None, "Ошибка удаления рейса (не найдено)")
-                form.add_error(None, "Ошибка удаления рейса (не найдено)")
             except LogisticsAuto.MultipleObjectsReturned:
-                form.add_error(None, "Ошибка удаления рейса (найдено больше 1)")
                 form.add_error(None, "Ошибка удаления рейса (найдено больше 1)")
 
     else:
         form = AutoDeleteForm()
-        form = AutoDeleteForm()
-
-    context = {
-        "form": form,
-        "title": "Удаление рейса",
-    }
-    return render(request, "logistics/auto_edit.html", context)
     context = {
         "form": form,
         "title": "Удаление рейса",
@@ -108,12 +85,9 @@ def auto_delete_view(request):
     return render(request, "logistics/auto_edit.html", context)
 
 
-# Изменение цены рейса авто
-def auto_edit_view(request):
 # Изменение цены рейса авто
 def auto_edit_view(request):
     if request.method == "POST":
-        form = AutoEditForm(request.POST)
         form = AutoEditForm(request.POST)
         if form.is_valid():
             price = form.cleaned_data["cost_per_tonn_auto"]
@@ -121,7 +95,6 @@ def auto_edit_view(request):
                 query_trip = LogisticsAuto.objects.get(id=form.cleaned_data["trip"])
                 query_trip.cost_per_tonn_auto = price
                 query_trip.save()
-                return redirect("auto_home")
                 return redirect("auto_home")
             except LogisticsAuto.DoesNotExist:
                 form.add_error(None, "Ошибка изменения рейса (направление не найдено)")
@@ -367,7 +340,7 @@ def rw_delete_requisites_view(request):
         "form": form,
         "title": "Удаление реквизитов ж/д перевозки",
     }
-    return render(request, "logistics/auto_edit.html", context)
+    return render(request, "logistics/rw_edit.html", context)
 
 
 # Изменение реквизитов ж/д перевозки

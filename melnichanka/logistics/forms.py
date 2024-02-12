@@ -44,7 +44,6 @@ class AutoAddForm(forms.Form):
     cities = get_cities
     departure_city = forms.ChoiceField(
         label="Город отправления",
-        label="Город отправления",
         widget=forms.Select(attrs={"class": "select_form"}),
         choices=cities,
     )
