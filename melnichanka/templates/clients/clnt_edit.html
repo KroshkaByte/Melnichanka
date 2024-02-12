@@ -4,9 +4,16 @@
 
 {% block content %}
 <h2>Редактирование записи</h2>
-<form method="post">
+<form action="" method="post">
   {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Сохранить</button>
+  <div class="form-error">{{ form.non_field_errors }}</div>
+  {% for f in form %}
+      <p><label class="form-label-cli" for="{{ f.id_for_label }}">{{ f.label }}</label>{{ f }}</p>
+      <div class="form-error">{{ f.errors }}</div>
+  {% endfor %}
+  <div class="button-client-ed">
+      <button type="submit">Сохранить</button>
+  </div>
 </form>
+
 {% endblock %}

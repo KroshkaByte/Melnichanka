@@ -11,16 +11,22 @@ class Factory(models.Model):
         max_length=100,
         blank=False,
         choices=FACTORY_NAME_FULL,
+        choices=FACTORY_NAME_FULL,
     )
     short_name = models.CharField(
+        max_length=50, blank=False, choices=FACTORY_NAME_SHORT
         max_length=50, blank=False, choices=FACTORY_NAME_SHORT
     )
     full_address = models.CharField(max_length=255, blank=False, choices=FACTORY_ADRESS)
     departure_city = models.CharField(max_length=50, blank=False, choices=FACTORY_CITY)
+    full_address = models.CharField(max_length=255, blank=False, choices=FACTORY_ADRESS)
+    departure_city = models.CharField(max_length=50, blank=False, choices=FACTORY_CITY)
     departure_station_branch = models.CharField(
+        max_length=9, blank=False, choices=FACTORY_BRANCH
         max_length=9, blank=False, choices=FACTORY_BRANCH
     )
     departure_station_id = models.CharField(
+        max_length=9, blank=False, choices=FACTORY_BRANCH_ID
         max_length=9, blank=False, choices=FACTORY_BRANCH_ID
     )
 
@@ -57,6 +63,33 @@ class LogisticsCity(models.Model):
         return f"{self.city}, {self.region}"
 
 
+class LogisticsCity(models.Model):
+    city = models.CharField(
+        max_length=100,
+        blank=False,
+        verbose_name="Населенный пункт",
+    )
+    region = models.CharField(
+        max_length=100,
+        blank=False,
+        verbose_name="Субъект федерации",
+    )
+    federal_district = models.CharField(
+        max_length=100,
+        blank=False,
+        verbose_name="Федеральный округ",
+        choices=FED_DISCTRICT,
+    )
+
+    class Meta:
+        verbose_name = "Населенный пункт"
+        verbose_name_plural = "Населенные пункты"
+        ordering = ["city"]
+
+    def __str__(self):
+        return f"{self.city}, {self.region}"
+
+
 # Данные по логистике авто
 class LogisticsAuto(models.Model):
     departure_city = models.ForeignKey(
@@ -64,7 +97,17 @@ class LogisticsAuto(models.Model):
         db_column="departure_city",
         on_delete=models.DO_NOTHING,
         related_name="departure_city",
+    departure_city = models.ForeignKey(
+        "LogisticsCity",
+        db_column="departure_city",
+        on_delete=models.DO_NOTHING,
+        related_name="departure_city",
     )
+    destination_city = models.ForeignKey(
+        "LogisticsCity",
+        db_column="destination_city",
+        on_delete=models.DO_NOTHING,
+        related_name="destination_city",
     destination_city = models.ForeignKey(
         "LogisticsCity",
         db_column="destination_city",
@@ -109,8 +152,44 @@ class RailwayStations(models.Model):
         return self.station_name
 
 
+# Таблица ж/д станций
+class RailwayStations(models.Model):
+    station_name = models.CharField(
+        max_length=100,
+        choices=FACTORY_STATION,
+        blank=False,
+        verbose_name="Станция",
+    )
+
+    station_id = models.PositiveIntegerField()
+    station_branch = models.CharField(
+        max_length=255,
+        choices=BRANCHES,
+    )
+
+    class Meta:
+        verbose_name = "Ж/д станция"
+        verbose_name_plural = "Ж/д станции"
+        ordering = ["station_name"]
+
+    def __str__(self):
+        return self.station_name
+
+
 # Данные по логистике жд
 class LogisticsRailwayStations(models.Model):
+    departure_station_name = models.ForeignKey(
+        "RailwayStations",
+        db_column="departure_station_name",
+        on_delete=models.DO_NOTHING,
+        related_name="departure_station_name",
+    )
+
+    destination_station_name = models.ForeignKey(
+        "RailwayStations",
+        db_column="destination_station_name",
+        on_delete=models.DO_NOTHING,
+        related_name="destination_station_name",
     departure_station_name = models.ForeignKey(
         "RailwayStations",
         db_column="departure_station_name",

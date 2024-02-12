@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
+from clients.models import Clients
 
 from .forms import CustomUserCreationForm
 
@@ -12,4 +13,6 @@ class SignUpView(CreateView):
 
 
 def home_view(request):
-    return render(request, "home.html")
+    data = Clients.objects.order_by("client_name")
+    context = {"clients_table": data}
+    return render(request, "home.html", context)

@@ -5,21 +5,30 @@
 {% block content %}
 {% if user.is_authenticated %}
 
-        <div id="column1">
-            <p>Колонка 1</p>
-        </div>
 
-        <div id="column2">
-            <p>Колонка 2</p>
-        </div>
+<div class='columns' id="column1">
+    {% comment %} required и option value="" дает возможность сделать обязательным пункт для выбора {% endcomment %}
+    <form action="" method="post">
+        {% csrf_token %}
+        <p><select name="clients" required="required">
+         <option value="">Выберите ФИО директора</option>
+         {% for entry in clients_table %}
+            <option value="{{entry.client_name}}">{{entry.client_name}}</option>
+        {% endfor %}
+        </select></p>
 
-        <div id="column3">
-            <p>Колонка 3</p>
-            <p>Колонка 3</p>
-            <p>Колонка 3</p>
-            <p>Колонка 3</p>
-            <p>Колонка 3</p>
-        </div>
+        <p><input type="submit" value="Отправить"></p>
+       </form>
+</div>
+
+
+<div class='columns' id="column2">
+    <p>Доставка</p>
+</div>
+
+<div class='columns' id="column3">
+    <p>Товар</p>
+</div>
 
 
 

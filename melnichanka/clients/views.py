@@ -1,3 +1,4 @@
+from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import ClientsAddForm, ClientsEditForm
@@ -5,7 +6,7 @@ from .models import Clients
 
 
 def clients_home_view(request):
-    data = Clients.objects.all()
+    data = Clients.objects.order_by("client_name")
     context = {"clients_table": data}
     return render(request, "clients/clnt_home.html", context)
 
@@ -35,3 +36,20 @@ def clients_edit_view(request, pk):
         return redirect("clients_home")
 
     return render(request, "clients/clnt_edit.html", {"form": form})
+
+
+def clients_delete_view(request, pk):
+    instance = get_object_or_404(Clients, pk=pk)
+
+    if request.method == "POST":
+        if "confirm_delete" in request.POST:
+            try:
+                instance.delete()
+                return redirect("clients_home")
+            except Clients.DoesNotExist:
+                raise Http404("Ошибка удаления (запись не найдена)")
+
+        else:
+            return redirect("clients_home")
+
+    return render(request, "clients/clnt_delete_confirm.html", {"instance": instance})

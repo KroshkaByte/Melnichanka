@@ -32,4 +32,4 @@ class ClientsAddForm(forms.Form):
 class ClientsEditForm(forms.ModelForm):
     class Meta:
         model = Clients
-        fields = ["client_name", "contract_number", "contract_date"]
+        fields = "__all__"
