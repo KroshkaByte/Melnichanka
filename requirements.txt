@@ -3,6 +3,7 @@ cfgv==3.4.0
 distlib==0.3.8
 Django==4.2
 django-phonenumber-field==7.3.0
+django-debug-toolbar==4.2.0
 filelock==3.13.1
 identify==2.5.33
 nodeenv==1.8.0

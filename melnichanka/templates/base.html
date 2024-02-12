@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}{% endblock %}</title>
+    <title>{% block title %}title{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'users/css/styles.css' %}">
 </head>
@@ -17,7 +17,7 @@
                     <span class="text">Главная</span>
                 </a>
 
-                <a href="#" class="button-header">
+                <a href="{% url 'clients_home' %}" class="button-header">
                     <span class="text">Список клиентов</span>
                 </a>
 

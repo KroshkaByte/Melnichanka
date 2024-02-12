@@ -30,6 +30,7 @@ DEBUG = True
 load_dotenv()
 
 ALLOWED_HOSTS = ["127.0.0.1"]
+INTERNAL_IPS = ["127.0.0.1"]
 
 
 # Application definition
@@ -44,6 +45,8 @@ INSTALLED_APPS = [
     "phonenumber_field",
     "logistics.apps.LogisticsConfig",
     "users.apps.UsersConfig",
+    "clients.apps.ClientsConfig",
+    "debug_toolbar",
 ]
 
 MIDDLEWARE = [
@@ -54,6 +57,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = "melnichanka.urls"
@@ -128,7 +132,7 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "users", "static"),
+    os.path.join(BASE_DIR, "static"),
 ]
 
 # Default primary key field type
