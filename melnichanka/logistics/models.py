@@ -56,6 +56,7 @@ class LogisticsCity(models.Model):
     def __str__(self):
         return f"{self.city}, {self.region}"
 
+
 # Данные по логистике авто
 class LogisticsAuto(models.Model):
     departure_city = models.ForeignKey(

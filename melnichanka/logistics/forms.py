@@ -1,51 +1,10 @@
 from django import forms
 
 from .constants import BRANCHES, FED_DISCTRICT
-from .services import (get_all_auto_choices, get_all_rw_stations,
-                       get_auto_dep_choices, get_cities, get_dest_choices,
-                       get_rw_trips)
+from .services import get_auto_trips, get_cities, get_rw_stations, get_rw_trips
 
 
-class AutoAddForm(forms.Form):
-    departure_city = forms.ChoiceField(
-        label="Город отправления",
-        widget=forms.Select(attrs={"class": "select_form"}),
-        choices=get_cities,
-    )
-    destination_city = forms.ChoiceField(
-        label="Город назначения",
-        widget=forms.Select(attrs={"class": "select_form"}),
-        choices=get_cities,
-    )
-    cost_per_tonn_auto = forms.IntegerField(
-        label="Цена, руб./тн", step_size=100, min_value=0
-    )
-
-
-class AutoEditForm(forms.Form):
-    departure_city = forms.ChoiceField(
-        label="Город отправления",
-        widget=forms.Select(attrs={"class": "select_form"}),
-        choices=get_auto_dep_choices,
-    )
-    destination_city = forms.ChoiceField(
-        widget=forms.Select(attrs={"class": "select_form"}),
-        choices=get_dest_choices,
-        label="Город назначения",
-    )
-    cost_per_tonn_auto = forms.IntegerField(
-        label="Цена, руб./тн", step_size=100, min_value=0
-    )
-
-
-class AutoDeleteForm(forms.Form):
-    trip = forms.ChoiceField(
-        widget=forms.Select(attrs={"class": "select_form"}),
-        choices=get_all_auto_choices,
-        label="Рейс",
-    )
-
-
+# Форма добавления населенного пункта
 class AutoAddRequisitesForm(forms.Form):
     city = forms.CharField(max_length=255, label="Населенный пункт")
     region = forms.CharField(max_length=255, label="Субъект федерации")
@@ -56,6 +15,7 @@ class AutoAddRequisitesForm(forms.Form):
     )
 
 
+# Форма удаления населенного пункта
 class AutoDeleteRequisitesForm(forms.Form):
     city = forms.ChoiceField(
         widget=forms.Select(attrs={"class": "select_form"}),
@@ -64,6 +24,7 @@ class AutoDeleteRequisitesForm(forms.Form):
     )
 
 
+# Форма редактирования населенного пункта
 class AutoEditRequisitesForm(forms.Form):
     city = forms.ChoiceField(
         widget=forms.Select(attrs={"class": "select_form"}),
@@ -78,41 +39,46 @@ class AutoEditRequisitesForm(forms.Form):
     )
 
 
-class RwAddForm(forms.Form):
-    departure_station_name = forms.ChoiceField(
+# Форма добавления перевозки (авто)
+class AutoAddForm(forms.Form):
+    cities = get_cities
+    departure_city = forms.ChoiceField(
+        label="Город отправления",
         widget=forms.Select(attrs={"class": "select_form"}),
-        choices=get_all_rw_stations,
-        label="Станция отправления",
+        choices=cities,
     )
-    destination_station_name = forms.ChoiceField(
+    destination_city = forms.ChoiceField(
+        label="Город назначения",
         widget=forms.Select(attrs={"class": "select_form"}),
-        choices=get_all_rw_stations,
-        label="Станция назначения",
+        choices=cities,
     )
-    cost_per_tonn_rw = forms.IntegerField(
+    cost_per_tonn_auto = forms.IntegerField(
         label="Цена, руб./тн", step_size=100, min_value=0
     )
 
 
-class RwDeleteForm(forms.Form):
+# Форма редактирования перевозки (авто)
+class AutoEditForm(forms.Form):
     trip = forms.ChoiceField(
         widget=forms.Select(attrs={"class": "select_form"}),
-        choices=get_rw_trips,
-        label="Ж/д перевозка",
+        choices=get_auto_trips,
+        label="Рейс",
     )
-
-
-class RwEditForm(forms.Form):
-    trip = forms.ChoiceField(
-        widget=forms.Select(attrs={"class": "select_form"}),
-        choices=get_rw_trips,
-        label="Ж/д перевозка",
-    )
-    cost_per_tonn_rw = forms.IntegerField(
+    cost_per_tonn_auto = forms.IntegerField(
         label="Цена, руб./тн", step_size=100, min_value=0
     )
 
 
+# Форма удаления перевозки (авто)
+class AutoDeleteForm(forms.Form):
+    trip = forms.ChoiceField(
+        widget=forms.Select(attrs={"class": "select_form"}),
+        choices=get_auto_trips,
+        label="Рейс",
+    )
+
+
+# Форма добавления ж/д станции
 class RwAddRequisitesForm(forms.Form):
     station_name = forms.CharField(max_length=255, label="Станция")
     station_id = forms.IntegerField(
@@ -126,18 +92,20 @@ class RwAddRequisitesForm(forms.Form):
     )
 
 
+# Форма удаления ж/д станции
 class RwDeleteRequisitesForm(forms.Form):
     station = forms.ChoiceField(
         widget=forms.Select(attrs={"class": "select_form"}),
-        choices=get_all_rw_stations,
+        choices=get_rw_stations,
         label="Ж/д станция",
     )
 
 
+# Форма редактирования ж/д станции
 class RwEditRequisitesForm(forms.Form):
     station_name = forms.ChoiceField(
         widget=forms.Select(attrs={"class": "select_form"}),
-        choices=get_all_rw_stations,
+        choices=get_rw_stations,
         label="Ж/д станция",
     )
     station_id = forms.IntegerField(
@@ -148,4 +116,43 @@ class RwEditRequisitesForm(forms.Form):
         label="Ветка ж/д станции",
         widget=forms.Select(attrs={"class": "select_form"}),
         choices=BRANCHES,
+    )
+
+
+# Форма добавления ж/д перевозки
+class RwAddForm(forms.Form):
+    stations = get_rw_stations
+    departure_station_name = forms.ChoiceField(
+        widget=forms.Select(attrs={"class": "select_form"}),
+        choices=stations,
+        label="Станция отправления",
+    )
+    destination_station_name = forms.ChoiceField(
+        widget=forms.Select(attrs={"class": "select_form"}),
+        choices=stations,
+        label="Станция назначения",
+    )
+    cost_per_tonn_rw = forms.IntegerField(
+        label="Цена, руб./тн", step_size=100, min_value=0
+    )
+
+
+# Форма удаления ж/д перевозки
+class RwDeleteForm(forms.Form):
+    trip = forms.ChoiceField(
+        widget=forms.Select(attrs={"class": "select_form"}),
+        choices=get_rw_trips,
+        label="Ж/д перевозка",
+    )
+
+
+# Форма редактирования ж/д перевозки
+class RwEditForm(forms.Form):
+    trip = forms.ChoiceField(
+        widget=forms.Select(attrs={"class": "select_form"}),
+        choices=get_rw_trips,
+        label="Ж/д перевозка",
+    )
+    cost_per_tonn_rw = forms.IntegerField(
+        label="Цена, руб./тн", step_size=100, min_value=0
     )
