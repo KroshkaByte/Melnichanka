@@ -1,4 +1,5 @@
 from django.db import models
+from logistics.models import RailwayStations
 
 
 class Clients(models.Model):
@@ -16,12 +17,19 @@ class Clients(models.Model):
     director_name = models.CharField(max_length=100, verbose_name="ФИО директора")
 
     # ЖД реквизиты
-    destination_station_name = models.CharField(
-        max_length=100, verbose_name="Наименование ЖД станции"
+    destination_city = models.ForeignKey(
+        RailwayStations,
+        on_delete=models.PROTECT,
+        verbose_name="ЖД станция",
+        related_name="clients",
     )
-    destination_station_id = models.PositiveIntegerField(
-        verbose_name="Номер ЖД станции"
-    )
+
+    # destination_station_name = models.CharField(
+    #     max_length=100, verbose_name="Наименование ЖД станции"
+    # )
+    # destination_station_id = models.PositiveIntegerField(
+    #     verbose_name="Номер ЖД станции"
+    # )
     receiver_name = models.CharField(max_length=100, verbose_name="Имя получателя")
     receiver_id = models.PositiveIntegerField(verbose_name="Номер получателя")
     receiver_okpo = models.PositiveIntegerField(verbose_name="ОКПО")
