@@ -1,25 +1,12 @@
 from django.shortcuts import redirect, render
 
-from .forms import (
-    AutoAddForm,
-    AutoAddRequisitesForm,
-    AutoDeleteForm,
-    AutoDeleteRequisitesForm,
-    AutoEditForm,
-    AutoEditRequisitesForm,
-    RwAddForm,
-    RwAddRequisitesForm,
-    RwDeleteForm,
-    RwDeleteRequisitesForm,
-    RwEditForm,
-    RwEditRequisitesForm,
-)
-from .models import (
-    LogisticsAuto,
-    LogisticsCity,
-    LogisticsRailwayStations,
-    RailwayStations,
-)
+from .forms import (AutoAddForm, AutoAddRequisitesForm, AutoDeleteForm,
+                    AutoDeleteRequisitesForm, AutoEditForm,
+                    AutoEditRequisitesForm, RwAddForm, RwAddRequisitesForm,
+                    RwDeleteForm, RwDeleteRequisitesForm, RwEditForm,
+                    RwEditRequisitesForm)
+from .models import (LogisticsAuto, LogisticsCity, LogisticsRailwayStations,
+                     RailwayStations)
 
 
 # Выбор вида доставки (авто/жд)
@@ -40,14 +27,16 @@ def auto_home_view(request):
     return render(request, "logistics/auto_home.html", context)
 
 
-# Добавление рейса авто (города, цена)
+# Добавление рейса авто
 def auto_add_view(request):
     if request.method == "POST":
         form = AutoAddForm(request.POST)
         if form.is_valid():
-            dep_city = form.cleaned_data.get("departure_city")
-            dest_city = form.cleaned_data.get("destination_city")
-            price = form.cleaned_data.get("cost_per_tonn_auto")
+            form_dep_city = form.cleaned_data["departure_city"]
+            form_dest_city = form.cleaned_data["destination_city"]
+            dep_city = LogisticsCity.objects.get(pk=form_dep_city)
+            dest_city = LogisticsCity.objects.get(pk=form_dest_city)
+            price = form.cleaned_data["cost_per_tonn_auto"]
             try:
                 LogisticsAuto.objects.get(
                     departure_city=dep_city,
@@ -89,7 +78,6 @@ def auto_delete_view(request):
 
     else:
         form = AutoDeleteForm()
-
     context = {
         "form": form,
         "title": "Удаление рейса",
@@ -102,13 +90,9 @@ def auto_edit_view(request):
     if request.method == "POST":
         form = AutoEditForm(request.POST)
         if form.is_valid():
-            dep_city = form.cleaned_data.get("departure_city").capitalize()
-            dest_city = form.cleaned_data.get("destination_city").capitalize()
-            price = form.cleaned_data.get("cost_per_tonn_auto")
+            price = form.cleaned_data["cost_per_tonn_auto"]
             try:
-                query_trip = LogisticsAuto.objects.get(
-                    departure_city=dep_city, destination_city=dest_city
-                )
+                query_trip = LogisticsAuto.objects.get(id=form.cleaned_data["trip"])
                 query_trip.cost_per_tonn_auto = price
                 query_trip.save()
                 return redirect("auto_home")
@@ -131,9 +115,9 @@ def auto_add_requisites_view(request):
     if request.method == "POST":
         form = AutoAddRequisitesForm(request.POST)
         if form.is_valid():
-            form_city = form.cleaned_data.get("city").capitalize()
-            form_region = form.cleaned_data.get("region").capitalize()
-            form_fed_district = form.cleaned_data.get("federal_district").capitalize()
+            form_city = form.cleaned_data["city"].capitalize()
+            form_region = form.cleaned_data["region"].capitalize()
+            form_fed_district = form.cleaned_data["federal_district"].capitalize()
             try:
                 LogisticsCity.objects.get(
                     city=form_city,
@@ -159,9 +143,9 @@ def auto_edit_requisites_view(request):
     if request.method == "POST":
         form = AutoEditRequisitesForm(request.POST)
         if form.is_valid():
-            form_city = form.cleaned_data.get("city").capitalize()
-            form_region = form.cleaned_data.get("region").capitalize()
-            form_fed_district = form.cleaned_data.get("federal_district").capitalize()
+            form_city = form.cleaned_data["city"]
+            form_region = form.cleaned_data["region"].capitalize()
+            form_fed_district = form.cleaned_data["federal_district"]
             try:
                 edit_city = LogisticsCity.objects.get(id=form_city)
                 edit_city.region = form_region
@@ -192,7 +176,6 @@ def auto_delete_requisites_view(request):
                 del_city.delete()
                 return redirect("auto_home")
             except LogisticsCity.DoesNotExist:
-                print(form.cleaned_data["city"].capitalize())
                 form.add_error(None, "Ошибка удаления насленного пункта (не найдено)")
             except LogisticsCity.MultipleObjectsReturned:
                 form.add_error(
@@ -224,11 +207,11 @@ def rw_add_view(request):
     if request.method == "POST":
         form = RwAddForm(request.POST)
         if form.is_valid():
-            form_dep_station = form.cleaned_data.get("departure_station_name")
-            form_dest_station = form.cleaned_data.get("destination_station_name")
+            form_dep_station = form.cleaned_data["departure_station_name"]
+            form_dest_station = form.cleaned_data["destination_station_name"]
             dep_station = RailwayStations.objects.get(pk=form_dep_station)
             dest_station = RailwayStations.objects.get(pk=form_dest_station)
-            cost_per_tonn_rw = form.cleaned_data.get("cost_per_tonn_rw")
+            cost_per_tonn_rw = form.cleaned_data["cost_per_tonn_rw"]
             try:
                 LogisticsRailwayStations.objects.get(
                     departure_station_name=dep_station,
@@ -286,7 +269,7 @@ def rw_edit_view(request):
                 query_trip = LogisticsRailwayStations.objects.get(
                     id=form.cleaned_data["trip"]
                 )
-                cost_per_tonn_rw = form.cleaned_data.get("cost_per_tonn_rw")
+                cost_per_tonn_rw = form.cleaned_data["cost_per_tonn_rw"]
                 query_trip.cost_per_tonn_rw = cost_per_tonn_rw
                 query_trip.save()
                 return redirect("rw_home")
@@ -310,9 +293,9 @@ def rw_add_requisites_view(request):
     if request.method == "POST":
         form = RwAddRequisitesForm(request.POST)
         if form.is_valid():
-            form_station_name = form.cleaned_data.get("station_name").capitalize()
-            form_station_id = form.cleaned_data.get("station_id")
-            form_station_branch = form.cleaned_data.get("station_branch").upper()
+            form_station_name = form.cleaned_data["station_name"].capitalize()
+            form_station_id = form.cleaned_data["station_id"]
+            form_station_branch = form.cleaned_data["station_branch"].upper()
             try:
                 RailwayStations.objects.get(
                     station_name=form_station_name,
@@ -357,7 +340,7 @@ def rw_delete_requisites_view(request):
         "form": form,
         "title": "Удаление реквизитов ж/д перевозки",
     }
-    return render(request, "logistics/auto_edit.html", context)
+    return render(request, "logistics/rw_edit.html", context)
 
 
 # Изменение реквизитов ж/д перевозки
@@ -365,9 +348,9 @@ def rw_edit_requisites_view(request):
     if request.method == "POST":
         form = RwEditRequisitesForm(request.POST)
         if form.is_valid():
-            form_station_name = form.cleaned_data.get("station_name").capitalize()
-            form_station_id = form.cleaned_data.get("station_id")
-            form_station_branch = form.cleaned_data.get("station_branch").upper()
+            form_station_name = form.cleaned_data["station_name"].capitalize()
+            form_station_id = form.cleaned_data["station_id"]
+            form_station_branch = form.cleaned_data["station_branch"].upper()
             try:
                 edit_trip = RailwayStations.objects.get(station_name=form_station_name)
                 edit_trip.station_id = form_station_id

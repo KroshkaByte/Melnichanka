@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+
+{% include 'logistics/navbars/rw_navbar.html' %}
+
+<table align="center" border="1">
+    <thead>
+        <tr>
+            <th>Станция отправления</th>
+            <th>Станция назначения</th>
+            <th>Цена, руб./тн</th>
+        </tr>
+    </thead>
+
+  {% for entry in rw_table %}
+  <tr>
+     <td>{{ entry.departure_station_name }}</td>
+     <td>{{ entry.destination_station_name }}</td>
+     <td>{{ entry.cost_per_tonn_rw }}</td>
+  </tr>
+  {% endfor %}
+
+
+  </table>
+{% endblock %}

@@ -1,16 +1,8 @@
 from django.db import models
 
-from .constants import (
-    BRANCHES,
-    FACTORY_ADRESS,
-    FACTORY_BRANCH,
-    FACTORY_BRANCH_ID,
-    FACTORY_CITY,
-    FACTORY_NAME_FULL,
-    FACTORY_NAME_SHORT,
-    FACTORY_STATION,
-    FED_DISCTRICT,
-)
+from .constants import (BRANCHES, FACTORY_ADRESS, FACTORY_BRANCH,
+                        FACTORY_BRANCH_ID, FACTORY_CITY, FACTORY_NAME_FULL,
+                        FACTORY_NAME_SHORT, FACTORY_STATION, FED_DISCTRICT)
 
 
 # Данные по заводам
@@ -124,6 +116,13 @@ class LogisticsRailwayStations(models.Model):
         db_column="departure_station_name",
         on_delete=models.DO_NOTHING,
         related_name="departure_station_name",
+    )
+
+    destination_station_name = models.ForeignKey(
+        "RailwayStations",
+        db_column="destination_station_name",
+        on_delete=models.DO_NOTHING,
+        related_name="destination_station_name",
     )
 
     destination_station_name = models.ForeignKey(

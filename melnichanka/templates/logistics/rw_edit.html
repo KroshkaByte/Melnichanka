@@ -3,9 +3,9 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
-<br />
-{% include 'edit_navbar.html' %}
-<br />
+
+{% include 'logistics/navbars/rw_navbar.html' %}
+
 <form action= "" method="post">
     {{ title }}
     {% csrf_token %}

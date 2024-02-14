@@ -1,7 +1,7 @@
+from clients.models import Clients
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
-from clients.models import Clients
 
 from .forms import CustomUserCreationForm
 

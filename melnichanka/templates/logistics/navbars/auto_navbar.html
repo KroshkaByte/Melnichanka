@@ -1,0 +1,26 @@
+{% block navbar %}
+<button type="button">
+    <a href="{% url 'auto_add' %}" class="navbar_button">Добавить рейс</a>
+</button>
+
+<button type="button">
+    <a href="{% url 'auto_edit' %}" class="navbar_button">Изменить рейс</a>
+</button>
+
+<button type="button">
+    <a href="{% url 'auto_delete' %}" class="navbar_button">Удалить рейс</a>
+</button>
+
+<button type="button">
+    <a href="{% url 'auto_add_requisites' %}" class="navbar_button">Добавить город</a>
+</button>
+
+<button type="button">
+    <a href="{% url 'auto_edit_requisites' %}" class="navbar_button">Изменить город</a>
+</button>
+
+<button type="button">
+    <a href="{% url 'auto_delete_requisites' %}" class="navbar_button">Удалить город</a>
+</button>
+
+{% endblock %}

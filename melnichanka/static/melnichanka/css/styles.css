@@ -278,3 +278,14 @@ html {
     align-items: center;
     justify-content: center;
 }
+
+.navbar_button {
+    color: #f0f5f0;
+    text-decoration: none;
+
+}
+
+.navbar_button:hover {
+    text-decoration: none;
+    color: #f0f5f0;
+   }
