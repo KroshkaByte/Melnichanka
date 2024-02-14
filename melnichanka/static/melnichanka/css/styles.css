@@ -181,17 +181,12 @@ html {
 }
 
 @keyframes bounce {
-	0%, 20%, 60%, 100% {
+	0%, 100% {
 		transform: translateY(0);
 		transform: translateY(0);
 	}
 
-	40% {
-		transform: translateY(-20px);
-		transform: translateY(-20px);
-	}
-
-	80% {
+	50% {
 		transform: translateY(-10px);
 		transform: translateY(-10px);
 	}
@@ -199,7 +194,7 @@ html {
 
 .button-header:hover {
     background-color: #005500;
-    animation: bounce 0.8s;
+    animation: bounce 0.4s;
 }
 
 .button-group .button-header {
