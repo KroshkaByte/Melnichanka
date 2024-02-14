@@ -1,5 +1,8 @@
+from django.db import IntegrityError
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
+
+from logistics.models import RailwayStations
 
 from .forms import ClientsAddForm, ClientsEditForm
 from .models import Clients
@@ -16,10 +19,24 @@ def clients_add_view(request):
         form = ClientsAddForm(request.POST)
         if form.is_valid():
             try:
-                Clients.objects.create(**form.cleaned_data)
+                destination_city_id = form.cleaned_data["destination_city"]
+                destination_city = RailwayStations.objects.get(pk=destination_city_id)
+                Clients.objects.create(
+                    destination_city=destination_city,
+                    **{
+                        key: form.cleaned_data[key]
+                        for key in form.cleaned_data.keys()
+                        if key != "destination_city"
+                    },
+                )
                 return redirect("clients_home")
+            except RailwayStations.DoesNotExist:
+                form.add_error("destination_city", "Несуществующая ЖД станция")
+            except IntegrityError:
+                form.add_error(None, "Клиент с таким номером договора уже существует")
             except:
                 form.add_error(None, "Ошибка добавления клиента")
+
     else:
         form = ClientsAddForm()
 
