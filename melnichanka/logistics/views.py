@@ -34,8 +34,8 @@ def auto_add_view(request):
         if form.is_valid():
             form_dep_city = form.cleaned_data["departure_city"]
             form_dest_city = form.cleaned_data["destination_city"]
-            dep_city = LogisticsCity.objects.get(pk=form_dep_city)
-            dest_city = LogisticsCity.objects.get(pk=form_dest_city)
+            dep_city = LogisticsCity.objects.get(id=form_dep_city)
+            dest_city = LogisticsCity.objects.get(id=form_dest_city)
             price = form.cleaned_data["cost_per_tonn_auto"]
             try:
                 LogisticsAuto.objects.get(
@@ -209,8 +209,8 @@ def rw_add_view(request):
         if form.is_valid():
             form_dep_station = form.cleaned_data["departure_station_name"]
             form_dest_station = form.cleaned_data["destination_station_name"]
-            dep_station = RailwayStations.objects.get(pk=form_dep_station)
-            dest_station = RailwayStations.objects.get(pk=form_dest_station)
+            dep_station = RailwayStations.objects.get(id=form_dep_station)
+            dest_station = RailwayStations.objects.get(id=form_dest_station)
             cost_per_tonn_rw = form.cleaned_data["cost_per_tonn_rw"]
             try:
                 LogisticsRailwayStations.objects.get(

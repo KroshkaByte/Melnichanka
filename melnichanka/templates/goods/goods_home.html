@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+
+{% include 'goods/navbars/goods_navbar.html' %}
+
+<table align="center", border="1">
+  <thead>
+        <tr>
+          <th>Сорт муки</th>
+          <th>Вес единицы, кг</th>
+          <th>Количество в упаковке, шт.</th>
+          <th>Вес на паллете, кг</th>
+          <th>Брэнд</th>
+          <th>Цена, руб./тн</th>
+        </tr>
+    </thead>
+    {% for entry in goods_table %}
+    <tr>
+       <td>{{ entry.flour_name }}</td>
+       <td>{{ entry.unit_weight }}</td>
+       <td>{{ entry.group_quantity }}</td>
+       <td>{{ entry.pallet_weight }}</td>
+       <td>{{ entry.brand }}</td>
+       <td>{{ entry.price }}</td>
+    </tr>
+    {% endfor %}
+
+
+{% endblock %}

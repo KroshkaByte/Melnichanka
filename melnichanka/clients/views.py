@@ -19,7 +19,7 @@ def clients_add_view(request):
         if form.is_valid():
             try:
                 destination_city_id = form.cleaned_data["destination_city"]
-                destination_city = RailwayStations.objects.get(pk=destination_city_id)
+                destination_city = RailwayStations.objects.get(id=destination_city_id)
                 Clients.objects.create(
                     destination_city=destination_city,
                     **{
