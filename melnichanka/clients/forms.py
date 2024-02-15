@@ -1,9 +1,11 @@
 from django import forms
 
 from .models import Clients
+from .services import get_rw_stations
 
 
 class ClientsAddForm(forms.Form):
+    stations = get_rw_stations
     # Основная информация
     client_name = forms.CharField(max_length=100, label="Наименование организации")
     contract_number = forms.CharField(max_length=50, label="Номер договора")
@@ -13,12 +15,11 @@ class ClientsAddForm(forms.Form):
     )
     director_position = forms.CharField(max_length=100, label="Должность директора")
     director_name = forms.CharField(max_length=100, label="ФИО директора")
-
-    # ЖД реквизиты
-    destination_station_name = forms.CharField(
-        max_length=100, label="Наименование ЖД станции"
+    destination_city = forms.ChoiceField(
+        widget=forms.Select(attrs={"class": "select_form"}),
+        choices=stations,
+        label="ЖД станция",
     )
-    destination_station_id = forms.IntegerField(label="Номер ЖД станции")
     receiver_name = forms.CharField(max_length=100, label="Имя получателя")
     receiver_id = forms.IntegerField(label="Номер получателя")
     receiver_okpo = forms.IntegerField(label="ОКПО")
