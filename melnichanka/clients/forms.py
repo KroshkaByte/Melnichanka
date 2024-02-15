@@ -1,7 +1,7 @@
 from django import forms
+from logistics.services import get_rw_stations
 
 from .models import Clients
-from .services import get_rw_stations
 
 
 class ClientsAddForm(forms.Form):
