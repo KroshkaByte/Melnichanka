@@ -348,11 +348,11 @@ def rw_edit_requisites_view(request):
     if request.method == "POST":
         form = RwEditRequisitesForm(request.POST)
         if form.is_valid():
-            form_station_name = form.cleaned_data["station_name"].capitalize()
+            form_station = form.cleaned_data["station_name"]
             form_station_id = form.cleaned_data["station_id"]
-            form_station_branch = form.cleaned_data["station_branch"].upper()
+            form_station_branch = form.cleaned_data["station_branch"]
             try:
-                edit_trip = RailwayStations.objects.get(station_name=form_station_name)
+                edit_trip = RailwayStations.objects.get(id=form_station)
                 edit_trip.station_id = form_station_id
                 edit_trip.station_branch = form_station_branch
                 edit_trip.save()
