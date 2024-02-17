@@ -11,12 +11,8 @@ class User(AbstractUser):
     first_name = models.CharField(max_length=50, verbose_name="Имя")
     last_name = models.CharField(max_length=50, verbose_name="Фамилия")
     patronymic = models.CharField(max_length=50, verbose_name="Отчество")
-    position = models.CharField(
-        max_length=50, verbose_name="Должность"
-    )  # Можно сделать выпадающий список
-    department = models.CharField(
-        max_length=50, verbose_name="Отдел"
-    )  # Можно сделать выпадающий список
+    position = models.CharField(max_length=50, verbose_name="Должность")
+    department = models.CharField(max_length=50, verbose_name="Отдел")
     email = models.EmailField(max_length=50, unique=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
@@ -33,20 +29,3 @@ class User(AbstractUser):
 
     def __str__(self):
         return f"Пользователь {self.username}"
-
-
-# Информация о заводах-производителях
-# class Factory(models.Model):
-#     class FactoryFlour(models.TextChoices):
-#         KKHP = "ККХП", 'АО "Курский Комбинат Хлебопродуктов'
-#         KHPS = "КХПС", 'АО "Комбинат Хлебопродуктов Старооскольский'
-#         GKHP = "ГКХП", 'АО "Городищенский Комбинат Хлебопродуктов'
-
-#     factory_name = models.CharField(
-#         max_length=4, choices=FactoryFlour.choices, default=FactoryFlour.KKHP
-#     )
-#     factory_city = models.CharField(max_length=50)
-#     factory_adress = models.CharField(max_length=150)
-
-#     def __str__(self):
-#         return f"Производитель: {self.factory_name}"
