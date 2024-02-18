@@ -8,10 +8,11 @@ body {
 }
 
 header {
-    background-color: #343434;
+    background-color: #343434df;
     color: #f0f5f0;
     padding: 20px;
     text-align: center;
+    border-radius: 20px;
 }
 
 main {
@@ -116,41 +117,12 @@ section p a:hover {
 }
 
 form {
-    width: 80%;
+    max-width: 500px;
     margin: 0 auto;
-  }
+    text-align:left;
 
-  label,
-  input {
-    /* In order to define widths */
-    display: inline-block;
-  }
+}
 
-  label {
-    width: 30%;
-    /* Positions the label text beside the input */
-    text-align: right;
-  }
-
-  label+input {
-    width: 30%;
-    /* Large margin-right to force the next element to the new-line
-             and margin-left to create a gutter between the label and input */
-    margin: 0 30% 0 4%;
-  }
-
-
-  /* Only the submit button is matched by this selector,
-         but to be sure you could use an id or class for that button */
-
-  input+input {
-    float: right;
-  }
-
-.select_form {
-    width: 30%;
-    margin: 0 30% 0 4%;
-  }
 
 #column1, #column2, #column3 {
     width: 30%;
@@ -158,10 +130,13 @@ form {
 *{
     transition: all 0.6s;
 }
+}
 
 html {
     height: 100%;
 }
+
+
 
 #main{
     display: table;
@@ -188,10 +163,8 @@ html {
 }
 
 .button-group {
-    display: flex;
     justify-content: space-between;
-    margin-top: 20%;
-    font-size: 48px;
+    font-size: 20px;
 
 }
 
@@ -207,11 +180,21 @@ html {
     transition: background-color 0.3s ease;
 }
 
-}
+@keyframes bounce {
+	0%, 100% {
+		transform: translateY(0);
+		transform: translateY(0);
+	}
 
+	50% {
+		transform: translateY(-10px);
+		transform: translateY(-10px);
+	}
+}
 
 .button-header:hover {
     background-color: #005500;
+    animation: bounce 0.4s;
 }
 
 .button-group .button-header {
@@ -226,3 +209,83 @@ html {
     transition: background-color 0.3s ease;
     margin-right: 50px;
 }
+
+.form-label {
+    display: inline-block;
+    min-width: 150px;
+    vertical-align: top;
+}
+
+.form-label-cli {
+    display: inline-block;
+    min-width: 190px;
+    vertical-align: top;
+    margin-right: 20px;
+    text-align: right;
+}
+
+.button-client-del {
+    text-align: center;
+}
+
+.button-client-add {
+    text-align: center;
+}
+
+.button-client-ed {
+    text-align: center;
+}
+
+.button-client-add-cli {
+    margin-top: 10px;
+}
+
+.table-client {
+    margin: 10px;
+    border: 2px;
+}
+
+.table-client-edit {
+    color: #000;
+    font-weight: bold;
+}
+
+.form-label-reg {
+    display: inline-block;
+    min-width: 180px;
+    vertical-align: top;
+    margin-right: 20px;
+    text-align: right;
+}
+
+.button-reg{
+    text-align: center;
+}
+
+.form-error ul {
+    list-style: none;
+    padding: 0;
+    color: #CC0000;
+}
+
+.select_form {
+    width: 30%;
+    margin: 0 30% 0 4%;
+}
+
+.columns {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navbar_button {
+    color: #f0f5f0;
+    text-decoration: none;
+
+}
+
+.navbar_button:hover {
+    text-decoration: none;
+    color: #f0f5f0;
+   }
