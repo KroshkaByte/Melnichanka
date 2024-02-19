@@ -1,61 +1,60 @@
-from django.db import IntegrityError
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
-from logistics.models import RailwayStations
+
 
 from .forms import ClientsAddForm, ClientsEditForm
 from .models import Clients
 
 
+# Таблица клиентов
 def clients_home_view(request):
     data = Clients.objects.order_by("client_name")
-    context = {"clients_table": data}
+    context = {"clients_table": data, "title": "Список клиентов"}
     return render(request, "clients/clnt_home.html", context)
 
 
+# Добавление клиента
 def clients_add_view(request):
     if request.method == "POST":
         form = ClientsAddForm(request.POST)
         if form.is_valid():
             try:
-                destination_city_id = form.cleaned_data["destination_city"]
-                destination_city = RailwayStations.objects.get(id=destination_city_id)
-                Clients.objects.create(
-                    destination_city=destination_city,
-                    **{
-                        key: form.cleaned_data[key]
-                        for key in form.cleaned_data.keys()
-                        if key != "destination_city"
-                    },
-                )
+                Clients.objects.create(**form.cleaned_data)
                 return redirect("clients_home")
-            except RailwayStations.DoesNotExist:
-                form.add_error("destination_city", "Несуществующая ЖД станция")
-            except IntegrityError:
-                form.add_error(None, "Клиент с таким номером договора уже существует")
-            except:
-                form.add_error(None, "Ошибка добавления клиента")
+            except Clients.MultipleObjectsReturned:
+                form.add_error(
+                    None,
+                    "Ошибка добавления клиента, клиент с такими данными уже существует",
+                )
+            except Exception as e:
+                form.add_error(None, f"Произошла ошибка: {str(e)}")
 
     else:
         form = ClientsAddForm()
 
-    data = {"form": form}
-    return render(request, "clients/clnt_add.html", data)
+    context = {"form": form, "title": "Добавить клиента"}
+    return render(request, "clients/clnt_add.html", context)
 
 
+# Редактирование клиента
 def clients_edit_view(request, pk):
-    instance = get_object_or_404(Clients, pk=pk)
+    instance = get_object_or_404(Clients, id=pk)
     form = ClientsEditForm(request.POST or None, instance=instance)
 
     if request.method == "POST" and form.is_valid():
-        form.save()
-        return redirect("clients_home")
+        try:
+            form.save()
+            return redirect("clients_home")
+        except Exception as e:
+            form.add_error(None, f"Не удаллось сохранить, произошла ошибка: {str(e)}")
 
-    return render(request, "clients/clnt_edit.html", {"form": form})
+    context = {"form": form, "title": "Редактирование записи"}
+    return render(request, "clients/clnt_edit.html", context)
 
 
+# Удаление клиента
 def clients_delete_view(request, pk):
-    instance = get_object_or_404(Clients, pk=pk)
+    instance = get_object_or_404(Clients, id=pk)
 
     if request.method == "POST":
         if "confirm_delete" in request.POST:
@@ -68,4 +67,5 @@ def clients_delete_view(request, pk):
         else:
             return redirect("clients_home")
 
-    return render(request, "clients/clnt_delete_confirm.html", {"instance": instance})
+    context = {"instance": instance, "title": "Подтверждение удаления записи"}
+    return render(request, "clients/clnt_delete_confirm.html", context)

@@ -1,5 +1,9 @@
-from .models import (LogisticsAuto, LogisticsCity, LogisticsRailwayStations,
-                     RailwayStations)
+from .models import (
+    LogisticsAuto,
+    LogisticsCity,
+    LogisticsRailwayStations,
+    RailwayStations,
+)
 
 
 def get_auto_trips():

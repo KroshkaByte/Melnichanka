@@ -15,7 +15,6 @@ class Clients(models.Model):
         max_length=100, verbose_name="Должность директора"
     )
     director_name = models.CharField(max_length=100, verbose_name="ФИО директора")
-
     # ЖД реквизиты
     destination_city = models.ForeignKey(
         RailwayStations,
@@ -23,12 +22,12 @@ class Clients(models.Model):
         verbose_name="ЖД станция",
         related_name="clients",
     )
+    # Остальные данные
     receiver_name = models.CharField(max_length=100, verbose_name="Имя получателя")
     receiver_id = models.PositiveIntegerField(verbose_name="Номер получателя")
     receiver_okpo = models.PositiveIntegerField(verbose_name="ОКПО")
     receiver_adress = models.CharField(max_length=200, verbose_name="Адрес получателя")
     special_marks = models.CharField(max_length=200, verbose_name="Особые отметки")
-
     # Номер приложения
     last_application_number = models.CharField(
         max_length=50, verbose_name="Номер приложения"
