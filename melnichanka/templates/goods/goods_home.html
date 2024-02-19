@@ -10,21 +10,24 @@
   <thead>
         <tr>
           <th>Сорт муки</th>
-          <th>Вес единицы, кг</th>
-          <th>Количество в упаковке, шт.</th>
-          <th>Вес на паллете, кг</th>
-          <th>Брэнд</th>
+          <th>Брэнд, кг</th>
+          <th>Тара</th>
+          <th>Количество штук в упаковке</th>
+          <th>Изготовитель</th>
+          <th>Вес на паллете</th>
           <th>Цена, руб./тн</th>
         </tr>
     </thead>
     {% for entry in goods_table %}
     <tr>
        <td>{{ entry.flour_name }}</td>
-       <td>{{ entry.unit_weight }}</td>
-       <td>{{ entry.group_quantity }}</td>
-       <td>{{ entry.pallet_weight }}</td>
        <td>{{ entry.brand }}</td>
+       <td>{{ entry.package }}</td>
+       <td>{{ entry.group_quantity }}</td>
+       <td>{{ entry.factory }}</td>
+       <td>{{ entry.pallet_weight }}</td>
        <td>{{ entry.price }}</td>
+
     </tr>
     {% endfor %}
 

@@ -1,14 +1,6 @@
 {% block navbar %}
 <button type="button">
-    <a href="" class="navbar_button">Добавить товар</a>
-</button>
-
-<button type="button">
-    <a class="navbar_button">Изменить товар</a>
-</button>
-
-<button type="button">
-    <a class="navbar_button">Удалить товар</a>
+    <a href="{% url 'goods_add' %}" class="navbar_button">Добавить товар</a>
 </button>
 
 {% endblock %}

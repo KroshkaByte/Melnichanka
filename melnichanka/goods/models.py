@@ -1,51 +1,33 @@
 from django.db import models
 
-from .constants import BRANDS, FLOUR_NAME
-
-
-class Factory(models.Model):
-    name = models.CharField(max_length=255, unique=True)
-
-    class Meta:
-        verbose_name = "Фабрика"
-        verbose_name_plural = "Фабрики"
-
-    def __str__(self):
-        return self.name
+from .constants import BRANDS, FLOUR_NAME, GROUP_QUANTITY, PACKAGE, PALLET_WEIGHT
 
 
 class Goods(models.Model):
-    brand = models.CharField(max_length=100, choices=BRANDS, verbose_name="Брэнд")
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-
-    class Meta:
-        verbose_name = "Товар"
-        verbose_name_plural = "Товары"
-
-    def __str__(self):
-        return f"{self.brand}"
-
-
-class Package(models.Model):
     flour_name = models.CharField(
         max_length=255, blank=False, verbose_name="Сорт муки", choices=FLOUR_NAME
     )
-    unit_weight = models.DecimalField(
-        max_digits=10, decimal_places=2, verbose_name="Вес единицы"
-    )
-    group_quantity = models.PositiveIntegerField(
+    brand = models.CharField(max_length=100, choices=BRANDS, verbose_name="Брэнд", blank=True)
+    package = models.IntegerField(choices=PACKAGE, verbose_name="Тара")
+    group_quantity = models.PositiveIntegerField(choices=GROUP_QUANTITY,
         verbose_name="Количество штук в упаковке"
     )
-    factory = models.ForeignKey(
-        Factory, on_delete=models.DO_NOTHING, verbose_name="Изготовитель"
+    factory = models.CharField(
+        choices=(("Курск", "Курск"), ("Оскол", "Оскол"), ("Волгоград", "Волгоград")),
+        verbose_name="Изготовитель",
     )
-    pallet_weight = models.DecimalField(
-        max_digits=10, decimal_places=2, verbose_name="Вес на паллете"
+    pallet_weight = models.IntegerField(
+        choices=PALLET_WEIGHT, verbose_name="Вес на паллете"
+    )
+    price = models.DecimalField(
+        max_digits=10, decimal_places=2, verbose_name="Цена, руб./тн"
     )
 
     class Meta:
         verbose_name = "Упаковка"
         verbose_name_plural = "Упаковка"
+        ordering = ["flour_name", "brand"]
+        unique_together = [("flour_name", "brand", "package", "price")]
 
     def __str__(self):
-        return f"{self.flour_name} {self.unit_weight}"
+        return f"{self.flour_name}, т/м {self.brand}, {self.package} кг"
