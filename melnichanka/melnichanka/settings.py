@@ -61,13 +61,6 @@ MIDDLEWARE = [
     "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
-# Для аутентификации вы можете использовать класс TokenAuthentication из DRF.
-# Этот класс предоставляет механизм аутентификации по токену
-REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework.authentication.TokenAuthentication",
-    ],
-}
 
 ROOT_URLCONF = "melnichanka.urls"
 
@@ -153,3 +146,11 @@ AUTH_USER_MODEL = "users.User"
 
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
+
+REST_FRAMEWORK = {
+    "DEFAULT_RENDERER_CLASSES": [
+        "rest_framework.renderers.JSONRenderer",
+        # rest_framework.renderers.BrowsableAPIRenderer - убирает из браузера страницу редактирования записи, а будет выдавать ток сырой JSON что нам и надо будет
+        "rest_framework.renderers.BrowsableAPIRenderer",
+    ],
+}

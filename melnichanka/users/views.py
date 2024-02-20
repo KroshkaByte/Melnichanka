@@ -9,9 +9,19 @@ from clients.models import Clients
 from rest_framework import generics
 
 
-# class UserAPIView(generics.ListAPIView):
-#     queryset = User.objects.all()
-#     serializer_class = UserSerializer
+class UserAPIView(generics.ListCreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class UsersAPIUpdateView(generics.UpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class UsersAPIDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Clients.objects.all()
+    serializer_class = UserSerializer
 
 
 # class MyUserViewSet(generics.RetrieveUpdateDestroyAPIView, generics.ListCreateAPIView):
