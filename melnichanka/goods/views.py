@@ -32,17 +32,17 @@ def goods_add_view(request):
 
 
 def goods_edit_view(request, pk):
+    instance = get_object_or_404(Goods, id=pk)
+    form = GoodsForm(request.POST or None, instance=instance)
     if request.method == "POST":
-        form = GoodsForm(request.POST)
         if form.is_valid():
-            # goods_data = form.cleaned_data
             try:
                 form.save()
                 return redirect("goods_home")
             except Exception as e:
-                form.add_error(None, f"Не удалось сохранить, произошла ошибка: {str(e)}")
-    else:
-        form = GoodsForm()
+                form.add_error(
+                    None, f"Не удалось сохранить, произошла ошибка: {str(e)}"
+                )
 
     context = {"form": form, "title": "Редактирование товара"}
     return render(request, "goods/goods_edit.html", context)

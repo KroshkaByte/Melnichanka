@@ -4,24 +4,37 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('goods', '0001_initial'),
+        ("goods", "0001_initial"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='goods',
-            name='unit_weight',
+            model_name="goods",
+            name="unit_weight",
         ),
         migrations.AlterField(
-            model_name='goods',
-            name='pallet_weight',
-            field=models.IntegerField(choices=[(880, 880), (600, 600), (864, 864), (1000, 1000), (800, 800), (700, 700), (900, 900), (1050, 1050)], verbose_name='Вес на паллете'),
+            model_name="goods",
+            name="pallet_weight",
+            field=models.IntegerField(
+                choices=[
+                    (880, 880),
+                    (600, 600),
+                    (864, 864),
+                    (1000, 1000),
+                    (800, 800),
+                    (700, 700),
+                    (900, 900),
+                    (1050, 1050),
+                ],
+                verbose_name="Вес на паллете",
+            ),
         ),
         migrations.AlterField(
-            model_name='goods',
-            name='price',
-            field=models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Цена, руб./тн'),
+            model_name="goods",
+            name="price",
+            field=models.DecimalField(
+                decimal_places=2, max_digits=10, verbose_name="Цена, руб./тн"
+            ),
         ),
     ]
