@@ -1,9 +1,60 @@
+from django.forms import model_to_dict
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
+from rest_framework import generics
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
 
 from .forms import ClientsAddForm, ClientsEditForm
+from .serializers import ClientSerializer
 from .models import Clients
+
+
+class ClientAPIView(APIView):
+    def get(self, request):
+        clients = Clients.objects.all()
+        # clients, many=True - передаем список клиентов, many  т.к передаем не одну запись, а список
+        # .data - словарь преобразованыз данных из табл Clients
+        return Response({"clients": ClientSerializer(clients, many=True).data})
+
+    def post(self, request):
+        serializer = ClientSerializer(data=request.data)
+        # raise_exception=True - выводит ошибку в виде json строки {"client_name":["Обязательное поле."]}
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        # client_new = Clients.objects.create(**serializer.validated_data)
+        return Response({"post": serializer.data})
+
+    def put(self, request, *args, **kwargs):
+        pk = kwargs.get("pk", None)
+        if not pk:
+            return Response({"error": "Method PUT not allowed"})
+        try:
+            isinstance = Clients.objects.get(pk=pk)
+        except:
+            return Response({"error": "Object does not exists"})
+
+        serializer = ClientSerializer(data=request.data, instance=isinstance)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({"post": serializer.data})
+
+    def delete(self, request, *args, **kwargs):
+        pk = kwargs.get("pk", None)
+        if not pk:
+            return Response({"error": "Method DELETE not allowed"})
+        try:
+            isinstance = Clients.objects.get(pk=pk).delete()
+        except:
+            return Response({"error": "Object does not exists"})
+
+        return Response({"post": "delete client" + str(pk)})
+
+
+# class ClientAPIView(generics.ListAPIView):
+#     queryset = Clients.objects.all()
+#     serializer_class = ClientSerializer
 
 
 # Таблица клиентов
