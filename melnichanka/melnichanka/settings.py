@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "logistics.apps.LogisticsConfig",
     "users.apps.UsersConfig",
     "clients.apps.ClientsConfig",
+    "goods.apps.GoodsConfig",
     "debug_toolbar",
 ]
 

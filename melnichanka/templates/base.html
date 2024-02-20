@@ -25,11 +25,18 @@
                     <a href="{% url 'logistics_home' %}" class="button-header">
                         <span class="text">Логистика</span>
                     </a>
+
+                    <a href="{% url 'goods_home' %}" class="button-header">
+                        <span class="text">Товары</span>
+                    </a>
+
+
                     {{user.username}} |
                     <a href="{% url 'logout' %}" class="button-header">
                         <span class="text">Выйти</span>
                     </a>
                 </div>
+
                 {% else %}
                 Войдите или зарегистрируйтесь
                 {% endif %}

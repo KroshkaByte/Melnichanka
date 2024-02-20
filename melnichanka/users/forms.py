@@ -2,8 +2,8 @@ from django import forms
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from phonenumber_field.formfields import PhoneNumberField
 
-from .models import User
 from .constants import DEPARTMENT, POSITION
+from .models import User
 
 
 # Форма регистрации пользователя
@@ -33,6 +33,5 @@ class CustomUserChangeForm(UserChangeForm):
         fields = ("username", "email")
 
 
-# Антон что это ?
 class UserForm(forms.Form):
     phone = PhoneNumberField()
