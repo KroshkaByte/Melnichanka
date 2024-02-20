@@ -27,7 +27,7 @@ class Goods(models.Model):
         verbose_name = "Упаковка"
         verbose_name_plural = "Упаковка"
         ordering = ["flour_name", "brand"]
-        unique_together = [("flour_name", "brand", "package", "price")]
+        unique_together = [("flour_name", "brand", "package")]
 
     def __str__(self):
         return f"{self.flour_name}, т/м {self.brand}, {self.package} кг"

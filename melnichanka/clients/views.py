@@ -45,7 +45,7 @@ def clients_edit_view(request, pk):
             form.save()
             return redirect("clients_home")
         except Exception as e:
-            form.add_error(None, f"Не удаллось сохранить, произошла ошибка: {str(e)}")
+            form.add_error(None, f"Не удалось сохранить, произошла ошибка: {str(e)}")
 
     context = {"form": form, "title": "Редактирование записи"}
     return render(request, "clients/clnt_edit.html", context)
