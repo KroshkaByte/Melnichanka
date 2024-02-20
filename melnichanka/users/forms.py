@@ -33,6 +33,5 @@ class CustomUserChangeForm(UserChangeForm):
         fields = ("username", "email")
 
 
-# Антон что это ?
 class UserForm(forms.Form):
     phone = PhoneNumberField()

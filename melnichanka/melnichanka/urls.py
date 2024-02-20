@@ -20,12 +20,12 @@ from django.urls import include, path
 from django.views.generic.base import TemplateView
 from rest_framework.authtoken.views import obtain_auth_token
 
-from clients.views import ClientAPIView
+from clients.views import ClientsAPIList
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("api/v1/clientslist", ClientAPIView.as_view()),
-    path("api/v1/clientslist/<int:pk>", ClientAPIView.as_view()),
+    path("api/v1/clientslist", ClientsAPIList.as_view()),
+    path("api/v1/clientslist/<int:pk>", ClientsAPIList.as_view()),
     path("", TemplateView.as_view(template_name="home.html"), name="home"),
     path("", include("users.urls")),
     # path("api-token-auth/", obtain_auth_token, name="api_token_auth"),

@@ -11,6 +11,11 @@ from .serializers import ClientSerializer
 from .models import Clients
 
 
+class ClientsAPIList(generics.ListCreateAPIView):
+    queryset = Clients.objects.all()
+    serializer_class = ClientSerializer
+
+
 class ClientAPIView(APIView):
     def get(self, request):
         clients = Clients.objects.all()
