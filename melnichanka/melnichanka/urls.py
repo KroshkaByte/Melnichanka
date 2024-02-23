@@ -17,27 +17,12 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import include, path
-from django.views.generic.base import TemplateView
-from rest_framework.authtoken.views import obtain_auth_token
-
-from clients.views import ClientsAPIView, ClientsAPIUpdateView, ClientsAPIDetailView
-from users.views import UserAPIView, UsersAPIUpdateView, UsersAPIDetailView
 
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("api/v1/clientslist", ClientsAPIView.as_view()),
-    path("api/v1/clientslist/<int:pk>", ClientsAPIUpdateView.as_view()),
-    path("api/v1/clientsdetail/<int:pk>", ClientsAPIDetailView.as_view()),
-    path("api/v1/userslist", UserAPIView.as_view()),
-    path("api/v1/userslist/<int:pk>", UsersAPIUpdateView.as_view()),
-    path("api/v1/usersdetail/<int:pk>", UsersAPIDetailView.as_view()),
-    path("", TemplateView.as_view(template_name="home.html"), name="home"),
     path("", include("users.urls")),
-    # path("api-token-auth/", obtain_auth_token, name="api_token_auth"),
-    path("account/", include("users.urls")),
-    path("account/", include("django.contrib.auth.urls")),
+    path("", include("clients.urls")),
     path("logistics/", include("logistics.urls")),
-    path("clients/", include("clients.urls")),
     path("__debug__/", include("debug_toolbar.urls")),
 ]

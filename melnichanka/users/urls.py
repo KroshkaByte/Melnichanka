@@ -1,23 +1,21 @@
-from django.urls import path
-from rest_framework.urlpatterns import format_suffix_patterns
+from rest_framework import routers
+from django.urls import path, include
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+    TokenVerifyView,
+)
 
-from . import views
+from .views import UserViewSet
+
+
+router = routers.DefaultRouter()
+router.register(r"users", UserViewSet, basename="user")
+
 
 urlpatterns = [
-    path("", views.home_view, name="home"),
-    path("signup/", views.SignUpView.as_view(), name="signup"),
-    # path(
-    #     "api/signup/",
-    #     views.MyUserListCreateViewSet.as_view({"get": "list", "post": "create"}),
-    # ),
-    # path(
-    #     "api/signup/<int:pk>/",
-    #     views.MyUserRetrieveUpdateDestroyViewSet.as_view(
-    #         {"get": "retrieve", "put": "update", "delete": "destroy"}
-    #     ),
-    #     name="user-detail",
-    # ),
+    path("api/", include(router.urls)),
+    path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    path("api/token/verify/", TokenVerifyView.as_view(), name="token_verify"),
 ]
-
-
-# urlpatterns = format_suffix_patterns(urlpatterns)
