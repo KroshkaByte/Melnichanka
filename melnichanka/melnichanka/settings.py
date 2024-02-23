@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     "logistics.apps.LogisticsConfig",
     "users.apps.UsersConfig",
     "clients.apps.ClientsConfig",
-    "debug_toolbar",
+    "makedoc.apps.MakedocConfig" "debug_toolbar",
     "rest_framework",
     "rest_framework_simplejwt",
     "corsheaders",
