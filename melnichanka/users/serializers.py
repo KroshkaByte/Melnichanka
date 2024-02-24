@@ -1,5 +1,5 @@
-from rest_framework import serializers
-from .models import CustomUser
+from rest_framework import serializers, generics
+from .models import CustomUser, Department, Position
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
@@ -44,3 +44,15 @@ class CustomUserSerializer(serializers.ModelSerializer):
         user.set_password(validated_data["password"])
         user.save()
         return user
+
+
+class DepartmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Department
+        fields = ["id", "department"]
+
+
+class PositionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Position
+        fields = ["id", "position"]

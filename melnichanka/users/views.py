@@ -5,8 +5,8 @@ from django_rest_passwordreset.signals import reset_password_token_created
 from rest_framework import viewsets, permissions, exceptions, generics
 
 from melnichanka.settings import EMAIL_HOST_USER
-from .models import CustomUser
-from .serializers import CustomUserSerializer
+from .models import CustomUser, Department, Position
+from .serializers import CustomUserSerializer, DepartmentSerializer, PositionSerializer
 
 
 # Действия с пользователем
@@ -37,7 +37,7 @@ def password_reset_token_created(
 ):
     email_plaintext_message = (
         "Для сброса пароля перейдите по ссылке: {}?token={}".format(
-            reverse("password_reset:reset-password-request"), reset_password_token.key
+            reverse("password_reset:reset-password-confirm"), reset_password_token.key
         )
     )
 
@@ -51,3 +51,15 @@ def password_reset_token_created(
         # to:
         [reset_password_token.user.email],
     )
+
+
+# Передача списка департаментов для фронтенда
+class DepartmentListView(generics.ListAPIView):
+    queryset = Department.objects.all()
+    serializer_class = DepartmentSerializer
+
+
+# Передача списка позиций для фронтенда
+class PositionListView(generics.ListAPIView):
+    queryset = Position.objects.all()
+    serializer_class = PositionSerializer

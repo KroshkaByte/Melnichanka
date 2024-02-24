@@ -6,7 +6,7 @@ from rest_framework_simplejwt.views import (
     TokenVerifyView,
 )
 
-from .views import UserViewSet, RegisterView
+from .views import PositionListView, UserViewSet, RegisterView, DepartmentListView
 
 
 router = routers.DefaultRouter()
@@ -15,6 +15,8 @@ router.register(r"users", UserViewSet, basename="user")
 
 urlpatterns = [
     path("api/", include(router.urls)),
+    path("api/departments/", DepartmentListView.as_view(), name="departments"),
+    path("api/positions/", PositionListView.as_view(), name="positions"),
     path("api/register", RegisterView.as_view(), name="register"),
     path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
