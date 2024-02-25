@@ -1,8 +1,9 @@
 from django.dispatch import receiver
+
 from django.urls import reverse
 from django.core.mail import send_mail
 from django_rest_passwordreset.signals import reset_password_token_created
-from rest_framework import viewsets, permissions, exceptions, generics
+from rest_framework import permissions, exceptions, generics
 
 from melnichanka.settings import EMAIL_HOST_USER
 from .models import CustomUser, Department, Position
@@ -10,7 +11,7 @@ from .serializers import CustomUserSerializer, DepartmentSerializer, PositionSer
 
 
 # Действия с пользователем
-class UserViewSet(viewsets.ModelViewSet):
+class UserUpdateView(generics.RetrieveUpdateAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -25,7 +26,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 # Класс регистрации пользователя
-class RegisterView(generics.CreateAPIView):
+class UserCreateView(generics.CreateAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
 
