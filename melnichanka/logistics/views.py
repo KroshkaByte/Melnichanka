@@ -1,4 +1,11 @@
+from django.forms import model_to_dict
 from django.shortcuts import redirect, render
+from django.views.generic import TemplateView
+from rest_framework import generics
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from logistics.serializers import LogisticsAutoSerializer
 
 from .forms import (AutoAddForm, AutoAddRequisitesForm, AutoDeleteForm,
                     AutoDeleteRequisitesForm, AutoEditForm,
@@ -115,20 +122,8 @@ def auto_add_requisites_view(request):
     if request.method == "POST":
         form = AutoAddRequisitesForm(request.POST)
         if form.is_valid():
-            form_city = form.cleaned_data["city"].capitalize()
-            form_region = form.cleaned_data["region"].capitalize()
-            form_fed_district = form.cleaned_data["federal_district"].capitalize()
             try:
-                LogisticsCity.objects.get(
-                    city=form_city,
-                )
-                return redirect("auto_home")
-            except LogisticsCity.DoesNotExist:
-                LogisticsCity.objects.create(
-                    city=form_city,
-                    region=form_region,
-                    federal_district=form_fed_district,
-                )
+                form.save()
                 return redirect("auto_home")
             except LogisticsCity.MultipleObjectsReturned:
                 form.add_error(None, "Больше одного значения найдено")
@@ -167,29 +162,46 @@ def auto_edit_requisites_view(request):
     return render(request, "logistics/auto_edit.html", context)
 
 
-def auto_delete_requisites_view(request):
-    if request.method == "POST":
-        form = AutoDeleteRequisitesForm(request.POST)
-        if form.is_valid():
-            try:
-                del_city = LogisticsCity.objects.get(id=form.cleaned_data["city"])
-                del_city.delete()
-                return redirect("auto_home")
-            except LogisticsCity.DoesNotExist:
-                form.add_error(None, "Ошибка удаления насленного пункта (не найдено)")
-            except LogisticsCity.MultipleObjectsReturned:
-                form.add_error(
-                    None, "Ошибка удаления насленного пункта (найдено больше 1)"
-                )
+# def auto_delete_requisites_view(request):
+#     if request.method == "POST":
+#         form = AutoDeleteRequisitesForm(request.POST)
+#         if form.is_valid():
+#             try:
+#                 del_city = LogisticsCity.objects.get(id=form.cleaned_data["city"])
+#                 del_city.delete()
+#                 return redirect("auto_home")
+#             except LogisticsCity.DoesNotExist:
+#                 form.add_error(None, "Ошибка удаления насленного пункта (не найдено)")
+#             except LogisticsCity.MultipleObjectsReturned:
+#                 form.add_error(
+#                     None, "Ошибка удаления насленного пункта (найдено больше 1)"
+#                 )
 
-    else:
-        form = AutoDeleteRequisitesForm()
+#     else:
+#         form = AutoDeleteRequisitesForm()
 
-    context = {
-        "form": form,
+#     context = {
+#         "form": form,
+#         "title": "Удаление населенного пункта",
+#     }
+#     return render(request, "logistics/auto_edit.html", context)
+
+class AutoDeleteRequisitesView(TemplateView):
+    template_name = "logistics/auto_edit.html"
+    extra_context = {
+        "form": AutoDeleteRequisitesForm,
         "title": "Удаление населенного пункта",
+        "city": LogisticsCity.objects.all()
+
     }
-    return render(request, "logistics/auto_edit.html", context)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["form"] = AutoDeleteRequisitesForm
+        context["title"]= "Удаление населенного пункта"
+        context["city"]= LogisticsCity.objects.all()
+
+        return context
 
 
 # Таблица ж/д перевозок
@@ -374,3 +386,22 @@ def rw_edit_requisites_view(request):
         "title": "Изменение реквизитов ж/д перевозки",
     }
     return render(request, "logistics/rw_edit.html", context)
+
+
+# class LogisticsAutoAPIView(generics.ListAPIView):
+    # queryset = LogisticsAuto.objects.all()
+    # serializer_class = LogisticsAutoSerializer
+
+class LogisticsAutoAPIView(APIView):
+    def get(self, request):
+        lst = LogisticsCity.objects.all().values()
+        return Response({"city": list(lst)})
+
+
+    def post(self, request):
+        city_new = LogisticsCity.objects.create(
+            city = request.data["city"],
+            region = request.data["region"],
+            federal_district = request.data["federal_district"],
+        )
+        return Response({"post": model_to_dict(city_new)})

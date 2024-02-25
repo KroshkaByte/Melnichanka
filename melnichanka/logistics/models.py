@@ -25,6 +25,7 @@ class LogisticsCity(models.Model):
         verbose_name = "Населенный пункт"
         verbose_name_plural = "Населенные пункты"
         ordering = ["city"]
+        unique_together = ["city", "region", "federal_district"]
 
     def __str__(self):
         return f"{self.city}, {self.region}"
@@ -35,13 +36,13 @@ class LogisticsAuto(models.Model):
     departure_city = models.ForeignKey(
         "LogisticsCity",
         db_column="departure_city",
-        on_delete=models.DO_NOTHING,
+        on_delete=models.PROTECT,
         related_name="departure_city",
     )
     destination_city = models.ForeignKey(
         "LogisticsCity",
         db_column="destination_city",
-        on_delete=models.DO_NOTHING,
+        on_delete=models.PROTECT,
         related_name="destination_city",
     )
     cost_per_tonn_auto = models.PositiveIntegerField(
@@ -77,6 +78,8 @@ class RailwayStations(models.Model):
         verbose_name = "Ж/д станция"
         verbose_name_plural = "Ж/д станции"
         ordering = ["station_name"]
+        unique_together = ["station_name", "station_id"]
+
 
     def __str__(self):
         return self.station_name
@@ -87,21 +90,21 @@ class LogisticsRailwayStations(models.Model):
     departure_station_name = models.ForeignKey(
         "RailwayStations",
         db_column="departure_station_name",
-        on_delete=models.DO_NOTHING,
+        on_delete=models.PROTECT,
         related_name="departure_station_name",
     )
 
     destination_station_name = models.ForeignKey(
         "RailwayStations",
         db_column="destination_station_name",
-        on_delete=models.DO_NOTHING,
+        on_delete=models.PROTECT,
         related_name="destination_station_name",
     )
 
     destination_station_name = models.ForeignKey(
         "RailwayStations",
         db_column="destination_station_name",
-        on_delete=models.DO_NOTHING,
+        on_delete=models.PROTECT,
         related_name="destination_station_name",
     )
     cost_per_tonn_rw = models.PositiveIntegerField()

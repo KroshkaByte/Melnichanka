@@ -19,6 +19,8 @@ from django.contrib import admin
 from django.urls import include, path
 
 
+from logistics.views import LogisticsAutoAPIView
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("users.urls")),
@@ -27,4 +29,5 @@ urlpatterns = [
     path("clients/", include("clients.urls")),
     path("goods/", include("goods.urls")),
     path("__debug__/", include("debug_toolbar.urls")),
+    path("api/v1/logautolist/", LogisticsAutoAPIView.as_view()),
 ]
