@@ -34,7 +34,7 @@ class Clients(models.Model):
     )
 
     class Meta:
-        verbose_name = "Клиенты"
+        verbose_name = "Клиент"
         verbose_name_plural = "Клиенты"
 
     def __str__(self):
