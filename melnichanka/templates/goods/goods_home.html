@@ -1,0 +1,37 @@
+su{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+
+{% include 'goods/navbars/goods_navbar.html' %}
+
+<table align="center", border="1">
+  <thead>
+        <tr>
+          <th>Сорт муки</th>
+          <th>Брэнд</th>
+          <th>Тара, кг</th>
+          <th>Кол-во в упаковке, шт.</th>
+          <th>Изготовитель</th>
+          <th>Вес на паллете, кг</th>
+          <th>Цена, руб./тн</th>
+          <th>Удалить товар</th>
+        </tr>
+    </thead>
+    {% for entry in goods_table %}
+    <tr>
+       <td><a class="table-client-edit" href='{% url 'goods_edit' entry.id %}'>{{entry.flour_name}}</a></td>
+       <td>{{ entry.brand }}</td>
+       <td>{{ entry.package }}</td>
+       <td>{{ entry.group_quantity }}</td>
+       <td>{{ entry.factory }}</td>
+       <td>{{ entry.pallet_weight }}</td>
+       <td>{{ entry.price }}</td>
+       <td><a href='{% url 'goods_delete' entry.id %}'>&#128465</td>
+
+    </tr>
+    {% endfor %}
+
+
+{% endblock %}

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Factory, LogisticsAuto, LogisticsRailwayStations
+from .models import LogisticsAuto, LogisticsRailwayStations
 
 
 @admin.register(LogisticsAuto)
@@ -29,13 +29,13 @@ class RwAdmin(admin.ModelAdmin):
     list_filter = ["departure_station_name", "destination_station_name"]
 
 
-@admin.register(Factory)
-class FactoryAdmin(admin.ModelAdmin):
-    list_display = [
-        "full_name",
-        "short_name",
-        "full_address",
-        "departure_city",
-        "departure_station_branch",
-        "departure_station_id",
-    ]
+# @admin.register(Factory)
+# class FactoryAdmin(admin.ModelAdmin):
+#     list_display = [
+#         "full_name",
+#         "short_name",
+#         "full_address",
+#         "departure_city",
+#         "departure_station_branch",
+#         "departure_station_id",
+#     ]

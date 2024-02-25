@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "logistics.apps.LogisticsConfig",
     "users.apps.UsersConfig",
     "clients.apps.ClientsConfig",
+    "goods.apps.GoodsConfig",
     "makedoc.apps.MakedocConfig",
     "debug_toolbar",
     "rest_framework",

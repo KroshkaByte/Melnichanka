@@ -1,33 +1,6 @@
 from django.db import models
 
-from .constants import (BRANCHES, FACTORY_ADRESS, FACTORY_BRANCH,
-                        FACTORY_BRANCH_ID, FACTORY_CITY, FACTORY_NAME_FULL,
-                        FACTORY_NAME_SHORT, FACTORY_STATION, FED_DISCTRICT)
-
-
-# Данные по заводам
-class Factory(models.Model):
-    full_name = models.CharField(
-        max_length=100,
-        blank=False,
-        choices=FACTORY_NAME_FULL,
-    )
-    short_name = models.CharField(
-        max_length=50, blank=False, choices=FACTORY_NAME_SHORT
-    )
-    full_address = models.CharField(max_length=255, blank=False, choices=FACTORY_ADRESS)
-    departure_city = models.CharField(max_length=50, blank=False, choices=FACTORY_CITY)
-    departure_station_branch = models.CharField(
-        max_length=9, blank=False, choices=FACTORY_BRANCH
-    )
-    departure_station_id = models.CharField(
-        max_length=9, blank=False, choices=FACTORY_BRANCH_ID
-    )
-
-    class Meta:
-        verbose_name = "Комбинат"
-        verbose_name_plural = "Комбинаты"
-        ordering = ["full_name"]
+from .constants import BRANCHES, FACTORY_STATION, FED_DISCTRICT
 
 
 class LogisticsCity(models.Model):
