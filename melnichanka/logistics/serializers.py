@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from .models import LogisticsAuto
 
+
 class LogisticsAutoSerializer(serializers.ModelSerializer):
     class Meta:
         model = LogisticsAuto
@@ -13,6 +14,7 @@ class LogisticsModel:
         self.city = city
         self.region = region
         self.federal_district = federal_district
+
 
 class LogisticsSerializer(serializers.Serializer):
     class Meta:

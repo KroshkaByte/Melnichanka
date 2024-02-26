@@ -1,8 +1,7 @@
 from django import forms
 
-from .models import LogisticsCity
-
 from .constants import BRANCHES, FED_DISCTRICT
+from .models import LogisticsCity
 from .services import get_auto_trips, get_cities, get_rw_stations, get_rw_trips
 
 
@@ -10,7 +9,6 @@ class AutoAddRequisitesForm(forms.ModelForm):
     class Meta:
         model = LogisticsCity
         fields = "__all__"
-
 
 
 # Форма удаления населенного пункта
@@ -24,7 +22,8 @@ class AutoDeleteRequisitesForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['city'].queryset = LogisticsCity.objects.all()
+        self.fields["city"].queryset = LogisticsCity.objects.all()
+
 
 # Форма редактирования населенного пункта
 class AutoEditRequisitesForm(forms.Form):

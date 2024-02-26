@@ -11,8 +11,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 import os
-from pathlib import Path
 from datetime import timedelta
+from pathlib import Path
 
 from dotenv import load_dotenv
 
@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "users.apps.UsersConfig",
     "clients.apps.ClientsConfig",
     "makedoc.apps.MakedocConfig",
+    "goods.apps.GoodsConfig",
     "debug_toolbar",
     "rest_framework",
     "rest_framework_simplejwt",

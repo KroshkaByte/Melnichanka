@@ -18,12 +18,19 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
-
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", include("users.urls")),
-    path("", include("clients.urls")),
-    path("logistics/", include("logistics.urls")),
-    path("__debug__/", include("debug_toolbar.urls")),
-    path("api/v1/logautolist/", LogisticsAutoAPIView.as_view()),
+    path(
+        "api/v1/",
+        include(
+            [
+                path("auth/", include("rest_framework.urls")),
+                path("users/", include("users.urls")),
+                path("", include("clients.urls")),
+                path("", include("logistics.urls")),
+                path("", include("goods.urls")),
+            ]
+        ),
+    ),
+    path("debug/", include("debug_toolbar.urls")),
 ]

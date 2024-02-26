@@ -27,8 +27,8 @@ class Goods(models.Model):
     )
 
     class Meta:
-        verbose_name = "Упаковка"
-        verbose_name_plural = "Упаковка"
+        verbose_name = "Товар"
+        verbose_name_plural = "Товары"
         ordering = ["flour_name", "brand"]
         unique_together = [("flour_name", "brand", "package", "factory")]
 
