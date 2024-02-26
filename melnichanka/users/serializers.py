@@ -50,9 +50,6 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
 # Сериализатор для редактирования существующей записи + изменения пароля
 class UserUpdateSerializer(serializers.ModelSerializer):
-    old_password = serializers.CharField(write_only=True, required=True)
-    new_password = serializers.CharField(write_only=True, required=True)
-    new_password_confirm = serializers.CharField(write_only=True, required=True)
 
     class Meta:
         model = CustomUser
@@ -64,6 +61,17 @@ class UserUpdateSerializer(serializers.ModelSerializer):
             "department",
             "phone_number_work",
             "phone_number_personal",
+        ]
+
+
+class UserUpdatePasswordSerializer(serializers.ModelSerializer):
+    old_password = serializers.CharField(write_only=True, required=True)
+    new_password = serializers.CharField(write_only=True, required=True)
+    new_password_confirm = serializers.CharField(write_only=True, required=True)
+
+    class Meta:
+        model = CustomUser
+        fields = [
             "old_password",
             "new_password",
             "new_password_confirm",

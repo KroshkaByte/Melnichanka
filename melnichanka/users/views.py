@@ -12,22 +12,26 @@ from .serializers import (
     DepartmentSerializer,
     PositionSerializer,
     UserUpdateSerializer,
+    UserUpdatePasswordSerializer,
 )
 
 
 # Действия с пользователем
 class UserUpdateView(generics.RetrieveUpdateAPIView):
-    queryset = CustomUser.objects.all()
     serializer_class = UserUpdateSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get_object(self):
-        obj = super().get_object()
-        if self.request.user != obj:
-            raise exceptions.PermissionDenied(
-                "Вы не можете редактировать данные другого пользователя"
-            )
-        return obj
+        return self.request.user
+
+
+# Действия с пользователем
+class UserUpdatePasswordView(generics.RetrieveUpdateAPIView):
+    serializer_class = UserUpdatePasswordSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user
 
 
 # Класс регистрации пользователя
