@@ -80,7 +80,6 @@ class RailwayStations(models.Model):
         ordering = ["station_name"]
         unique_together = ["station_name", "station_id"]
 
-
     def __str__(self):
         return self.station_name
 

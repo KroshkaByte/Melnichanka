@@ -18,9 +18,6 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
-
-from logistics.views import LogisticsAutoAPIView
-
 urlpatterns = [
     path("admin/", admin.site.urls),
     path(
@@ -30,11 +27,10 @@ urlpatterns = [
                 path("auth/", include("rest_framework.urls")),
                 path("users/", include("users.urls")),
                 path("", include("clients.urls")),
-                path("logautolist/", LogisticsAutoAPIView.as_view()),
+                path("", include("logistics.urls")),
+                path("", include("goods.urls")),
             ]
         ),
     ),
-    path("logistics/", include("logistics.urls")),
-    path("goods/", include("goods.urls")),
     path("__debug__/", include("debug_toolbar.urls")),
 ]

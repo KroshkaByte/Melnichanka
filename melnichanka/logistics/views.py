@@ -1,11 +1,8 @@
 from django.forms import model_to_dict
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView
-from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
-from logistics.serializers import LogisticsAutoSerializer
 
 from .forms import (AutoAddForm, AutoAddRequisitesForm, AutoDeleteForm,
                     AutoDeleteRequisitesForm, AutoEditForm,
@@ -186,20 +183,20 @@ def auto_edit_requisites_view(request):
 #     }
 #     return render(request, "logistics/auto_edit.html", context)
 
+
 class AutoDeleteRequisitesView(TemplateView):
     template_name = "logistics/auto_edit.html"
     extra_context = {
         "form": AutoDeleteRequisitesForm,
         "title": "Удаление населенного пункта",
-        "city": LogisticsCity.objects.all()
-
+        "city": LogisticsCity.objects.all(),
     }
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["form"] = AutoDeleteRequisitesForm
-        context["title"]= "Удаление населенного пункта"
-        context["city"]= LogisticsCity.objects.all()
+        context["title"] = "Удаление населенного пункта"
+        context["city"] = LogisticsCity.objects.all()
 
         return context
 
@@ -389,19 +386,19 @@ def rw_edit_requisites_view(request):
 
 
 # class LogisticsAutoAPIView(generics.ListAPIView):
-    # queryset = LogisticsAuto.objects.all()
-    # serializer_class = LogisticsAutoSerializer
+# queryset = LogisticsAuto.objects.all()
+# serializer_class = LogisticsAutoSerializer
+
 
 class LogisticsAutoAPIView(APIView):
     def get(self, request):
         lst = LogisticsCity.objects.all().values()
         return Response({"city": list(lst)})
 
-
     def post(self, request):
         city_new = LogisticsCity.objects.create(
-            city = request.data["city"],
-            region = request.data["region"],
-            federal_district = request.data["federal_district"],
+            city=request.data["city"],
+            region=request.data["region"],
+            federal_district=request.data["federal_district"],
         )
         return Response({"post": model_to_dict(city_new)})

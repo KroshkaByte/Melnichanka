@@ -2,10 +2,11 @@ from django.dispatch import receiver
 from django.urls import reverse
 from django.core.mail import send_mail
 from django_rest_passwordreset.signals import reset_password_token_created
-from rest_framework import permissions, exceptions, generics
+from rest_framework import generics, permissions
 
 
 from melnichanka.settings import EMAIL_HOST_USER
+
 from .models import CustomUser, Department, Position
 from .serializers import (
     CustomUserSerializer,
