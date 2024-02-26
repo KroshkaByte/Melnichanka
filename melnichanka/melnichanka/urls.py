@@ -23,10 +23,10 @@ from logistics.views import LogisticsAutoAPIView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", include("users.urls")),
-    path("", include("clients.urls")),
+    path("api/auth/", include("rest_framework.urls")),
+    path("api/users/", include("users.urls")),
+    path("api/", include("clients.urls")),
     path("logistics/", include("logistics.urls")),
-    path("clients/", include("clients.urls")),
     path("goods/", include("goods.urls")),
     path("__debug__/", include("debug_toolbar.urls")),
     path("api/v1/logautolist/", LogisticsAutoAPIView.as_view()),
