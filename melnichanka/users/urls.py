@@ -1,12 +1,7 @@
-from django.urls import path, include
-from .views import (
-    PositionListView,
-    UserUpdateView,
-    UserCreateView,
-    DepartmentListView,
-    UserUpdatePasswordView,
-)
+from django.urls import include, path
 
+from .views import (DepartmentListView, PositionListView, UserCreateView,
+                    UserUpdatePasswordView, UserUpdateView)
 
 urlpatterns = [
     path("edit/", UserUpdateView.as_view(), name="edit"),

@@ -1,5 +1,6 @@
-from rest_framework import serializers
 from django.contrib.auth.hashers import check_password
+from rest_framework import serializers
+
 from .models import CustomUser, Department, Position
 
 
@@ -50,7 +51,6 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
 # Сериализатор для редактирования существующей записи + изменения пароля
 class UserUpdateSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = CustomUser
         fields = [
