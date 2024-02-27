@@ -1,29 +1,38 @@
-from django.core.mail import send_mail
 from django.dispatch import receiver
 from django.urls import reverse
+from django.core.mail import send_mail
 from django_rest_passwordreset.signals import reset_password_token_created
-from rest_framework import exceptions, generics, permissions
+from rest_framework import generics, permissions
+
 
 from melnichanka.settings import EMAIL_HOST_USER
 
 from .models import CustomUser, Department, Position
-from .serializers import (CustomUserSerializer, DepartmentSerializer,
-                          PositionSerializer)
+from .serializers import (
+    CustomUserSerializer,
+    DepartmentSerializer,
+    PositionSerializer,
+    UserUpdateSerializer,
+    UserUpdatePasswordSerializer,
+)
 
 
 # Действия с пользователем
 class UserUpdateView(generics.RetrieveUpdateAPIView):
-    queryset = CustomUser.objects.all()
-    serializer_class = CustomUserSerializer
+    serializer_class = UserUpdateSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get_object(self):
-        obj = super().get_object()
-        if self.request.user != obj:
-            raise exceptions.PermissionDenied(
-                "Вы не можете редактировать данные другого пользователя"
-            )
-        return obj
+        return self.request.user
+
+
+# Действия с пользователем
+class UserUpdatePasswordView(generics.RetrieveUpdateAPIView):
+    serializer_class = UserUpdatePasswordSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user
 
 
 # Класс регистрации пользователя
@@ -37,10 +46,8 @@ class UserCreateView(generics.CreateAPIView):
 def password_reset_token_created(
     sender, instance, reset_password_token, *args, **kwargs
 ):
-    email_plaintext_message = (
-        "Для сброса пароля перейдите по ссылке: {}?token={}".format(
-            reverse("password_reset:reset-password-confirm"), reset_password_token.key
-        )
+    email_plaintext_message = "Для сброса пароля перейдите по ссылке: http://127.0.0.1:8000{}?token={}".format(
+        reverse("password_reset:reset-password-confirm"), reset_password_token.key
     )
 
     send_mail(
