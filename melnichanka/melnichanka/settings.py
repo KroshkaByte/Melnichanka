@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "django_rest_passwordreset",
     "django_extensions",
+    "pytest",
 ]
 
 MIDDLEWARE = [

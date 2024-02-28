@@ -1,9 +1,9 @@
 from django.db import models
 
-from .constants import BRANCHES, FACTORY_STATION, FED_DISCTRICT
+from .constants import BRANCHES, FED_DISCTRICT
 
 
-class LogisticsCity(models.Model):
+class City(models.Model):
     city = models.CharField(
         max_length=100,
         blank=False,
@@ -32,15 +32,15 @@ class LogisticsCity(models.Model):
 
 
 # Данные по логистике авто
-class LogisticsAuto(models.Model):
+class TripsAuto(models.Model):
     departure_city = models.ForeignKey(
-        "LogisticsCity",
+        "City",
         db_column="departure_city",
         on_delete=models.PROTECT,
         related_name="departure_city",
     )
     destination_city = models.ForeignKey(
-        "LogisticsCity",
+        "City",
         db_column="destination_city",
         on_delete=models.PROTECT,
         related_name="destination_city",
@@ -50,8 +50,8 @@ class LogisticsAuto(models.Model):
     )
 
     class Meta:
-        verbose_name = "Логистика авто"
-        verbose_name_plural = "Логистика авто"
+        verbose_name = "Перевозки авто"
+        verbose_name_plural = "Перевозки авто"
         ordering = ["departure_city", "destination_city"]
         unique_together = ["departure_city", "destination_city"]
 
@@ -63,7 +63,6 @@ class LogisticsAuto(models.Model):
 class RailwayStations(models.Model):
     station_name = models.CharField(
         max_length=100,
-        choices=FACTORY_STATION,
         blank=False,
         verbose_name="Станция",
     )
@@ -81,11 +80,11 @@ class RailwayStations(models.Model):
         unique_together = ["station_name", "station_id"]
 
     def __str__(self):
-        return self.station_name
+        return f"{self.station_name}, {self.station_branch}"
 
 
 # Данные по логистике жд
-class LogisticsRailwayStations(models.Model):
+class TripsRailway(models.Model):
     departure_station_name = models.ForeignKey(
         "RailwayStations",
         db_column="departure_station_name",
@@ -109,8 +108,8 @@ class LogisticsRailwayStations(models.Model):
     cost_per_tonn_rw = models.PositiveIntegerField()
 
     class Meta:
-        verbose_name = "Логистика ж/д"
-        verbose_name_plural = "Логистика ж/д"
+        verbose_name = "Перевозки ж/д"
+        verbose_name_plural = "Перевозки ж/д"
         ordering = ["departure_station_name", "destination_station_name"]
         unique_together = ["departure_station_name", "destination_station_name"]
 

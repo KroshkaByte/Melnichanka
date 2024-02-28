@@ -1,22 +1,27 @@
 from rest_framework import serializers
 
-from .models import LogisticsAuto
+from .models import City, RailwayStations, TripsAuto, TripsRailway
 
 
-class LogisticsAutoSerializer(serializers.ModelSerializer):
+class CitySerializer(serializers.ModelSerializer):
     class Meta:
-        model = LogisticsAuto
+        model = City
         fields = "__all__"
 
 
-class LogisticsModel:
-    def __init__(self, city, region, federal_district):
-        self.city = city
-        self.region = region
-        self.federal_district = federal_district
-
-
-class LogisticsSerializer(serializers.Serializer):
+class TripsAutoSerializer(serializers.ModelSerializer):
     class Meta:
-        model = LogisticsAuto
-        fields = ("city", "region", "federal_disctrict")
+        model = TripsAuto
+        fields = "__all__"
+
+
+class RailwayStationsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RailwayStations
+        fields = "__all__"
+
+
+class TripsRailwaySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TripsRailway
+        fields = "__all__"

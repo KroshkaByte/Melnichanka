@@ -1,9 +1,9 @@
 from django.contrib import admin
 
-from .models import LogisticsAuto, LogisticsRailwayStations
+from .models import TripsAuto, TripsRailway
 
 
-@admin.register(LogisticsAuto)
+@admin.register(TripsAuto)
 class AutoAdmin(admin.ModelAdmin):
     list_display = ["departure_city", "destination_city", "cost_per_tonn_auto"]
     list_display_links = ["destination_city"]
@@ -14,7 +14,7 @@ class AutoAdmin(admin.ModelAdmin):
     list_filter = ["departure_city", "destination_city"]
 
 
-@admin.register(LogisticsRailwayStations)
+@admin.register(TripsRailway)
 class RwAdmin(admin.ModelAdmin):
     list_display = [
         "departure_station_name",
@@ -27,15 +27,3 @@ class RwAdmin(admin.ModelAdmin):
     list_per_page = 20
     search_fields = ["departure_station_name", "destination_station_name"]
     list_filter = ["departure_station_name", "destination_station_name"]
-
-
-# @admin.register(Factory)
-# class FactoryAdmin(admin.ModelAdmin):
-#     list_display = [
-#         "full_name",
-#         "short_name",
-#         "full_address",
-#         "departure_city",
-#         "departure_station_branch",
-#         "departure_station_id",
-#     ]

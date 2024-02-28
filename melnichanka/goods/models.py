@@ -4,13 +4,13 @@ from logistics.constants import BRANCHES
 
 class Goods(models.Model):
     flour_name = models.ForeignKey(
-        "Flour", on_delete=models.PROTECT, related_name="goods_flour"
+        "Flour", on_delete=models.PROTECT, related_name="flour_goods", db_index=True
     )
     brand = models.ForeignKey(
-        "Brand", on_delete=models.PROTECT, related_name="goods_brand"
+        "Brand", on_delete=models.PROTECT, related_name="brand_goods", db_index=True
     )
     package = models.ForeignKey(
-        "Package", on_delete=models.PROTECT, related_name="goods_package"
+        "Package", on_delete=models.PROTECT, related_name="package_goods"
     )
     price = models.DecimalField(
         max_digits=10, decimal_places=2, verbose_name="Цена, руб./тн"
