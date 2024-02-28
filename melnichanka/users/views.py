@@ -1,25 +1,21 @@
 import json
 
 from django.contrib.auth import authenticate, login, logout
-from django.http import JsonResponse
-from django.views.decorators.csrf import ensure_csrf_cookie
-from django.views.decorators.http import require_POST
 from django.core.mail import send_mail
 from django.dispatch import receiver
+from django.http import JsonResponse
 from django.urls import reverse
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.http import require_POST
 from django_rest_passwordreset.signals import reset_password_token_created
 from rest_framework import generics, permissions
 
 from melnichanka.settings import EMAIL_HOST_USER
 
 from .models import CustomUser, Department, Position
-from .serializers import (
-    CustomUserSerializer,
-    DepartmentSerializer,
-    PositionSerializer,
-    UserUpdatePasswordSerializer,
-    UserUpdateSerializer,
-)
+from .serializers import (CustomUserSerializer, DepartmentSerializer,
+                          PositionSerializer, UserUpdatePasswordSerializer,
+                          UserUpdateSerializer)
 
 
 # Аутентификация пользователя

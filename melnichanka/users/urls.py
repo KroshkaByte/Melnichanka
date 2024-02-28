@@ -1,16 +1,8 @@
 from django.urls import include, path
 
-from .views import (
-    DepartmentListView,
-    PositionListView,
-    UserCreateView,
-    UserUpdatePasswordView,
-    UserUpdateView,
-    login_view,
-    logout_view,
-    session_view,
-    whoami_view,
-)
+from .views import (DepartmentListView, PositionListView, UserCreateView,
+                    UserUpdatePasswordView, UserUpdateView, login_view,
+                    logout_view, session_view, whoami_view)
 
 urlpatterns = [
     path("login/", login_view, name="login"),

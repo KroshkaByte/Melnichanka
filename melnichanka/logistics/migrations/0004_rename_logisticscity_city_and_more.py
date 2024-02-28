@@ -4,35 +4,42 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('logistics', '0003_alter_logisticsauto_departure_city_and_more'),
+        ("logistics", "0003_alter_logisticsauto_departure_city_and_more"),
     ]
 
     operations = [
         migrations.RenameModel(
-            old_name='LogisticsCity',
-            new_name='City',
+            old_name="LogisticsCity",
+            new_name="City",
         ),
         migrations.RenameModel(
-            old_name='LogisticsAuto',
-            new_name='TripsAuto',
+            old_name="LogisticsAuto",
+            new_name="TripsAuto",
         ),
         migrations.RenameModel(
-            old_name='LogisticsRailwayStations',
-            new_name='TripsRailway',
+            old_name="LogisticsRailwayStations",
+            new_name="TripsRailway",
         ),
         migrations.AlterModelOptions(
-            name='tripsauto',
-            options={'ordering': ['departure_city', 'destination_city'], 'verbose_name': 'Перевозки авто', 'verbose_name_plural': 'Перевозки авто'},
+            name="tripsauto",
+            options={
+                "ordering": ["departure_city", "destination_city"],
+                "verbose_name": "Перевозки авто",
+                "verbose_name_plural": "Перевозки авто",
+            },
         ),
         migrations.AlterModelOptions(
-            name='tripsrailway',
-            options={'ordering': ['departure_station_name', 'destination_station_name'], 'verbose_name': 'Перевозки ж/д', 'verbose_name_plural': 'Перевозки ж/д'},
+            name="tripsrailway",
+            options={
+                "ordering": ["departure_station_name", "destination_station_name"],
+                "verbose_name": "Перевозки ж/д",
+                "verbose_name_plural": "Перевозки ж/д",
+            },
         ),
         migrations.AlterField(
-            model_name='railwaystations',
-            name='station_name',
-            field=models.CharField(max_length=100, verbose_name='Станция'),
+            model_name="railwaystations",
+            name="station_name",
+            field=models.CharField(max_length=100, verbose_name="Станция"),
         ),
     ]

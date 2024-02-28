@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import TripsAuto, TripsRailway, City, RailwayStations
+from .models import City, RailwayStations, TripsAuto, TripsRailway
 
 
 @admin.register(City)
