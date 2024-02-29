@@ -31,7 +31,7 @@ def login_view(request):
 
     if email is None or password is None:
         return JsonResponse(
-            {"detail": " Пожалуйста, укажите имя пользователя и пароль."}, status=400
+            {"detail": " Пожалуйста, укажите email и пароль."}, status=400
         )
 
     user = authenticate(email=email, password=password)
