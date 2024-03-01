@@ -5,7 +5,7 @@ from rest_framework import generics, permissions
 User = get_user_model()
 
 
-# Базовый класс get_object
+# Базовый класс get_object для действий с пользвателем
 class UserRelatedView(generics.RetrieveUpdateAPIView):
     permission_classes = [permissions.IsAuthenticated]
 

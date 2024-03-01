@@ -5,7 +5,7 @@ from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django_rest_passwordreset.signals import reset_password_token_created
-from rest_framework import generics, permissions
+from rest_framework import generics
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework import status

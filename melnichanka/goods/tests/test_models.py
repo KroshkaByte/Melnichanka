@@ -1,30 +1,35 @@
 import pytest
 from django.core.exceptions import ValidationError
-from ..models import Goods, Flour, Brand, Package, Factory
+
+from ..models import Brand, Factory, Flour, Goods, Package
+
 
 @pytest.fixture
 def flour():
-    return Flour.objects.create(flour_name='Test Flour')
+    return Flour.objects.create(flour_name="Test Flour")
+
 
 @pytest.fixture
 def brand():
-    return Brand.objects.create(brand='Test Brand')
+    return Brand.objects.create(brand="Test Brand")
+
 
 @pytest.fixture
 def package():
     factory = Factory.objects.create(
-        full_name='Test Factory',
-        short_name='Test Factory Short',
-        full_address='Test Address',
-        departure_city='Test City',
-        departure_station_branch='Test Branch',
+        full_name="Test Factory",
+        short_name="Test Factory Short",
+        full_address="Test Address",
+        departure_city="Test City",
+        departure_station_branch="Test Branch",
         departure_station_id=123,
-        departure_station_name='Test Station',
+        departure_station_name="Test Station",
     )
     return Package.objects.create(package=50, factory=factory, pallet_weight=1000)
 
+
 @pytest.mark.parametrize(
-    'flour, brand, package, price',
+    "flour, brand, package, price",
     [
         (flour, brand, package, 100.00),
         (flour, brand, package, 200.00),
@@ -44,8 +49,9 @@ def test_goods_creation(flour, brand, package, price):
     assert goods.price == price
     assert str(goods) == f"{flour}, т/м {brand}, {package.package} кг"
 
+
 @pytest.mark.parametrize(
-    'flour, brand, package, price',
+    "flour, brand, package, price",
     [
         (flour, brand, package, -10.00),
         (flour, brand, package, 0.00),
@@ -60,6 +66,7 @@ def test_goods_price_validation(flour, brand, package, price):
             package=package,
             price=price,
         )
+
 
 def test_goods_unique_together(flour, brand, package):
     Goods.objects.create(
