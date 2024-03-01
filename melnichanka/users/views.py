@@ -1,17 +1,17 @@
-import json
-
 from django.contrib.auth import authenticate, login, logout
-from django.http import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
-from django.views.decorators.http import require_POST
 from django.core.mail import send_mail
 from django.dispatch import receiver
 from django.urls import reverse
+from django.utils.decorators import method_decorator
 from django_rest_passwordreset.signals import reset_password_token_created
 from rest_framework import generics, permissions
+from rest_framework.exceptions import ValidationError
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.views import APIView
 
 from melnichanka.settings import EMAIL_HOST_USER
-
 from .models import CustomUser, Department, Position
 from .serializers import (
     CustomUserSerializer,
@@ -20,74 +20,70 @@ from .serializers import (
     UserUpdatePasswordSerializer,
     UserUpdateSerializer,
 )
+from .services import User, UserRelatedView
 
 
 # Аутентификация пользователя
-@require_POST
-def login_view(request):
-    data = json.loads(request.body)
-    email = data.get("email")
-    password = data.get("password")
+class LoginView(APIView):
+    def post(self, request):
+        email = request.data.get("email")
+        password = request.data.get("password")
 
-    if email is None or password is None:
-        return JsonResponse(
-            {"detail": " Пожалуйста, укажите email и пароль."}, status=400
-        )
+        if email is None or password is None:
+            return Response(
+                {"detail": "Пожалуйста, укажите email и пароль."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
-    user = authenticate(email=email, password=password)
+        user = authenticate(email=email, password=password)
 
-    if user is None:
-        return JsonResponse({"detail": " Неверные учетные данные."}, status=400)
+        if user is None:
+            return Response(
+                {"detail": "Неверные учетные данные."},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
 
-    login(request, user)
-    return JsonResponse({"detail": " Успешно авторизован."})
-
-
-def logout_view(request):
-    if not request.user.is_authenticated:
-        return JsonResponse({"detail": " Вы не вошли в систему."}, status=400)
-
-    logout(request)
-    return JsonResponse({"detail": " Успешный выход из системы."})
+        login(request, user)
+        return Response({"detail": "Успешно авторизован."})
 
 
-@ensure_csrf_cookie
-def session_view(request):
-    if not request.user.is_authenticated:
-        return JsonResponse({"isAuthenticated": False})
+class LogoutView(APIView):
+    def post(self, request):
+        if not request.user.is_authenticated:
+            raise ValidationError("Вы не вошли в систему.")
 
-    return JsonResponse({"isAuthenticated": True})
-
-
-def whoami_view(request):
-    if not request.user.is_authenticated:
-        return JsonResponse({"isAuthenticated": False})
-
-    return JsonResponse({"username": request.user.username})
+        logout(request)
+        return Response({"detail": "Успешный выход из системы."})
 
 
-# Действия с пользователем
-class UserUpdateView(generics.RetrieveUpdateAPIView):
-    serializer_class = UserUpdateSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get_object(self):
-        return self.request.user
+@method_decorator(ensure_csrf_cookie, name="dispatch")
+class SessionView(APIView):
+    def get(self, request):
+        return Response({"isAuthenticated": request.user.is_authenticated})
 
 
-# Действия с пользователем
-class UserUpdatePasswordView(generics.RetrieveUpdateAPIView):
-    serializer_class = UserUpdatePasswordSerializer
-    permission_classes = [permissions.IsAuthenticated]
+class WhoAmIView(APIView):
+    def get(self, request):
+        if not request.user.is_authenticated:
+            return Response({"isAuthenticated": False})
 
-    def get_object(self):
-        return self.request.user
+        return Response({"username": request.user.username})
 
 
 # Класс регистрации пользователя
 class UserCreateView(generics.CreateAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
+
+
+# Изменение данных пользователя
+class UserUpdateView(UserRelatedView):
+    serializer_class = UserUpdateSerializer
+
+
+# Изменение пароля пользователя
+class UserUpdatePasswordView(UserRelatedView):
+    serializer_class = UserUpdatePasswordSerializer
 
 
 # Сброс пароля
