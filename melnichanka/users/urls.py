@@ -7,6 +7,7 @@ from .views import (
     UserCreateView,
     UserUpdatePasswordView,
     UserUpdateView,
+    LogoutView,
 )
 
 urlpatterns = [
@@ -16,6 +17,7 @@ urlpatterns = [
     path('token/refresh/',
           jwt_views.TokenRefreshView.as_view(),
           name ='token_refresh'),
+    path('logout/', LogoutView.as_view(), name ='logout'),
     path("edit/", UserUpdateView.as_view(), name="edit"),
     path("edit_password/", UserUpdatePasswordView.as_view(), name="edit_password"),
     path("departments/", DepartmentListView.as_view(), name="departments"),

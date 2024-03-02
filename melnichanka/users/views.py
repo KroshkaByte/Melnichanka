@@ -3,6 +3,12 @@ from django.dispatch import receiver
 from django.urls import reverse
 from django_rest_passwordreset.signals import reset_password_token_created
 from rest_framework import generics
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework import status
+
 
 from melnichanka.settings import EMAIL_HOST_USER
 from .models import CustomUser, Department, Position
@@ -15,6 +21,18 @@ from .serializers import (
 )
 from .services import UserRelatedView
 
+
+class LogoutView(APIView):
+     permission_classes = (IsAuthenticated,)
+     def post(self, request):
+
+          try:
+               refresh_token = request.data["refresh_token"]
+               token = RefreshToken(refresh_token)
+               token.blacklist()
+               return Response(status=status.HTTP_205_RESET_CONTENT)
+          except Exception as e:
+               return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 # Класс регистрации пользователя
