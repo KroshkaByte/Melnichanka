@@ -1,8 +1,4 @@
-from django.contrib.auth import get_user_model
 from rest_framework import generics, permissions
-
-# Получение модели пользователя
-User = get_user_model()
 
 
 # Базовый класс get_object для действий с пользвателем
