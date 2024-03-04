@@ -7,7 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 from melnichanka.settings import EMAIL_HOST_USER
 
@@ -33,7 +33,8 @@ class LoginView(TokenObtainPairView):
             )
         try:
             return super().post(request, *args, **kwargs)
-        except Exception:
+        except Exception as e:
+            print(e)
             return Response(
                 {"detail": "Неверные учетные данные."},
                 status=status.HTTP_401_UNAUTHORIZED,
