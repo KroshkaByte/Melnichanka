@@ -7,14 +7,37 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from melnichanka.settings import EMAIL_HOST_USER
 
 from .models import CustomUser, Department, Position
-from .serializers import (CustomUserSerializer, DepartmentSerializer,
-                          PositionSerializer, UserUpdatePasswordSerializer,
-                          UserUpdateSerializer)
+from .serializers import (
+    CustomUserSerializer,
+    DepartmentSerializer,
+    PositionSerializer,
+    UserUpdatePasswordSerializer,
+    UserUpdateSerializer,
+)
 from .services import UserRelatedView
+
+
+class LoginView(TokenObtainPairView):
+    def post(self, request, *args, **kwargs):
+        email = request.data.get("email")
+        password = request.data.get("password")
+        if email is None or password is None:
+            return Response(
+                {"detail": "Пожалуйста, укажите email и пароль."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        try:
+            return super().post(request, *args, **kwargs)
+        except Exception:
+            return Response(
+                {"detail": "Неверные учетные данные."},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
 
 
 class LogoutView(APIView):
