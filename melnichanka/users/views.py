@@ -1,14 +1,13 @@
-import json
-
-from django.contrib.auth import authenticate, login, logout
 from django.core.mail import send_mail
 from django.dispatch import receiver
-from django.http import JsonResponse
 from django.urls import reverse
-from django.views.decorators.csrf import ensure_csrf_cookie
-from django.views.decorators.http import require_POST
 from django_rest_passwordreset.signals import reset_password_token_created
-from rest_framework import generics, permissions
+from rest_framework import generics, status
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 from melnichanka.settings import EMAIL_HOST_USER
 
@@ -20,74 +19,55 @@ from .serializers import (
     UserUpdatePasswordSerializer,
     UserUpdateSerializer,
 )
+from .services import UserRelatedView
 
 
-# Аутентификация пользователя
-@require_POST
-def login_view(request):
-    data = json.loads(request.body)
-    email = data.get("email")
-    password = data.get("password")
-
-    if email is None or password is None:
-        return JsonResponse(
-            {"detail": " Пожалуйста, укажите имя пользователя и пароль."}, status=400
-        )
-
-    user = authenticate(email=email, password=password)
-
-    if user is None:
-        return JsonResponse({"detail": " Неверные учетные данные."}, status=400)
-
-    login(request, user)
-    return JsonResponse({"detail": " Успешно авторизован."})
+class LoginView(TokenObtainPairView):
+    def post(self, request, *args, **kwargs):
+        email = request.data.get("email")
+        password = request.data.get("password")
+        if email is None or password is None:
+            return Response(
+                {"detail": "Пожалуйста, укажите email и пароль."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        try:
+            return super().post(request, *args, **kwargs)
+        except Exception as e:
+            print(e)
+            return Response(
+                {"detail": "Неверные учетные данные."},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
 
 
-def logout_view(request):
-    if not request.user.is_authenticated:
-        return JsonResponse({"detail": " Вы не вошли в систему."}, status=400)
+class LogoutView(APIView):
+    permission_classes = (IsAuthenticated,)
 
-    logout(request)
-    return JsonResponse({"detail": " Успешный выход из системы."})
-
-
-@ensure_csrf_cookie
-def session_view(request):
-    if not request.user.is_authenticated:
-        return JsonResponse({"isAuthenticated": False})
-
-    return JsonResponse({"isAuthenticated": True})
-
-
-def whoami_view(request):
-    if not request.user.is_authenticated:
-        return JsonResponse({"isAuthenticated": False})
-
-    return JsonResponse({"username": request.user.username})
-
-
-# Действия с пользователем
-class UserUpdateView(generics.RetrieveUpdateAPIView):
-    serializer_class = UserUpdateSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get_object(self):
-        return self.request.user
-
-
-# Действия с пользователем
-class UserUpdatePasswordView(generics.RetrieveUpdateAPIView):
-    serializer_class = UserUpdatePasswordSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get_object(self):
-        return self.request.user
+    def post(self, request):
+        try:
+            refresh_token = request.data["refresh_token"]
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+            return Response(status=status.HTTP_205_RESET_CONTENT)
+        except Exception:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 # Класс регистрации пользователя
 class UserCreateView(generics.CreateAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
+
+
+# Изменение данных пользователя
+class UserUpdateView(UserRelatedView):
+    serializer_class = UserUpdateSerializer
+
+
+# Изменение пароля пользователя
+class UserUpdatePasswordView(UserRelatedView):
+    serializer_class = UserUpdatePasswordSerializer
 
 
 # Сброс пароля

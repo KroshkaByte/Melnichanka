@@ -28,6 +28,7 @@ urlpatterns = [
                 path("", include("clients.urls")),
                 path("", include("logistics.urls")),
                 path("", include("goods.urls")),
+                path("", include("makedoc.urls")),
             ]
         ),
     ),

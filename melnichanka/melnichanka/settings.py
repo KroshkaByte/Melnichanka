@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 import os
+from datetime import timedelta
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -29,10 +30,11 @@ SECRET_KEY = str(os.getenv("SECRET_KEY"))
 DEBUG = True
 load_dotenv()
 
-ALLOWED_HOSTS = ["127.0.0.1"]
-INTERNAL_IPS = ["127.0.0.1"]
-CORS_ALLOWED_ORIGINS = ["http://localhost:3000", "http://127.0.0.1:8000"]
-
+CORS_ORIGIN_ALLOW_ALL = False
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # React app
+]
 
 # Application definition
 
@@ -55,6 +57,7 @@ INSTALLED_APPS = [
     "django_rest_passwordreset",
     "django_extensions",
     "pytest",
+    "rest_framework_simplejwt.token_blacklist",
 ]
 
 MIDDLEWARE = [
@@ -157,11 +160,21 @@ AUTH_USER_MODEL = "users.CustomUser"
 # LOGOUT_REDIRECT_URL = "home"
 
 REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ],
     "DEFAULT_RENDERER_CLASSES": [
         "rest_framework.renderers.JSONRenderer",
         # rest_framework.renderers.BrowsableAPIRenderer - убирает из браузера страницу редактирования записи, а будет выдавать ток сырой JSON что нам и надо будет
         "rest_framework.renderers.BrowsableAPIRenderer",
     ],
+}
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": True,
 }
 
 
@@ -176,13 +189,3 @@ EMAIL_HOST_PASSWORD = str(os.getenv("EMAIL_HOST_PASSWORD"))
 EMAIL_SERVER = EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 EMAIL_ADMIN = EMAIL_HOST_USER
-
-
-CSRF_COOKIE_SAMESITE = "Strict"
-SESSION_COOKIE_SAMESITE = "Strict"
-CSRF_COOKIE_HTTPONLY = False
-SESSION_COOKIE_HTTPONLY = True
-
-CORS_ORIGIN_WHITELIST = [
-    "http://localhost:3000",
-]
