@@ -13,9 +13,13 @@ from rest_framework import generics, permissions
 from melnichanka.settings import EMAIL_HOST_USER
 
 from .models import CustomUser, Department, Position
-from .serializers import (CustomUserSerializer, DepartmentSerializer,
-                          PositionSerializer, UserUpdatePasswordSerializer,
-                          UserUpdateSerializer)
+from .serializers import (
+    CustomUserSerializer,
+    DepartmentSerializer,
+    PositionSerializer,
+    UserUpdatePasswordSerializer,
+    UserUpdateSerializer,
+)
 
 
 # Аутентификация пользователя
