@@ -1,10 +1,9 @@
-from django.urls import path
+from django.urls import include, path
+from rest_framework import routers
 
-from . import views
+from .views import GoodsViewSet
 
-urlpatterns = [
-    path("", views.goods_home_view, name="goods_home"),
-    path("add/", views.goods_add_view, name="goods_add"),
-    path("edit/<int:pk>", views.goods_edit_view, name="goods_edit"),
-    path("del/<int:pk>", views.goods_delete_view, name="goods_delete"),
-]
+router = routers.SimpleRouter()
+router.register(r"goods", GoodsViewSet)
+
+urlpatterns = [path("", include(router.urls))]

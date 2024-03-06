@@ -1,8 +1,27 @@
-from django.urls import path
+from django.urls import include, path
+from rest_framework_simplejwt.views import TokenRefreshView
 
-from . import views
+from .views import (
+    DepartmentListView,
+    LogoutView,
+    PositionListView,
+    UserCreateView,
+    UserUpdatePasswordView,
+    UserUpdateView,
+    LoginView,
+)
 
 urlpatterns = [
-    path("", views.home_view, name="home"),
-    path("signup/", views.SignUpView.as_view(), name="signup"),
+    path("login/", LoginView.as_view(), name="login"),
+    path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    path("logout/", LogoutView.as_view(), name="logout"),
+    path("edit/", UserUpdateView.as_view(), name="edit"),
+    path("edit_password/", UserUpdatePasswordView.as_view(), name="edit_password"),
+    path("departments/", DepartmentListView.as_view(), name="departments"),
+    path("positions/", PositionListView.as_view(), name="positions"),
+    path("registration/", UserCreateView.as_view(), name="registration"),
+    path(
+        "password_reset/",
+        include("django_rest_passwordreset.urls", namespace="password_reset"),
+    ),
 ]

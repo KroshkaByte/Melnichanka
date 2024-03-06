@@ -1,29 +1,18 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
 
-from .forms import CustomUserChangeForm, CustomUserCreationForm
-from .models import User
+from .models import CustomUser, Department, Position
 
 
-@admin.register(User)
-class CustomUserAdmin(UserAdmin):
-    add_form = CustomUserCreationForm
-    form = CustomUserChangeForm
-    model = User
-    list_display = [
-        "first_name",
-        "last_name",
-        "email",
-        "username",
-        "position",
-        "department",
-        "is_staff",
-        "phone_number_personal",
-        "phone_number_work",
+@admin.register(CustomUser)
+class CustomUserAdmin(admin.ModelAdmin):
+    list_display = ["is_active", "email", "full_name"]
+    exclude = [
+        "password",
     ]
-    list_display_links = [
-        "first_name",
-        "last_name",
-        "username",
-    ]
-    list_editable = ["is_staff"]
+    list_per_page = 10
+    search_fields = ["email", "full_name"]
+    ordering = ["email", "full_name"]
+
+
+admin.site.register(Department)
+admin.site.register(Position)
