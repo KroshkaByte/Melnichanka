@@ -12,6 +12,10 @@ from phonenumber_field.modelfields import PhoneNumberField
 class Position(models.Model):
     position = models.CharField(max_length=30)
 
+    class Meta:
+        verbose_name = "Позиция"
+        verbose_name_plural = "Позиции"
+
     def __str__(self):
         return self.position
 
@@ -19,6 +23,10 @@ class Position(models.Model):
 # Класс департамента пользователя
 class Department(models.Model):
     department = models.CharField(max_length=50)
+
+    class Meta:
+        verbose_name = "Департамент"
+        verbose_name_plural = "Департаменты"
 
     def __str__(self):
         return self.department
@@ -56,16 +64,24 @@ class CustomUserManager(BaseUserManager):
 
 # Информация о пользователе приложения
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(max_length=50, unique=True)
-    full_name = models.CharField(max_length=75)
+    email = models.EmailField(max_length=50, unique=True, verbose_name="E-mail")
+    full_name = models.CharField(max_length=75, verbose_name="ФИО")
     position = models.ForeignKey(
-        Position, on_delete=models.PROTECT, null=True, blank=True
+        Position,
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+        verbose_name="Позиция",
     )
     department = models.ForeignKey(
-        Department, on_delete=models.PROTECT, null=True, blank=True
+        Department,
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+        verbose_name="Департамент",
     )
-    phone_number_work = PhoneNumberField()
-    phone_number_personal = PhoneNumberField()
+    phone_number_work = PhoneNumberField(verbose_name="Рабочий телефон")
+    phone_number_personal = PhoneNumberField(verbose_name="Личный телефон")
     # Другие поля
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
@@ -75,5 +91,9 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     objects = CustomUserManager()
 
+    class Meta:
+        verbose_name = "Пользователь"
+        verbose_name_plural = "Пользователи"
+
     def __str__(self):
-        return f"Пользователь {self.email}"
+        return f"Пользователь {self.full_name} {self.email}"

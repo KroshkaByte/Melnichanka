@@ -1,5 +1,5 @@
 from django.db import models
-from logistics.models import RailwayStations, City
+from logistics.models import City, RailwayStations
 
 
 class Clients(models.Model):
@@ -13,7 +13,9 @@ class Clients(models.Model):
         max_length=100, verbose_name="Должность директора"
     )
     director_name = models.CharField(max_length=100, verbose_name="ФИО директора")
-    destination_city = models.ForeignKey(City, on_delete=models.PROTECT)
+    destination_city = models.ForeignKey(
+        City, on_delete=models.PROTECT, verbose_name="Город доставки"
+    )
     # ЖД реквизиты
     railway_station = models.ForeignKey(
         RailwayStations,
