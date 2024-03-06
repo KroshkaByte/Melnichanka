@@ -2,8 +2,12 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
 from .models import City, RailwayStations, TripsAuto, TripsRailway
-from .serializers import (CitySerializer, RailwayStationsSerializer,
-                          TripsAutoSerializer, TripsRailwaySerializer)
+from .serializers import (
+    CitySerializer,
+    RailwayStationsSerializer,
+    TripsAutoSerializer,
+    TripsRailwaySerializer,
+)
 
 
 class CityViewSet(viewsets.ModelViewSet):
