@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:14
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: Melnichanka123
+      POSTGRES_DB: meln_db
+    ports:
+      - "5432:5432"
+    networks:
+      - melnichanka
+  web:
+    build: .
+    command: python3 melnichanka/manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    networks:
+      - melnichanka
+networks:
+  melnichanka:

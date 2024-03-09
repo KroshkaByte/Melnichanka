@@ -83,3 +83,7 @@ docstring-code-line-length = "dynamic"
 
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "melnichanka.settings"
+
+#ruff v ruff.toml
+
+#pytest v setup.cfg

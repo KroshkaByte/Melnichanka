@@ -57,18 +57,12 @@ INSTALLED_APPS = [
     "makedoc.apps.MakedocConfig",
     "goods.apps.GoodsConfig",
     "debug_toolbar",
-    "rest_framework",
-    "corsheaders",
     "django_rest_passwordreset",
     "django_extensions",
     "pytest",
     "rest_framework_simplejwt.token_blacklist",
     "rest_framework",
     "corsheaders",
-    "django_rest_passwordreset",
-    "django_extensions",
-    "pytest",
-    "rest_framework_simplejwt.token_blacklist",
 ]
 
 MIDDLEWARE = [
@@ -112,19 +106,11 @@ WSGI_APPLICATION = "melnichanka.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": str(os.getenv("DATABASE_NAME_DEFAULT")),
-        "USER": str(os.getenv("DATABASE_USER_DEFAULT")),
-        "PASSWORD": str(os.getenv("DATABASE_PASSWORD_DEFAULT")),
-        "HOST": str(os.getenv("DATABASE_HOST_DEFAULT")),
-        "PORT": str(os.getenv("DATABASE_PORT_DEFAULT")),
-    },
-    "second": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": str(os.getenv("DATABASE_NAME_SECOND")),
-        "USER": str(os.getenv("DATABASE_USER_SECOND")),
-        "PASSWORD": str(os.getenv("DATABASE_PASSWORD_SECOND")),
-        "HOST": str(os.getenv("DATABASE_HOST_SECOND")),
-        "PORT": str(os.getenv("DATABASE_PORT_SECOND")),
+        "NAME": str(os.getenv("DATABASE_NAME")),
+        "USER": str(os.getenv("DATABASE_USER")),
+        "PASSWORD": str(os.getenv("DATABASE_PASSWORD")),
+        "HOST": str(os.getenv("DATABASE_HOST")),
+        "PORT": str(os.getenv("DATABASE_PORT")),
     },
 }
 

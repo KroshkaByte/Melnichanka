@@ -4,20 +4,23 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('clients', '0002_clients_railway_station_alter_clients_client_name_and_more'),
+        ("clients", "0002_clients_railway_station_alter_clients_client_name_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='clients',
-            name='receiver_id',
-            field=models.PositiveIntegerField(blank=True, null=True, verbose_name='Номер получателя'),
+            model_name="clients",
+            name="receiver_id",
+            field=models.PositiveIntegerField(
+                blank=True, null=True, verbose_name="Номер получателя"
+            ),
         ),
         migrations.AlterField(
-            model_name='clients',
-            name='receiver_okpo',
-            field=models.PositiveIntegerField(blank=True, null=True, verbose_name='ОКПО'),
+            model_name="clients",
+            name="receiver_okpo",
+            field=models.PositiveIntegerField(
+                blank=True, null=True, verbose_name="ОКПО"
+            ),
         ),
     ]

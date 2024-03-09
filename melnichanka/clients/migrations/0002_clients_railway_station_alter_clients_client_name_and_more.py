@@ -5,66 +5,86 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('logistics', '0004_rename_logisticscity_city_and_more'),
-        ('clients', '0001_initial'),
+        ("logistics", "0004_rename_logisticscity_city_and_more"),
+        ("clients", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='clients',
-            name='railway_station',
-            field=models.ForeignKey(blank=True, default=1, on_delete=django.db.models.deletion.PROTECT, related_name='clients', to='logistics.railwaystations', verbose_name='ЖД станция'),
+            model_name="clients",
+            name="railway_station",
+            field=models.ForeignKey(
+                blank=True,
+                default=1,
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="clients",
+                to="logistics.railwaystations",
+                verbose_name="ЖД станция",
+            ),
             preserve_default=False,
         ),
         migrations.AlterField(
-            model_name='clients',
-            name='client_name',
-            field=models.CharField(max_length=100, verbose_name='Наименование организации'),
+            model_name="clients",
+            name="client_name",
+            field=models.CharField(
+                max_length=100, verbose_name="Наименование организации"
+            ),
         ),
         migrations.AlterField(
-            model_name='clients',
-            name='contract_number',
-            field=models.CharField(max_length=50, verbose_name='Номер договора'),
+            model_name="clients",
+            name="contract_number",
+            field=models.CharField(max_length=50, verbose_name="Номер договора"),
         ),
         migrations.AlterField(
-            model_name='clients',
-            name='destination_city',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='logistics.city'),
+            model_name="clients",
+            name="destination_city",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT, to="logistics.city"
+            ),
         ),
         migrations.AlterField(
-            model_name='clients',
-            name='last_application_number',
-            field=models.CharField(blank=True, max_length=50, verbose_name='Номер приложения'),
+            model_name="clients",
+            name="last_application_number",
+            field=models.CharField(
+                blank=True, max_length=50, verbose_name="Номер приложения"
+            ),
         ),
         migrations.AlterField(
-            model_name='clients',
-            name='receiver_adress',
-            field=models.CharField(blank=True, max_length=200, verbose_name='Адрес получателя'),
+            model_name="clients",
+            name="receiver_adress",
+            field=models.CharField(
+                blank=True, max_length=200, verbose_name="Адрес получателя"
+            ),
         ),
         migrations.AlterField(
-            model_name='clients',
-            name='receiver_id',
-            field=models.PositiveIntegerField(blank=True, verbose_name='Номер получателя'),
+            model_name="clients",
+            name="receiver_id",
+            field=models.PositiveIntegerField(
+                blank=True, verbose_name="Номер получателя"
+            ),
         ),
         migrations.AlterField(
-            model_name='clients',
-            name='receiver_name',
-            field=models.CharField(blank=True, max_length=100, verbose_name='Имя получателя'),
+            model_name="clients",
+            name="receiver_name",
+            field=models.CharField(
+                blank=True, max_length=100, verbose_name="Имя получателя"
+            ),
         ),
         migrations.AlterField(
-            model_name='clients',
-            name='receiver_okpo',
-            field=models.PositiveIntegerField(blank=True, verbose_name='ОКПО'),
+            model_name="clients",
+            name="receiver_okpo",
+            field=models.PositiveIntegerField(blank=True, verbose_name="ОКПО"),
         ),
         migrations.AlterField(
-            model_name='clients',
-            name='special_marks',
-            field=models.CharField(blank=True, max_length=200, verbose_name='Особые отметки'),
+            model_name="clients",
+            name="special_marks",
+            field=models.CharField(
+                blank=True, max_length=200, verbose_name="Особые отметки"
+            ),
         ),
         migrations.AlterUniqueTogether(
-            name='clients',
-            unique_together={('client_name', 'contract_number')},
+            name="clients",
+            unique_together={("client_name", "contract_number")},
         ),
     ]
