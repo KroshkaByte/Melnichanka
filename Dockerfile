@@ -1,4 +1,4 @@
-FROM python:3.10
+FROM python:3.12
 
 ENV DJANGO_SETTINGS_MODULE=melnichanka.settings
 
