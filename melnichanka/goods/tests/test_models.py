@@ -4,11 +4,13 @@ from goods.models import Brand, Factory, Flour, Goods, Package
 
 @pytest.mark.django_db
 @pytest.mark.parametrize(
-    "crop, expected", [
+    "crop, expected",
+    [
         ("wheat", "wheat"),
         ("barley", "barley"),
         ("rye", "rye"),
-    ])
+    ],
+)
 def test__flour__create_flour_valid_name(crop, expected):
     flour_test = Flour.objects.create(flour_name=crop)
     assert flour_test.flour_name == expected
@@ -16,11 +18,13 @@ def test__flour__create_flour_valid_name(crop, expected):
 
 @pytest.mark.django_db
 @pytest.mark.parametrize(
-    "brand, expected", [
+    "brand, expected",
+    [
         ("dolce_gabbana", "dolce_gabbana"),
         ("Gucci", "Gucci"),
         ("Nike", "Nike"),
-    ])
+    ],
+)
 def test__brand__create_brand_valid_name(brand, expected):
     brand_test = Brand.objects.create(brand=brand)
     assert brand_test.brand == expected
