@@ -1,5 +1,5 @@
 from django.db import models
-from logistics.models import RailwayStations, City
+from logistics.models import City, RailwayStations
 
 
 class Clients(models.Model):

@@ -52,12 +52,12 @@ INSTALLED_APPS = [
     "makedoc.apps.MakedocConfig",
     "goods.apps.GoodsConfig",
     "debug_toolbar",
-    "rest_framework",
-    "corsheaders",
     "django_rest_passwordreset",
     "django_extensions",
     "pytest",
     "rest_framework_simplejwt.token_blacklist",
+    "rest_framework",
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
@@ -105,9 +105,8 @@ DATABASES = {
         "PASSWORD": str(os.getenv("DATABASE_PASSWORD")),
         "HOST": str(os.getenv("DATABASE_HOST")),
         "PORT": str(os.getenv("DATABASE_PORT")),
-    }
+    },
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
