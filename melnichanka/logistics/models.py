@@ -98,13 +98,6 @@ class TripsRailway(models.Model):
         on_delete=models.PROTECT,
         related_name="destination_station_name",
     )
-
-    destination_station_name = models.ForeignKey(
-        "RailwayStations",
-        db_column="destination_station_name",
-        on_delete=models.PROTECT,
-        related_name="destination_station_name",
-    )
     cost_per_tonn_rw = models.PositiveIntegerField()
 
     class Meta:
