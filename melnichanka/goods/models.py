@@ -80,7 +80,6 @@ class Factory(models.Model):
         blank=False,
         verbose_name="Город отправления",
     )
-    # Это подтянуть из логистики
     departure_station_branch = models.CharField(
         max_length=100, blank=False, verbose_name="Ветка ж/д стации", choices=BRANCHES
     )
