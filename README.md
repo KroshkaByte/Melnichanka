@@ -1,7 +1,5 @@
 # Melnichanka
 
-This is a brief description of your project.
-
 ## Table of Contents
 
 - [How to run the project](#how-to-run-the-project)
@@ -20,19 +18,23 @@ Once you have Docker and Docker Compose installed, follow these steps to start t
 
    - Clone the repository:
 
-```git clone https://github.com/KroshkaByte/Melnichanka.git
+```
+git clone https://github.com/KroshkaByte/Melnichanka.git
 ```
    - Change to the project directory:
 
-```cd melnichanka
+```
+cd melnichanka
 ```
    - Start the database:
 
-```docker-compose up -d db
+```
+docker-compose up -d db
 ```
    - Start the project:
 
-```docker-compose up -d web
+```
+docker-compose up -d web
 ```
    - Open your web browser and navigate to http://localhost:8000 to access the application.
 
@@ -68,9 +70,9 @@ pytest
 ```
 
 - To run tests for a specific model, such as Goods, use the following command:
-
+```
 pytest goods/tests/
-
+```
 ## Contributing
 
 We welcome contributions to Melnichanka. To contribute, follow these steps:
@@ -84,4 +86,4 @@ We will review your pull request and provide feedback as needed.
 
 ## License
 
-This project is licensed under the MIT License. See the LICENSE file for more information. (./license)
+This project is licensed under the MIT License. See the LICENSE file for more information.
