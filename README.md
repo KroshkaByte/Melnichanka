@@ -72,6 +72,9 @@ pytest
 - To run tests for a specific model, such as Goods, use the following command:
 ```
 pytest goods/tests/
+pytest logistics/tests/
+pytest users/tests/
+pytest clients/tests/
 ```
 ## Contributing
 
