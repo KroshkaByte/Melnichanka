@@ -70,9 +70,9 @@ pytest
 ```
 
 - To run tests for a specific model, such as Goods, use the following command:
-
+```
 pytest goods/tests/
-
+```
 ## Contributing
 
 We welcome contributions to Melnichanka. To contribute, follow these steps:
@@ -86,4 +86,4 @@ We will review your pull request and provide feedback as needed.
 
 ## License
 
-This project is licensed under the MIT License. See the LICENSE file for more information. (./license)
+This project is licensed under the MIT License. See the LICENSE file for more information.
