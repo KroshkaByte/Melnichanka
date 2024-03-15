@@ -1,11 +1,12 @@
-from datetime import datetime
 import pytest
+
+from datetime import datetime
 from clients.models import Clients
 
 
 @pytest.mark.django_db
 def test__clients__create_object_valid(
-    clients_object, destination_city_object, railway_station_object
+    clients_object, destination_city_object, railway_station_object, user
 ):
     assert clients_object.client_name == "name_client"
     assert clients_object.contract_number == "contract_number"
@@ -23,6 +24,7 @@ def test__clients__create_object_valid(
     assert clients_object.receiver_adress == "receiver_adress"
     assert clients_object.special_marks == "special_marks"
     assert clients_object.last_application_number == "last_application_number"
+    assert clients_object.user == user
 
 
 @pytest.mark.django_db
@@ -44,6 +46,7 @@ def test__clients__get_object_valid(clients_object):
         retrieved_clients.last_application_number
         == clients_object.last_application_number
     )
+    assert retrieved_clients.user == clients_object.user
 
 
 @pytest.mark.django_db

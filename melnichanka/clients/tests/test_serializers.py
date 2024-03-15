@@ -1,10 +1,11 @@
 import pytest
+
 from clients.serializers import ClientSerializer
 
 
 @pytest.mark.django_db
 def test__client_serializer__create_object_valid(
-    clients_object, destination_city_object, railway_station_object
+    clients_object, destination_city_object, railway_station_object, user
 ):
     serializer_data = ClientSerializer(clients_object).data
 
