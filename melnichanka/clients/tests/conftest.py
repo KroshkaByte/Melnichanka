@@ -1,7 +1,9 @@
-from datetime import datetime
 import pytest
+
+from datetime import datetime
 from logistics.models import City, RailwayStations
 from clients.models import Clients
+from users.models import CustomUser
 
 
 @pytest.fixture
@@ -25,7 +27,7 @@ def railway_station_object():
 
 
 @pytest.fixture
-def clients_object(destination_city_object, railway_station_object):
+def clients_object(destination_city_object, railway_station_object, user):
     return Clients.objects.create(
         id=100,
         client_name="name_client",
@@ -41,4 +43,12 @@ def clients_object(destination_city_object, railway_station_object):
         receiver_adress="receiver_adress",
         special_marks="special_marks",
         last_application_number="last_application_number",
+        user=user,
+    )
+
+
+@pytest.fixture
+def user():
+    return CustomUser.objects.create_user(
+        email="testclientuser@test.com", full_name="Test User", password="testpass"
     )

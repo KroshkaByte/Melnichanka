@@ -1,5 +1,6 @@
 from django.db import models
 from logistics.models import City, RailwayStations
+from users.models import CustomUser
 
 
 class Clients(models.Model):
@@ -44,6 +45,12 @@ class Clients(models.Model):
     # Номер приложения
     last_application_number = models.CharField(
         max_length=50, blank=True, verbose_name="Номер приложения"
+    )
+    # Пользователь который создал запись
+    user = models.ForeignKey(
+        CustomUser,
+        verbose_name="Пользователь",
+        on_delete=models.DO_NOTHING,
     )
 
     class Meta:

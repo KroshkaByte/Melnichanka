@@ -25,7 +25,7 @@ urlpatterns = [
         include(
             [
                 path("users/", include("users.urls")),
-                path("", include("clients.urls")),
+                path("clients/", include("clients.urls")),
                 path("", include("logistics.urls")),
                 path("", include("goods.urls")),
                 path("", include("makedoc.urls")),

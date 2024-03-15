@@ -1,12 +1,14 @@
-from django.urls import include, path
-from rest_framework import routers
+from django.urls import path
 
-from .views import ClientsViewSet
-
-router = routers.SimpleRouter()
-router.register(r"clients", ClientsViewSet, basename="clients")
+from .views import (
+    ClientAPIDeleteView,
+    ClientAPIUpdateView,
+    ClientsAPIView,
+)
 
 
 urlpatterns = [
-    path("", include(router.urls)),
+    path("", ClientsAPIView.as_view(), name="clients"),
+    path("<int:pk>/", ClientAPIUpdateView.as_view(), name="clients_update"),
+    path("delete/<int:pk>/", ClientAPIDeleteView.as_view(), name="clients_delete"),
 ]
