@@ -20,29 +20,8 @@ from .serializers import (
     UserUpdateSerializer,
 )
 from .services import UserRelatedView
-from drf_spectacular.utils import extend_schema, OpenApiParameter
-from drf_spectacular.types import OpenApiTypes
-from drf_spectacular.utils import OpenApiExample
 
 
-@extend_schema(
-    parameters=[
-        OpenApiParameter(
-            name="Authorization",
-            type=OpenApiTypes.STR,
-            location=OpenApiParameter.HEADER,
-            description="Bearer token for authentication",
-            required=True,
-            examples=[
-                OpenApiExample(
-                    "JWT Token",
-                    value="Bearer your.jwt.token.here",
-                    summary="Example of a JWT token for authentication",
-                ),
-            ],
-        ),
-    ],
-)
 class LoginView(TokenObtainPairView):
     def post(self, request, *args, **kwargs):
         email = request.data.get("email")
