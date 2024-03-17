@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt.token_blacklist",
     "rest_framework",
     "corsheaders",
+    "drf_spectacular",
 ]
 
 MIDDLEWARE = [
@@ -163,6 +164,7 @@ REST_FRAMEWORK = {
         # rest_framework.renderers.BrowsableAPIRenderer - убирает из браузера страницу редактирования записи, а будет выдавать ток сырой JSON что нам и надо будет
         "rest_framework.renderers.BrowsableAPIRenderer",
     ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 SIMPLE_JWT = {
@@ -184,3 +186,10 @@ EMAIL_HOST_PASSWORD = str(os.getenv("EMAIL_HOST_PASSWORD"))
 EMAIL_SERVER = EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 EMAIL_ADMIN = EMAIL_HOST_USER
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Melnichanka API",
+    "DESCRIPTION": " Melnichanka is a web application designed to generate a package of documents required for shipment",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+}
