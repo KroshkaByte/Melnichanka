@@ -36,6 +36,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # React app
 ]
 
+ALLOWED_HOSTS = ["0.0.0.0", "127.0.0.1", "localhost"]
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -144,6 +146,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "/static/"
+# STATIC_ROOT = "/static/"
 # STATICFILES_DIRS = [
 #     os.path.join(BASE_DIR, "static"),
 # ]

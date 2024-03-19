@@ -1,4 +1,4 @@
-FROM python:3.12
+FROM python:3.12-slim
 
 ENV DJANGO_SETTINGS_MODULE=melnichanka.settings
 
@@ -9,6 +9,6 @@ COPY requirements.txt /app/
 RUN pip install --upgrade pip \
  && pip install -r requirements.txt
 
-COPY melnichanka /app/melnichanka
+COPY . .
 
-CMD ["python3", "melnichanka/manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["gunicorn", "melnichanka.wsgi:application", "--config", "gunicorn.conf.py"]
