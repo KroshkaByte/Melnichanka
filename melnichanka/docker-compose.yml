@@ -12,7 +12,7 @@ services:
       - melnichanka
   web:
     build: .
-    command: gunicorn melnichanka.wsgi:application --config gunicorn.conf.py
+    command: sh entrypoint.sh
     volumes:
       - .:/app
     ports:
@@ -29,7 +29,7 @@ services:
       - web
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
-      - ./static:/static
+      - ./static:/app/static
     networks:
       - melnichanka
 networks:
