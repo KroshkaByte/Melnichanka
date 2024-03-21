@@ -6,31 +6,40 @@ services:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: Melnichanka123
       POSTGRES_DB: meln_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
     ports:
       - "5432:5432"
     networks:
       - melnichanka
-  web:
-    build: .
-    command: sh entrypoint.sh
-    volumes:
-      - .:/app
-    ports:
-      - "8000:8000"
-    env_file:
-      - .env
-    networks:
-      - melnichanka
+
   nginx:
     image: nginx:1.24-alpine
+    restart: always
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - static_volume:/staticfiles
     ports:
       - "80:80"
-    depends_on:
-      - web
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-      - ./static:/app/static
     networks:
       - melnichanka
+
+  web:
+    build: .
+    env_file: .env
+    ports:
+      - "8000:8000"
+    command: sh entrypoint.sh
+    networks:
+      - melnichanka
+    volumes:
+      - static_volume:/staticfiles
+    depends_on:
+    - db
+
 networks:
   melnichanka:
+
+volumes:
+  static_volume:
+  postgres_data:
