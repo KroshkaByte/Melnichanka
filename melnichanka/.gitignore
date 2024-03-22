@@ -165,7 +165,3 @@ cython_debug/
 
 # VSCode
 .vscode/
-
-static/
-staticfiles/
-postgres-data/
