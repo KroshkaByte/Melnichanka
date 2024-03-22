@@ -17,7 +17,7 @@ services:
     image: nginx:1.24-alpine
     restart: always
     volumes:
-      # - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
       - static_volume:/static
     ports:
       - "80:80"
