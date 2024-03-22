@@ -18,7 +18,7 @@ services:
     restart: always
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
-      - static_volume:/static
+      - static_volume:/app/static/
     ports:
       - "80:80"
     networks:
@@ -33,7 +33,7 @@ services:
     networks:
       - melnichanka
     volumes:
-      - static_volume:/static
+      - static_volume:/app/static/
     depends_on:
     - db
 
