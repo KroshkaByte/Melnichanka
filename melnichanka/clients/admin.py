@@ -1,6 +1,9 @@
 from django.contrib import admin
 
-from .models import Clients
+from .models import Clients, Director_position
+
+
+admin.site.register(Director_position)
 
 
 @admin.register(Clients)
