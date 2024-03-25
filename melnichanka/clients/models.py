@@ -3,6 +3,17 @@ from logistics.models import City, RailwayStations
 from users.models import CustomUser
 
 
+class Director_position(models.Model):
+    director_position = models.CharField(max_length=40)
+
+    class Meta:
+        verbose_name = "Должность директора"
+        verbose_name_plural = "Должность директора"
+
+    def __str__(self):
+        return self.director_position
+
+
 class Clients(models.Model):
     # Основная информация
     client_name = models.CharField(
@@ -10,8 +21,10 @@ class Clients(models.Model):
     )
     contract_number = models.CharField(max_length=50, verbose_name="Номер договора")
     contract_date = models.DateField(verbose_name="Дата заключения договора")
-    director_position = models.CharField(
-        max_length=100, verbose_name="Должность директора"
+    director_position = models.ForeignKey(
+        Director_position,
+        on_delete=models.PROTECT,
+        verbose_name="Должность директора",
     )
     director_name = models.CharField(max_length=100, verbose_name="ФИО директора")
     destination_city = models.ForeignKey(

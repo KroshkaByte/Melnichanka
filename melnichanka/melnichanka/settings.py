@@ -33,10 +33,11 @@ load_dotenv()
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # React app
+    "http://localhost:3000",
+    "http://localhost:8080",  # React app
 ]
 
-ALLOWED_HOSTS = ["0.0.0.0", "127.0.0.1", "localhost"]
+ALLOWED_HOSTS = ["0.0.0.0", "127.0.0.1", "localhost", "localhost:8080"]
 
 # Application definition
 
