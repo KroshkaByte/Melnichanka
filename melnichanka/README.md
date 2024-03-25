@@ -5,6 +5,7 @@
 - [How to run the project](#how-to-run-the-project)
 - [Project Description](#project-description)
 - [Usage](#usage)
+- [Documentation](#documentation)
 - [Testing](#testing)
 - [Contributing](#contributing)
 - [License](#license)
@@ -60,6 +61,13 @@ To use Melnichanka, follow these steps:
    - Review the generated documents and make any necessary edits.
    - Download the documents in the desired format (e.g., PDF, Word, Excel).
    - Submit the documents to the consignee as required.
+
+## Documentation
+
+API documentation is available through Swagger UI and ReDoc.
+
+- [Swagger UI](http://localhost:8000/api/schema/swagger-ui/)
+- [ReDoc](http://localhost:8000/api/schema/redoc/)
 
 ## Testing
 
