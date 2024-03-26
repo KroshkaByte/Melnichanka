@@ -1,9 +1,18 @@
 import pytest
 
 from datetime import datetime
+from rest_framework.test import APIClient
+from rest_framework_simplejwt.tokens import RefreshToken
 from logistics.models import City, RailwayStations
-from clients.models import Clients
+from clients.models import Clients, Director_position
 from users.models import CustomUser
+
+
+@pytest.fixture
+def director_position_object():
+    return Director_position.objects.create(
+        id=100, director_position="director_position"
+    )
 
 
 @pytest.fixture
@@ -27,13 +36,15 @@ def railway_station_object():
 
 
 @pytest.fixture
-def clients_object(destination_city_object, railway_station_object, user):
+def clients_object(
+    director_position_object, destination_city_object, railway_station_object, user
+):
     return Clients.objects.create(
         id=100,
         client_name="name_client",
         contract_number="contract_number",
         contract_date=datetime.strptime("2023-02-22", "%Y-%m-%d").date(),
-        director_position="director_position",
+        director_position=director_position_object,
         director_name="director_name",
         destination_city=destination_city_object,
         railway_station=railway_station_object,
@@ -52,3 +63,11 @@ def user():
     return CustomUser.objects.create_user(
         email="testclientuser@test.com", full_name="Test User", password="testpass"
     )
+
+
+@pytest.fixture
+def authorized_client(user):
+    client = APIClient()
+    refresh = RefreshToken.for_user(user)
+    client.credentials(HTTP_AUTHORIZATION=f"Bearer {str(refresh.access_token)}")
+    return client
