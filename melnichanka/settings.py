@@ -54,7 +54,9 @@ INSTALLED_APPS = [
     "clients.apps.ClientsConfig",
     "makedoc.apps.MakedocConfig",
     "goods.apps.GoodsConfig",
+    "debug_toolbar",
     "django_rest_passwordreset",
+    "django_extensions",
     "pytest",
     "rest_framework_simplejwt.token_blacklist",
     "rest_framework",
@@ -71,6 +73,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 
