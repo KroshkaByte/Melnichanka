@@ -22,22 +22,13 @@ Once you have Docker and Docker Compose installed, follow these steps to start t
 ```
 git clone https://github.com/KroshkaByte/Melnichanka.git
 ```
-   - Change to the project directory:
+```
+   - Start the project from root directory:
 
 ```
-cd melnichanka
+docker-compose up -d
 ```
-   - Start the database:
-
-```
-docker-compose up -d db
-```
-   - Start the project:
-
-```
-docker-compose up -d web
-```
-   - Open your web browser and navigate to http://localhost:8000 to access the application.
+   - Open your web browser and navigate to http://localhost:80 to access the application.
 
 ## Project Description
 
