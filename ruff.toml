@@ -25,11 +25,12 @@ exclude = [
     "dist",
     "node_modules",
     "site-packages",
-    "venv",
+    ".venv",
+    "migrations"
 ]
 
 # Same as Black.
-line-length = 88
+line-length = 99
 indent-width = 4
 
 # Assume Python 3.12

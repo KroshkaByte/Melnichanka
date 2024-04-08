@@ -1,30 +1,37 @@
 import pytest
 
-from logistics.models import RailwayStations, TripsAuto, TripsRailway
+from logistics.models import City, RailwayStations, TripsAuto, TripsRailway
 
 
 @pytest.fixture
-def tripsauto_object(city_object):
+def tripsauto_object(city_object, faker):
     return TripsAuto.objects.create(
         departure_city=city_object,
         destination_city=city_object,
-        cost_per_tonn_auto=10000,
+        cost_per_tonn_auto=faker.pyint(),
     )
 
 
 @pytest.fixture
-def railwaystation_object():
+def railwaystation_object(faker):
     return RailwayStations.objects.create(
-        station_name="name_station",
-        station_id=1000,
-        station_branch="name_branch",
+        station_name=faker.pystr(),
+        station_id=faker.pyint(),
+        station_branch=faker.pystr(),
     )
 
 
 @pytest.fixture
-def tripsrailway_object(railwaystation_object):
+def tripsrailway_object(railwaystation_object, faker):
     return TripsRailway.objects.create(
         departure_station_name=railwaystation_object,
         destination_station_name=railwaystation_object,
-        cost_per_tonn_rw=10000,
+        cost_per_tonn_rw=faker.pyint(),
+    )
+
+
+@pytest.fixture
+def city_object(faker):
+    return City.objects.create(
+        city=faker.pystr(), region=faker.pystr(), federal_district=faker.pystr()
     )

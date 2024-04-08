@@ -1,8 +1,4 @@
-from django.contrib.auth.models import (
-    AbstractBaseUser,
-    BaseUserManager,
-    PermissionsMixin,
-)
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import IntegrityError, models, transaction
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
@@ -16,7 +12,7 @@ class Position(models.Model):
         verbose_name = "Позиция"
         verbose_name_plural = "Позиции"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.position
 
 
@@ -28,7 +24,7 @@ class Department(models.Model):
         verbose_name = "Департамент"
         verbose_name_plural = "Департаменты"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.department
 
 
@@ -95,5 +91,5 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         verbose_name = "Пользователь"
         verbose_name_plural = "Пользователи"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"Пользователь {self.full_name} {self.email}"

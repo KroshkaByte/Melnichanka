@@ -105,10 +105,7 @@ def test_user_update_view(user_object, rf):
     assert serializer.validated_data["position"].id == data["position"]
     assert serializer.validated_data["department"].id == data["department"]
     assert serializer.validated_data["phone_number_work"] == data["phone_number_work"]
-    assert (
-        serializer.validated_data["phone_number_personal"]
-        == data["phone_number_personal"]
-    )
+    assert serializer.validated_data["phone_number_personal"] == data["phone_number_personal"]
 
 
 @pytest.mark.django_db
@@ -126,7 +123,4 @@ def test_user_update_password_view(user_object, rf):
     assert serializer.is_valid(), serializer.errors
     assert serializer.validated_data["old_password"] == data["old_password"]
     assert serializer.validated_data["new_password"] == data["new_password"]
-    assert (
-        serializer.validated_data["new_password_confirm"]
-        == data["new_password_confirm"]
-    )
+    assert serializer.validated_data["new_password_confirm"] == data["new_password_confirm"]

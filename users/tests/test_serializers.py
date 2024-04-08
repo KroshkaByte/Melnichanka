@@ -58,9 +58,7 @@ def test__custom_user_serializer__create_object_valid(
 
 
 @pytest.mark.django_db
-def test__custom_user_serializer__create_new_user(
-    user_object, position_object, department_object
-):
+def test__custom_user_serializer__create_new_user(user_object, position_object, department_object):
     data = {
         "email": "testuser2@test.com",
         "full_name": "Test User 2",
@@ -188,10 +186,7 @@ def test__update_password_serializer__update_object_valid(user_object, rf):
     assert serializer.is_valid(), serializer.errors
     assert serializer.validated_data["old_password"] == data["old_password"]
     assert serializer.validated_data["new_password"] == data["new_password"]
-    assert (
-        serializer.validated_data["new_password_confirm"]
-        == data["new_password_confirm"]
-    )
+    assert serializer.validated_data["new_password_confirm"] == data["new_password_confirm"]
 
 
 @pytest.mark.django_db

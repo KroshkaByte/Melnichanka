@@ -10,9 +10,7 @@ from users.models import CustomUser
 
 @pytest.fixture
 def director_position_object():
-    return Director_position.objects.create(
-        id=100, director_position="director_position"
-    )
+    return Director_position.objects.create(id=100, director_position="director_position")
 
 
 @pytest.fixture

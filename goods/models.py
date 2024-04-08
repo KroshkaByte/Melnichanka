@@ -1,4 +1,5 @@
 from django.db import models
+
 from logistics.constants import BRANCHES
 
 
@@ -9,12 +10,8 @@ class Goods(models.Model):
     brand = models.ForeignKey(
         "Brand", on_delete=models.PROTECT, related_name="brand_goods", db_index=True
     )
-    package = models.ForeignKey(
-        "Package", on_delete=models.PROTECT, related_name="package_goods"
-    )
-    price = models.DecimalField(
-        max_digits=10, decimal_places=2, verbose_name="Цена, руб./тн"
-    )
+    package = models.ForeignKey("Package", on_delete=models.PROTECT, related_name="package_goods")
+    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Цена, руб./тн")
 
     class Meta:
         verbose_name = "Товар"
@@ -22,7 +19,7 @@ class Goods(models.Model):
         ordering = ["flour_name", "brand"]
         unique_together = [("flour_name", "brand", "package", "price")]
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.flour_name}, т/м {self.brand}, {self.package} кг"
 
 
@@ -34,7 +31,7 @@ class Flour(models.Model):
         verbose_name_plural = "Мука"
         ordering = ["flour_name"]
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.flour_name
 
 
@@ -46,7 +43,7 @@ class Brand(models.Model):
         verbose_name_plural = "Брэнды"
         ordering = ["brand"]
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.brand
 
 
@@ -61,7 +58,7 @@ class Package(models.Model):
         ordering = ["package", "factory"]
         unique_together = [("package", "factory", "pallet_weight")]
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.package} кг, {self.factory}"
 
 
@@ -72,9 +69,7 @@ class Factory(models.Model):
     short_name = models.CharField(
         max_length=100, blank=False, verbose_name="Краткое название предприятия"
     )
-    full_address = models.CharField(
-        max_length=100, blank=False, verbose_name="Адрес предприятия"
-    )
+    full_address = models.CharField(max_length=100, blank=False, verbose_name="Адрес предприятия")
     departure_city = models.CharField(
         max_length=100,
         blank=False,
@@ -100,5 +95,5 @@ class Factory(models.Model):
             )
         ]
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.full_name
