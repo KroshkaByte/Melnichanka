@@ -26,17 +26,11 @@ class CustomUserSerializer(serializers.ModelSerializer):
     def validate(self, data):
         password = data.get("password")
         if len(password) < 8:
-            raise serializers.ValidationError(
-                "Пароль должен содержать не менее 8 символов"
-            )
+            raise serializers.ValidationError("Пароль должен содержать не менее 8 символов")
         if not any(char.isdigit() for char in password):
-            raise serializers.ValidationError(
-                "Пароль должен содержать хотя бы одну цифру"
-            )
+            raise serializers.ValidationError("Пароль должен содержать хотя бы одну цифру")
         if not any(char.isalpha() for char in password):
-            raise serializers.ValidationError(
-                "Пароль должен содержать хотя бы одну букву"
-            )
+            raise serializers.ValidationError("Пароль должен содержать хотя бы одну букву")
         if data["password"] != data["password_confirm"]:
             raise serializers.ValidationError("Пароли не совпадают")
         return data
@@ -89,23 +83,15 @@ class UserUpdatePasswordSerializer(serializers.ModelSerializer):
         # Проверяем что новый пароль не такой как старый и подходит
         if new_password or new_password_confirm:
             if new_password == old_password:
-                raise serializers.ValidationError(
-                    "Новый пароль не должен совпадать со старым"
-                )
+                raise serializers.ValidationError("Новый пароль не должен совпадать со старым")
             if new_password != new_password_confirm:
                 raise serializers.ValidationError("Новые пароли не совпадают")
             if len(new_password) < 8:
-                raise serializers.ValidationError(
-                    "Пароль должен содержать не менее 8 символов"
-                )
+                raise serializers.ValidationError("Пароль должен содержать не менее 8 символов")
             if not any(char.isdigit() for char in new_password):
-                raise serializers.ValidationError(
-                    "Пароль должен содержать хотя бы одну цифру"
-                )
+                raise serializers.ValidationError("Пароль должен содержать хотя бы одну цифру")
             if not any(char.isalpha() for char in new_password):
-                raise serializers.ValidationError(
-                    "Пароль должен содержать хотя бы одну букву"
-                )
+                raise serializers.ValidationError("Пароль должен содержать хотя бы одну букву")
         return super().validate(data)
 
     def update(self, instance, validated_data):

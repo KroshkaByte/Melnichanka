@@ -22,9 +22,7 @@ def test_customuser_fields():
     assert isinstance(CustomUser._meta.get_field("position"), models.ForeignKey)
     assert isinstance(CustomUser._meta.get_field("department"), models.ForeignKey)
     assert isinstance(CustomUser._meta.get_field("phone_number_work"), PhoneNumberField)
-    assert isinstance(
-        CustomUser._meta.get_field("phone_number_personal"), PhoneNumberField
-    )
+    assert isinstance(CustomUser._meta.get_field("phone_number_personal"), PhoneNumberField)
 
 
 @pytest.mark.django_db
@@ -54,9 +52,7 @@ def test__delete_position_and_department_with_related_users():
 
 
 @pytest.mark.django_db
-def test__custom_user__create_object_valid(
-    user_object, position_object, department_object
-):
+def test__custom_user__create_object_valid(user_object, position_object, department_object):
     assert user_object.email == "testuser@test.com"
     assert user_object.full_name == "Test User"
     assert user_object.position == position_object
@@ -78,9 +74,7 @@ def test__custom_user__get_object_valid(user_object):
 
 @pytest.mark.django_db
 def test__custom_user__return_valid_str(user_object):
-    assert (
-        str(user_object) == f"Пользователь {user_object.full_name} {user_object.email}"
-    )
+    assert str(user_object) == f"Пользователь {user_object.full_name} {user_object.email}"
 
 
 @pytest.mark.django_db

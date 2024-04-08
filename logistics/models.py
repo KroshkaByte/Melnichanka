@@ -27,7 +27,7 @@ class City(models.Model):
         ordering = ["city"]
         unique_together = ["city", "region", "federal_district"]
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.city}, {self.region}"
 
 
@@ -45,9 +45,7 @@ class TripsAuto(models.Model):
         on_delete=models.PROTECT,
         related_name="destination_city",
     )
-    cost_per_tonn_auto = models.PositiveIntegerField(
-        verbose_name="Цена за рейс, руб./тн"
-    )
+    cost_per_tonn_auto = models.PositiveIntegerField(verbose_name="Цена за рейс, руб./тн")
 
     class Meta:
         verbose_name = "Перевозки авто"
@@ -55,8 +53,10 @@ class TripsAuto(models.Model):
         ordering = ["departure_city", "destination_city"]
         unique_together = ["departure_city", "destination_city"]
 
-    def __str__(self):
-        return f"{self.departure_city} - {self.destination_city}: {self.cost_per_tonn_auto} руб./тн"
+    def __str__(self) -> str:
+        return (
+            f"{self.departure_city} - {self.destination_city}: {self.cost_per_tonn_auto} руб./тн"
+        )
 
 
 # Таблица ж/д станций
@@ -79,7 +79,7 @@ class RailwayStations(models.Model):
         ordering = ["station_name"]
         unique_together = ["station_name", "station_id"]
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.station_name}, {self.station_branch}"
 
 
@@ -106,5 +106,5 @@ class TripsRailway(models.Model):
         ordering = ["departure_station_name", "destination_station_name"]
         unique_together = ["departure_station_name", "destination_station_name"]
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.departure_station_name} - {self.destination_station_name}: {self.cost_per_tonn_rw} руб./тн"

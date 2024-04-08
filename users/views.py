@@ -73,11 +73,11 @@ class UserUpdatePasswordView(UserRelatedView):
 
 # Сброс пароля
 @receiver(reset_password_token_created)
-def password_reset_token_created(
-    sender, instance, reset_password_token, *args, **kwargs
-):
-    email_plaintext_message = "Для сброса пароля перейдите по ссылке: http://127.0.0.1:8000{}?token={}".format(
-        reverse("password_reset:reset-password-confirm"), reset_password_token.key
+def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
+    email_plaintext_message = (
+        "Для сброса пароля перейдите по ссылке: http://127.0.0.1:8000{}?token={}".format(
+            reverse("password_reset:reset-password-confirm"), reset_password_token.key
+        )
     )
 
     send_mail(

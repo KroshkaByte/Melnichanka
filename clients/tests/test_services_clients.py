@@ -10,5 +10,5 @@ def test__base_view__queryset(clients_object):
     clients = view.queryset
     assert isinstance(clients, type(Clients.objects.all()))
     assert clients.count() == 1
-    assert clients.first().client_name == "name_client"
-    assert clients.filter(client_name="name_client2").count() == 0
+    assert clients.first().client_name == clients_object.client_name
+    assert clients.filter(client_name="non-existent name").count() == 0

@@ -1,40 +1,43 @@
 import pytest
+
 from goods.models import Brand, Factory, Flour, Goods, Package
 
 
 @pytest.fixture
-def factory_object():
+def factory_object(faker):
     return Factory.objects.create(
-        full_name="Курский Комбинат Хлебопродуктов",
-        short_name="ККХП",
-        full_address="305025, г. Курск, проезд Магистральный, 22Г",
-        departure_city="Курск",
-        departure_station_branch="Московская ж/д",
-        departure_station_id=208108,
-        departure_station_name="Рышково",
+        full_name=faker.pystr(),
+        short_name=faker.pystr(),
+        full_address=faker.address(),
+        departure_city=faker.city(),
+        departure_station_branch=faker.pystr(),
+        departure_station_id=faker.pyint(min_value=1, max_value=999999),
+        departure_station_name=faker.pystr(),
     )
 
 
 @pytest.fixture
-def flour_object():
-    return Flour.objects.create(flour_name="name_flour")
+def flour_object(faker):
+    return Flour.objects.create(flour_name=faker.pystr())
 
 
 @pytest.fixture
-def brand_object():
-    return Brand.objects.create(brand="name_brand")
+def brand_object(faker):
+    return Brand.objects.create(brand=faker.pystr())
 
 
 @pytest.fixture
-def package_object(factory_object):
-    return Package.objects.create(package=1, factory=factory_object, pallet_weight=1000)
+def package_object(factory_object, faker):
+    return Package.objects.create(
+        package=faker.pyint(), factory=factory_object, pallet_weight=faker.pyint()
+    )
 
 
 @pytest.fixture
-def goods_object(flour_object, brand_object, package_object):
+def goods_object(flour_object, brand_object, package_object, faker):
     return Goods.objects.create(
         flour_name=flour_object,
         brand=brand_object,
         package=package_object,
-        price=10000,
+        price=faker.pyint(),
     )
