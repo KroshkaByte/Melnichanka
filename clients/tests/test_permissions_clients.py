@@ -1,13 +1,13 @@
 import pytest
-
+from django.test import RequestFactory
 from rest_framework.exceptions import PermissionDenied
+
 from clients.permissions import ClientAccessPermission
 from users.models import CustomUser
-from django.test import RequestFactory
 
 
 @pytest.mark.django_db
-def test__client_access_permission__has_permission_authenticated_user(clients_object):
+def test__client_access_permission__has_permission_authenticated_user():
     user = CustomUser.objects.create_user(
         email="user@test.com", full_name="Test User", password="testpass"
     )

@@ -1,65 +1,64 @@
 import pytest
-
-from datetime import datetime
 from rest_framework.test import APIClient
 from rest_framework_simplejwt.tokens import RefreshToken
-from logistics.models import City, RailwayStations
+
 from clients.models import Clients, Director_position
+from logistics.models import City, RailwayStations
 from users.models import CustomUser
 
 
 @pytest.fixture
-def director_position_object():
-    return Director_position.objects.create(id=100, director_position="director_position")
+def director_position_object(faker):
+    return Director_position.objects.create(id=faker.pyint(), director_position=faker.pystr())
 
 
 @pytest.fixture
-def destination_city_object():
+def destination_city_object(faker):
     return City.objects.create(
-        id=100,
-        city="name_destination_city",
-        region="name_region",
-        federal_district="name_federal_district",
+        id=faker.pyint(),
+        city=faker.city(),
+        region=faker.pystr(),
+        federal_district=faker.pystr(),
     )
 
 
 @pytest.fixture
-def railway_station_object():
+def railway_station_object(faker):
     return RailwayStations.objects.create(
-        id=100,
-        station_name="name_station",
-        station_id=1000,
-        station_branch="name_branch",
+        id=faker.pyint(),
+        station_name=faker.pystr(),
+        station_id=faker.pyint(),
+        station_branch=faker.pystr(),
     )
 
 
 @pytest.fixture
 def clients_object(
-    director_position_object, destination_city_object, railway_station_object, user
+    director_position_object, destination_city_object, railway_station_object, user, faker
 ):
     return Clients.objects.create(
-        id=100,
-        client_name="name_client",
-        contract_number="contract_number",
-        contract_date=datetime.strptime("2023-02-22", "%Y-%m-%d").date(),
+        id=faker.pyint(),
+        client_name=faker.company(),
+        contract_number=faker.pystr(),
+        contract_date=faker.date(),
         director_position=director_position_object,
-        director_name="director_name",
+        director_name=faker.last_name(),
         destination_city=destination_city_object,
         railway_station=railway_station_object,
-        receiver_name="receiver_name",
-        receiver_id=10000,
-        receiver_okpo=11111,
-        receiver_adress="receiver_adress",
-        special_marks="special_marks",
-        last_application_number="last_application_number",
+        receiver_name=faker.company(),
+        receiver_id=faker.pyint(),
+        receiver_okpo=faker.pyint(),
+        receiver_adress=faker.address(),
+        special_marks=faker.pystr(),
+        last_application_number=faker.pystr(),
         user=user,
     )
 
 
 @pytest.fixture
-def user():
+def user(faker):
     return CustomUser.objects.create_user(
-        email="testclientuser@test.com", full_name="Test User", password="testpass"
+        email=faker.email(), full_name=faker.name(), password=faker.password()
     )
 
 
