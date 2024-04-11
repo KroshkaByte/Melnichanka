@@ -15,6 +15,7 @@ djangorestframework==3.14.0
 djangorestframework-simplejwt==5.3.1
 drf-spectacular==0.27.1
 exceptiongroup==1.2.0
+Faker==24.8.0
 filelock==3.13.1
 gunicorn==21.2.0
 identify==2.5.33
@@ -41,6 +42,7 @@ pytest-clarity==1.0.1
 pytest-cov==4.1.0
 pytest-django==4.8.0
 pytest-testdox==3.1.0
+python-dateutil==2.9.0.post0
 python-dotenv==1.0.0
 pytz==2024.1
 PyYAML==6.0.1
@@ -50,6 +52,7 @@ rich==13.7.1
 rpds-py==0.18.0
 ruff==0.3.0
 setuptools==69.1.1
+six==1.16.0
 sqlparse==0.4.4
 tomli==2.0.1
 types-pytz==2024.1.0.20240203
