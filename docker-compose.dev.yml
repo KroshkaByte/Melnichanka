@@ -13,7 +13,7 @@ services:
     networks:
       - melnichanka
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U admin -d meln_db"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d meln_db"]
       interval: 10s
       timeout: 1s
       retries: 5
