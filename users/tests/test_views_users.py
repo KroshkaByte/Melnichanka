@@ -10,8 +10,6 @@ from users.views import (
     LogoutView,
     PositionListView,
     UserCreateView,
-    UserUpdatePasswordView,
-    UserUpdateView,
 )
 
 
@@ -87,7 +85,6 @@ def test__create_user__valid(user_object, position_object, department_object):
 
 @pytest.mark.django_db
 def test_user_update_view(user_object, rf):
-    view = UserUpdateView()
     request = rf.put("/fake-url/")
     request.user = user_object
     force_authenticate(request, user=user_object)
@@ -111,7 +108,6 @@ def test_user_update_view(user_object, rf):
 
 @pytest.mark.django_db
 def test_user_update_password_view(user_object, rf):
-    view = UserUpdatePasswordView()
     request = rf.put("/fake-url/")
     request.user = user_object
     force_authenticate(request, user=user_object)
