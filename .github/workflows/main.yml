@@ -16,6 +16,7 @@ jobs:
   test:
 
     runs-on: ubuntu-latest
+    container: python:3.12.2-slim
     services:
       postgres:
         image: postgres
