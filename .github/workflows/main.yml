@@ -39,7 +39,7 @@ jobs:
         run: pytest .
       
     services:
-      postgres:
+      db:
         image: postgres
         env:
           POSTGRES_USER: admin
