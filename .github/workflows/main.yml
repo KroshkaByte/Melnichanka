@@ -21,10 +21,8 @@ jobs:
         run: docker-compose -f docker-compose.dev.yml up -d db
       - name: Install requirements
         run: pip install -r requirements.txt
-      - name: Install Python and testing
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-        run: python3 -m pytest .
-      - name: Stop containers
-        run: docker-compose down
+      - name: Install python
+          uses: actions/setup-python@v5
+          with:
+            python-version: '3.10' 
+      - run: python -m pytest .
