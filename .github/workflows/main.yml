@@ -14,17 +14,11 @@ jobs:
         run: ruff check .
   test:
     runs-on: ubuntu-latest
-    env:
-      DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
-      DATABASE_USER: ${{ secrets.DATABASE_USER }}
-      DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
-      DATABASE_HOST: ${{secrets.DATABASE_HOST }}
-      DATABASE_PORT: ${{ secrets.DATABASE_PORT}}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Start docker-compose database
-        run: docker-compose up -d --build
+        run: docker-compose -f docker-compose.dev.yml up -d db --build
       - name: Install requirements
         run: pip install -r requirements.txt
       - name: Tests
