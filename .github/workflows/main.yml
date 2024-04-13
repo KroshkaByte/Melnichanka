@@ -24,7 +24,7 @@ jobs:
           DATABASE_NAME: "meln_db"
           DATABASE_USER: "admin"
           DATABASE_PASSWORD: "Melnichanka123"
-          DATABASE_HOST: "db"
+          DATABASE_HOST: postgres
           DATABASE_PORT: 5432
 
         run: python3 manage.py migrate
@@ -33,13 +33,13 @@ jobs:
           DATABASE_NAME: "meln_db"
           DATABASE_USER: "admin"
           DATABASE_PASSWORD: "Melnichanka123"
-          DATABASE_HOST: "db"
+          DATABASE_HOST: postgres
           DATABASE_PORT: 5432
 
         run: pytest .
       
     services:
-      db:
+      postgres:
         image: postgres
         env:
           POSTGRES_USER: admin
