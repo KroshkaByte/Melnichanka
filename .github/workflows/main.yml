@@ -18,7 +18,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Start docker-compose database
-        run: docker-compose -f docker-compose.dev.yml up -d db --build
+        run: docker-compose -f docker-compose.dev.yml up -d db
       - name: Install requirements
         run: pip install -r requirements.txt
       - name: Tests
