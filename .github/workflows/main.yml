@@ -17,12 +17,33 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Start docker-compose database
-        run: docker-compose -f docker-compose.dev.yml up -d db
       - name: Install requirements
         run: pip install -r requirements.txt
-      - name: Install python
-          uses: actions/setup-python@v5
-          with:
-            python-version: '3.12' 
-      - run: python -m pytest .
+      - name: Run migrations
+        run: python3 manage.py migrate
+      - name: Tests
+        env: 
+          DATABASE_NAME: "meln_db"
+          DATABASE_USER: "admin"
+          DATABASE_PASSWORD: "Melnichanka123"
+          DATABASE_HOST: "db"
+          DATABASE_PORT: 5432
+
+        run: pytest .
+      
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_USER: admin
+          POSTGRES_PASSWORD: Melnichanka123
+          POSTGRES_DB: meln_db
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+        
