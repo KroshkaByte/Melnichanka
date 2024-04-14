@@ -1,6 +1,6 @@
 from django.db import models
 
-from logistics.models import City, RailwayStations
+from logistics.models import City, RailwayStation
 from users.models import CustomUser
 
 
@@ -15,7 +15,7 @@ class Director_position(models.Model):
         return self.director_position
 
 
-class Clients(models.Model):
+class Client(models.Model):
     # Основная информация
     client_name = models.CharField(max_length=100, verbose_name="Наименование организации")
     contract_number = models.CharField(max_length=50, verbose_name="Номер договора")
@@ -31,7 +31,7 @@ class Clients(models.Model):
     )
     # ЖД реквизиты
     railway_station = models.ForeignKey(
-        RailwayStations,
+        RailwayStation,
         on_delete=models.PROTECT,
         verbose_name="ЖД станция",
         related_name="clients",

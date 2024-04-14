@@ -29,7 +29,7 @@ class Department(models.Model):
 
 
 # Менеджер пользователей
-class CustomUserManager(BaseUserManager):
+class CustomUserManager(BaseUserManager["CustomUser"]):
     def create_user(self, email, full_name, password=None, **extra_fields):
         """
         Создает  и сохраняет пользователя с указанным email, ФИО и другими полями

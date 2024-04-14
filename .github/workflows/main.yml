@@ -38,7 +38,7 @@ jobs:
       - name: Install requirements
         run: pip install -r requirements.txt
       - name: Run migrations
-        env: 
+        env:
           DATABASE_NAME: "meln_db"
           DATABASE_USER: "admin"
           DATABASE_PASSWORD: "Melnichanka123"
@@ -47,7 +47,7 @@ jobs:
 
         run: python3 manage.py migrate
       - name: Tests
-        env: 
+        env:
           DATABASE_NAME: "meln_db"
           DATABASE_USER: "admin"
           DATABASE_PASSWORD: "Melnichanka123"
@@ -55,5 +55,3 @@ jobs:
           DATABASE_PORT: 5432
 
         run: pytest .
-      
-        

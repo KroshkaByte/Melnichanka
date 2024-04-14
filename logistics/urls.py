@@ -3,15 +3,15 @@ from rest_framework import routers
 
 from .views import (
     CityViewSet,
-    RailwayStationsViewSet,
-    TripsAutoViewSet,
-    TripsRailwayViewSet,
+    RailwayStationViewSet,
+    TripAutoViewSet,
+    TripRailwayViewSet,
 )
 
 router = routers.SimpleRouter()
 router.register(r"city", CityViewSet)
-router.register(r"autotrip", TripsAutoViewSet)
-router.register(r"stations", RailwayStationsViewSet)
-router.register(r"rwtrip", TripsRailwayViewSet)
+router.register(r"autotrip", TripAutoViewSet)
+router.register(r"stations", RailwayStationViewSet)
+router.register(r"rwtrip", TripRailwayViewSet)
 
 urlpatterns = [path("", include(router.urls))]
