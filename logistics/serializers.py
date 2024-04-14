@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import City, RailwayStations, TripsAuto, TripsRailway
+from .models import City, RailwayStation, TripAuto, TripRailway
 
 
 class CitySerializer(serializers.ModelSerializer):
@@ -9,19 +9,19 @@ class CitySerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class TripsAutoSerializer(serializers.ModelSerializer):
+class TripAutoSerializer(serializers.ModelSerializer):
     class Meta:
-        model = TripsAuto
+        model = TripAuto
         fields = "__all__"
 
 
-class RailwayStationsSerializer(serializers.ModelSerializer):
+class RailwayStationSerializer(serializers.ModelSerializer):
     class Meta:
-        model = RailwayStations
+        model = RailwayStation
         fields = "__all__"
 
 
-class TripsRailwaySerializer(serializers.ModelSerializer):
+class TripRailwaySerializer(serializers.ModelSerializer):
     class Meta:
-        model = TripsRailway
+        model = TripRailway
         fields = "__all__"

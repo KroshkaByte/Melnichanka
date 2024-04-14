@@ -1,5 +1,5 @@
+from .models import Client
 from .permissions import ClientAccessPermission
-from .models import Clients
 from .serializers import ClientSerializer
 
 
@@ -10,6 +10,6 @@ class BaseView:
     Включает в себя набор данных, используемый сериализатор и классы разрешений.
     """
 
-    queryset = Clients.objects.all()
+    queryset = Client.objects.all()
     serializer_class = ClientSerializer
     permission_classes = (ClientAccessPermission,)

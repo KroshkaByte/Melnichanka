@@ -1,9 +1,9 @@
 from django.contrib import admin
 
-from .models import Brand, Factory, Flour, Goods, Package
+from .models import Brand, Factory, Flour, Package, Product
 
 
-@admin.register(Goods)
+@admin.register(Product)
 class GoodsAdmin(admin.ModelAdmin):
     list_display = [
         "flour_name",

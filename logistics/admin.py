@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import City, RailwayStations, TripsAuto, TripsRailway
+from .models import City, RailwayStation, TripAuto, TripRailway
 
 
 @admin.register(City)
@@ -13,8 +13,8 @@ class CityAdmin(admin.ModelAdmin):
     list_filter = ["city", "region", "federal_district"]
 
 
-@admin.register(RailwayStations)
-class RailwayStationsAdmin(admin.ModelAdmin):
+@admin.register(RailwayStation)
+class RailwayStationAdmin(admin.ModelAdmin):
     list_display = ["station_name", "station_id", "station_branch"]
     list_display_links = ["station_name", "station_id", "station_branch"]
     ordering = ["station_name"]
@@ -23,7 +23,7 @@ class RailwayStationsAdmin(admin.ModelAdmin):
     list_filter = ["station_name", "station_id", "station_branch"]
 
 
-@admin.register(TripsAuto)
+@admin.register(TripAuto)
 class AutoAdmin(admin.ModelAdmin):
     list_display = ["departure_city", "destination_city", "cost_per_tonn_auto"]
     list_display_links = ["departure_city", "destination_city"]
@@ -34,7 +34,7 @@ class AutoAdmin(admin.ModelAdmin):
     list_filter = ["departure_city", "destination_city"]
 
 
-@admin.register(TripsRailway)
+@admin.register(TripRailway)
 class RwAdmin(admin.ModelAdmin):
     list_display = [
         "departure_station_name",

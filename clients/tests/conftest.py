@@ -2,8 +2,8 @@ import pytest
 from rest_framework.test import APIClient
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from clients.models import Clients, Director_position
-from logistics.models import City, RailwayStations
+from clients.models import Client, Director_position
+from logistics.models import City, RailwayStation
 from users.models import CustomUser
 
 
@@ -24,7 +24,7 @@ def destination_city_object(faker):
 
 @pytest.fixture
 def railway_station_object(faker):
-    return RailwayStations.objects.create(
+    return RailwayStation.objects.create(
         id=faker.pyint(),
         station_name=faker.pystr(),
         station_id=faker.pyint(),
@@ -36,7 +36,7 @@ def railway_station_object(faker):
 def clients_object(
     director_position_object, destination_city_object, railway_station_object, user, faker
 ):
-    return Clients.objects.create(
+    return Client.objects.create(
         id=faker.pyint(),
         client_name=faker.company(),
         contract_number=faker.pystr(),

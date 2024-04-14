@@ -1,12 +1,12 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
-from .models import City, RailwayStations, TripsAuto, TripsRailway
+from .models import City, RailwayStation, TripAuto, TripRailway
 from .serializers import (
     CitySerializer,
-    RailwayStationsSerializer,
-    TripsAutoSerializer,
-    TripsRailwaySerializer,
+    RailwayStationSerializer,
+    TripAutoSerializer,
+    TripRailwaySerializer,
 )
 
 
@@ -16,19 +16,19 @@ class CityViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
 
 
-class TripsAutoViewSet(viewsets.ModelViewSet):
-    queryset = TripsAuto.objects.all()
-    serializer_class = TripsAutoSerializer
+class TripAutoViewSet(viewsets.ModelViewSet):
+    queryset = TripAuto.objects.all()
+    serializer_class = TripAutoSerializer
     permission_classes = (IsAuthenticated,)
 
 
-class RailwayStationsViewSet(viewsets.ModelViewSet):
-    queryset = RailwayStations.objects.all()
-    serializer_class = RailwayStationsSerializer
+class RailwayStationViewSet(viewsets.ModelViewSet):
+    queryset = RailwayStation.objects.all()
+    serializer_class = RailwayStationSerializer
     permission_classes = (IsAuthenticated,)
 
 
-class TripsRailwayViewSet(viewsets.ModelViewSet):
-    queryset = TripsRailway.objects.all()
-    serializer_class = TripsRailwaySerializer
+class TripRailwayViewSet(viewsets.ModelViewSet):
+    queryset = TripRailway.objects.all()
+    serializer_class = TripRailwaySerializer
     permission_classes = (IsAuthenticated,)

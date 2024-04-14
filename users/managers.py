@@ -2,9 +2,11 @@ from django.contrib.auth.models import BaseUserManager
 from django.db import IntegrityError, transaction
 from django.utils.translation import gettext_lazy as _
 
+from users.models import CustomUser
+
 
 # Менеджер пользователей
-class CustomUserManager(BaseUserManager):
+class CustomUserManager(BaseUserManager[CustomUser]):
     def create_user(self, email, full_name, password=None, **extra_fields):
         """
         Создает  и сохраняет пользователя с указанным email, ФИО и другими полями
