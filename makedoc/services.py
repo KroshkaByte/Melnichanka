@@ -1,20 +1,20 @@
-from clients.models import Clients
-from logistics.models import RailwayStations
+from clients.models import Client
+from logistics.models import RailwayStation
 from users.models import CustomUser
 
 
 def get_rw(request):
-    rw = RailwayStations.objects.get(id=1)
+    rw = RailwayStation.objects.get(id=1)
     return rw
 
 
 def get_client(request):
-    client = Clients.objects.all().first()
+    client = Client.objects.all().first()
     return client
 
 
 def get_client_rw(request):
-    client = Clients.objects.get(id=5)
+    client = Client.objects.get(id=5)
     return client
 
 
