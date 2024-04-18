@@ -3,6 +3,7 @@ export PYTHONPATH := $(shell pwd):$(PYTHONPATH)
 style:
 	flake8 .
 	ruff check .
+	ruff format .
 
 db:
 	docker-compose up -d db

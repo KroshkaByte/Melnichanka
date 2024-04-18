@@ -29,7 +29,7 @@ jsonschema-specifications==2023.12.1
 markdown-it-py==3.0.0
 mccabe==0.7.0
 mdurl==0.1.2
-# -e git+https://github.com/KroshkaByte/Melnichanka.git@84d03a9db355dba93e46d058fe6effb5edcd8067#egg=melnichanka
+-e git+https://github.com/KroshkaByte/Melnichanka.git@84d03a9db355dba93e46d058fe6effb5edcd8067#egg=melnichanka
 mypy==1.9.0
 mypy-extensions==1.0.0
 nodeenv==1.8.0

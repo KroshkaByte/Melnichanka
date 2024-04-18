@@ -1,13 +1,14 @@
 import datetime
-import openpyxl
 
-from django.http import HttpResponse
+import openpyxl
 from dateutil.relativedelta import relativedelta
-from .services import get_client, get_user, get_client_rw, get_rw
+from django.http import HttpResponse
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
 from .constants import MONTHS_AGREEMENT, MONTHS_SHIPMENT
+from .services import get_client, get_client_rw, get_rw, get_user
 
 
 def write_to_excel_auto(request):
@@ -23,11 +24,19 @@ def write_to_excel_auto(request):
 
     # Сегодняшняя дата
     current_date = datetime.datetime.today()
-    formatted_date_agreement = f'«{current_date.day}» {MONTHS_AGREEMENT[current_date.strftime("%B")]} {current_date.year} г.'
+    formatted_date_agreement = (
+        f"«{current_date.day}» "
+        f"{MONTHS_AGREEMENT[current_date.strftime("%B")]}"
+        f"{current_date.year} г."
+    )
 
     # Отгрузка
     next_month_date = current_date + relativedelta(months=+1)
-    formatted_date_shipment = f"{MONTHS_SHIPMENT[current_date.strftime('%B')]}-{MONTHS_SHIPMENT[next_month_date.strftime('%B')]} {current_date.year} г."
+    formatted_date_shipment = (
+        f"{MONTHS_SHIPMENT[current_date.strftime('%B')]}-"
+        f"{MONTHS_SHIPMENT[next_month_date.strftime('%B')]} "
+        f"{current_date.year} г."
+    )
 
     # Разьеденить ячейки
     worksheet.unmerge_cells("A1:F1")
@@ -45,7 +54,10 @@ def write_to_excel_auto(request):
     worksheet["A4"] = f"ООО  (ИП, АО)  «{client.client_name}»"
     worksheet["F6"] = formatted_date_agreement
     worksheet["A17"] = (
-        f"▪Настоящее приложение составлено и подписано в двух экземплярах, имеющих одинаковую юридическую силу, по одному для каждой из сторон, вступает в силу с момента подписания и является неотъемлемой частью договора № {client.contract_number} от {formatted_contract_date}г."
+        f"▪Настоящее приложение составлено и подписано в двух экземплярах, имеющих одинаковую "
+        f"юридическую силу, по одному для каждой из сторон, вступает в силу с момента подписания "
+        f"и является неотъемлемой частью договора № {client.contract_number}"
+        f" от {formatted_contract_date}г."
     )
     worksheet["C14"] = formatted_date_shipment
     worksheet["A35"] = f"{client.director_position}"
@@ -83,11 +95,19 @@ def write_to_excel_rw(request):
 
     # Сегодняшняя дата
     current_date = datetime.datetime.today()
-    formatted_date_agreement = f'«{current_date.day}» {MONTHS_AGREEMENT[current_date.strftime("%B")]} {current_date.year} г.'
+    formatted_date_agreement = (
+        f"«{current_date.day}» "
+        f"{MONTHS_AGREEMENT[current_date.strftime("%B")]} "
+        f"{current_date.year} г."
+    )
 
     # Отгрузка
     next_month_date = current_date + relativedelta(months=+1)
-    formatted_date_shipment = f"{MONTHS_SHIPMENT[current_date.strftime('%B')]}-{MONTHS_SHIPMENT[next_month_date.strftime('%B')]} {current_date.year} г."
+    formatted_date_shipment = (
+        f"{MONTHS_SHIPMENT[current_date.strftime('%B')]}-"
+        f"{MONTHS_SHIPMENT[next_month_date.strftime('%B')]} "
+        f"{current_date.year} г."
+    )
 
     # Разьеденить ячейки
     worksheet.unmerge_cells("A1:F1")
@@ -105,7 +125,10 @@ def write_to_excel_rw(request):
     worksheet["A4"] = f"ООО  (ИП, АО)  «{client.client_name}»"
     worksheet["F6"] = formatted_date_agreement
     worksheet["A26"] = (
-        f"▪Настоящее приложение составлено и подписано в двух экземплярах, имеющих одинаковую юридическую силу, по одному для каждой из сторон, вступает в силу с момента подписания и является неотъемлемой частью договора № {client.contract_number} от {formatted_contract_date}г."
+        f"▪Настоящее приложение составлено и подписано в двух экземплярах, имеющих одинаковую "
+        f"юридическую силу, по одному для каждой из сторон, вступает в силу с момента подписания "
+        f"и является неотъемлемой частью договора № "
+        f"{client.contract_number} от {formatted_contract_date}г."
     )
     worksheet["C16"] = formatted_date_shipment
     worksheet["C19"] = rw.station_name
