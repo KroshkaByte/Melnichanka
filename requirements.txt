@@ -16,6 +16,7 @@ djangorestframework-simplejwt==5.3.1
 drf-spectacular==0.27.1
 et-xmlfile==1.1.0
 exceptiongroup==1.2.0
+Faker==24.11.0
 filelock==3.13.1
 gunicorn==21.2.0
 identify==2.5.33
@@ -42,6 +43,7 @@ pytest==8.0.2
 pytest-clarity==1.0.1
 pytest-cov==4.1.0
 pytest-django==4.8.0
+pytest-faker==2.0.0
 pytest-testdox==3.1.0
 python-dateutil==2.9.0.post0
 python-dotenv==1.0.0
