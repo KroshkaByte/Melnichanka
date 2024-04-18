@@ -1,10 +1,11 @@
 from django.urls import resolve
-from clients.views import ClientsAPIView, ClientAPIUpdateView, ClientAPIDeleteView
+
+from clients.views import ClientAPIDeleteView, ClientAPIUpdateView, ClientAPIView
 
 
 def test__clients__url_resolves_to_correct_view():
     match = resolve("/api/v1/clients/")
-    assert match.func.__name__ == ClientsAPIView.as_view().__name__
+    assert match.func.__name__ == ClientAPIView.as_view().__name__
 
 
 def test__clients_update__url_resolves_to_correct_view():

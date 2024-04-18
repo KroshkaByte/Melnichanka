@@ -1,6 +1,6 @@
 import pytest
 
-from goods.models import Brand, Factory, Flour, Goods, Package
+from goods.models import Brand, Factory, Flour, Package, Product
 
 
 @pytest.fixture
@@ -35,7 +35,7 @@ def package_object(factory_object, faker):
 
 @pytest.fixture
 def goods_object(flour_object, brand_object, package_object, faker):
-    return Goods.objects.create(
+    return Product.objects.create(
         flour_name=flour_object,
         brand=brand_object,
         package=package_object,

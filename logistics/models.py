@@ -32,7 +32,7 @@ class City(models.Model):
 
 
 # Данные по логистике авто
-class TripsAuto(models.Model):
+class TripAuto(models.Model):
     departure_city = models.ForeignKey(
         "City",
         db_column="departure_city",
@@ -60,7 +60,7 @@ class TripsAuto(models.Model):
 
 
 # Таблица ж/д станций
-class RailwayStations(models.Model):
+class RailwayStation(models.Model):
     station_name = models.CharField(
         max_length=100,
         blank=False,
@@ -84,16 +84,16 @@ class RailwayStations(models.Model):
 
 
 # Данные по логистике жд
-class TripsRailway(models.Model):
+class TripRailway(models.Model):
     departure_station_name = models.ForeignKey(
-        "RailwayStations",
+        "RailwayStation",
         db_column="departure_station_name",
         on_delete=models.PROTECT,
         related_name="departure_station_name",
     )
 
     destination_station_name = models.ForeignKey(
-        "RailwayStations",
+        "RailwayStation",
         db_column="destination_station_name",
         on_delete=models.PROTECT,
         related_name="destination_station_name",

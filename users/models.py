@@ -29,7 +29,7 @@ class Department(models.Model):
 
 
 # Менеджер пользователей
-class CustomUserManager(BaseUserManager):
+class CustomUserManager(BaseUserManager["CustomUser"]):
     def create_user(self, email, full_name, password=None, **extra_fields):
         """
         Создает  и сохраняет пользователя с указанным email, ФИО и другими полями
@@ -83,7 +83,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ("full_name",)
+    REQUIRED_FIELDS = ["full_name"]
 
     objects = CustomUserManager()
 

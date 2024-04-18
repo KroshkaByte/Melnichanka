@@ -1,11 +1,11 @@
 import pytest
 from rest_framework.test import APIClient
+
 from users.serializers import (
     CustomUserSerializer,
-    UserUpdateSerializer,
-    UserUpdatePasswordSerializer,
     DepartmentSerializer,
     PositionSerializer,
+    UserUpdatePasswordSerializer,
 )
 
 
@@ -13,7 +13,7 @@ from users.serializers import (
 def test__position_serializer__create_object_valid(position_object):
     assert PositionSerializer(position_object).data == {
         "id": position_object.id,
-        "position": "position",
+        "position": position_object.position,
     }
 
 
@@ -22,7 +22,7 @@ def test__position_serializer__get_object_valid(position_object):
     retrieved_position = PositionSerializer(position_object).data
     assert retrieved_position == {
         "id": position_object.id,
-        "position": "position",
+        "position": position_object.position,
     }
 
 
@@ -30,7 +30,7 @@ def test__position_serializer__get_object_valid(position_object):
 def test__department_serializer__create_object_valid(department_object):
     assert DepartmentSerializer(department_object).data == {
         "id": department_object.id,
-        "department": "department",
+        "department": department_object.department,
     }
 
 
@@ -39,7 +39,7 @@ def test__department_serializer__get_object_valid(department_object):
     retrieved_department = DepartmentSerializer(department_object).data
     assert retrieved_department == {
         "id": department_object.id,
-        "department": "department",
+        "department": department_object.department,
     }
 
 
@@ -49,12 +49,12 @@ def test__custom_user_serializer__create_object_valid(
 ):
     serializer_data = CustomUserSerializer(user_object).data
     assert serializer_data["id"] == user_object.id
-    assert serializer_data["email"] == "testuser@test.com"
-    assert serializer_data["full_name"] == "Test User"
+    assert serializer_data["email"] == user_object.email
+    assert serializer_data["full_name"] == user_object.full_name
     assert serializer_data["position"] == position_object.id
     assert serializer_data["department"] == department_object.id
-    assert serializer_data["phone_number_work"] == "+79998877662"
-    assert serializer_data["phone_number_personal"] == "+79998877661"
+    assert serializer_data["phone_number_work"] == user_object.phone_number_work
+    assert serializer_data["phone_number_personal"] == user_object.phone_number_personal
 
 
 @pytest.mark.django_db
@@ -85,14 +85,14 @@ def test__custom_user_serializer__create_new_user(user_object, position_object, 
 def test__custom_user_update_serializer__update_object_valid(
     user_object, position_object, department_object
 ):
-    serializer_data = UserUpdateSerializer(user_object).data
+    serializer_data = CustomUserSerializer(user_object).data
     assert serializer_data["id"] == user_object.id
-    assert serializer_data["email"] == "testuser@test.com"
-    assert serializer_data["full_name"] == "Test User"
+    assert serializer_data["email"] == user_object.email
+    assert serializer_data["full_name"] == user_object.full_name
     assert serializer_data["position"] == position_object.id
     assert serializer_data["department"] == department_object.id
-    assert serializer_data["phone_number_work"] == "+79998877662"
-    assert serializer_data["phone_number_personal"] == "+79998877661"
+    assert serializer_data["phone_number_work"] == user_object.phone_number_work
+    assert serializer_data["phone_number_personal"] == user_object.phone_number_personal
 
 
 @pytest.mark.django_db

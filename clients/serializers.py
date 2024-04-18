@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Clients, Director_position
+from .models import Client, Director_position
 
 
 class DirectorpositionSerializer(serializers.ModelSerializer):
@@ -14,5 +14,5 @@ class ClientSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     class Meta:
-        model = Clients
+        model = Client
         fields = "__all__"

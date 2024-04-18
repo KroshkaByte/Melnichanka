@@ -1,17 +1,16 @@
 import pytest
-from users.serializers import UserUpdatePasswordSerializer, UserUpdateSerializer
-from users.views import (
-    DepartmentListView,
-    PositionListView,
-    LoginView,
-    LogoutView,
-    UserCreateView,
-    UserUpdateView,
-    UserUpdatePasswordView,
-)
 from django.test import RequestFactory
 from rest_framework.test import force_authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
+
+from users.serializers import UserUpdatePasswordSerializer, UserUpdateSerializer
+from users.views import (
+    DepartmentListView,
+    LoginView,
+    LogoutView,
+    PositionListView,
+    UserCreateView,
+)
 
 
 @pytest.mark.django_db
@@ -39,10 +38,10 @@ def test__department_list__list_object_valid(department_object):
 
 
 @pytest.mark.django_db
-def test__login_user___valid(user_object):
+def test__login_user__valid(user_object):
     factory = RequestFactory()
     request = factory.post(
-        "/api/v1/users/login/", {"email": "testuser@test.com", "password": "testpass"}
+        "/api/v1/users/login/", {"email": user_object.email, "password": "testpass"}
     )
     force_authenticate(request, user=user_object)
     view = LoginView().as_view()
@@ -51,7 +50,7 @@ def test__login_user___valid(user_object):
 
 
 @pytest.mark.django_db
-def test__logout_user___valid(user_object):
+def test__logout_user__valid(user_object):
     refresh = RefreshToken.for_user(user_object)
 
     factory = RequestFactory()
@@ -64,7 +63,7 @@ def test__logout_user___valid(user_object):
 
 
 @pytest.mark.django_db
-def test__create_user___valid(user_object, position_object, department_object):
+def test__create_user__valid(user_object, position_object, department_object):
     factory = RequestFactory()
     request = factory.post(
         "/api/v1/users/registration/",
@@ -86,7 +85,6 @@ def test__create_user___valid(user_object, position_object, department_object):
 
 @pytest.mark.django_db
 def test_user_update_view(user_object, rf):
-    view = UserUpdateView()
     request = rf.put("/fake-url/")
     request.user = user_object
     force_authenticate(request, user=user_object)
@@ -110,7 +108,6 @@ def test_user_update_view(user_object, rf):
 
 @pytest.mark.django_db
 def test_user_update_password_view(user_object, rf):
-    view = UserUpdatePasswordView()
     request = rf.put("/fake-url/")
     request.user = user_object
     force_authenticate(request, user=user_object)

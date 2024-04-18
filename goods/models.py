@@ -3,7 +3,7 @@ from django.db import models
 from logistics.constants import BRANCHES
 
 
-class Goods(models.Model):
+class Product(models.Model):
     flour_name = models.ForeignKey(
         "Flour", on_delete=models.PROTECT, related_name="flour_goods", db_index=True
     )
