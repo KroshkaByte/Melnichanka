@@ -3,7 +3,7 @@ import openpyxl
 
 from django.http import HttpResponse
 from dateutil.relativedelta import relativedelta
-from .services import get_client, get_user, get_client_rw, get_rw, get_logistics
+from .services import get_client, get_user, get_client_rw, get_rw
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -152,7 +152,7 @@ def write_to_excel_sluzebnyi(request):
 
     # Записка
     worksheet["A15"] = f"{formatted_date_agreement} № 12/2.2/23/3-"
-    worksheet["A19"] = f"..."
+    worksheet["A19"] = ""
 
     # Объединить ячейки
     worksheet.merge_cells("A19:H19")
