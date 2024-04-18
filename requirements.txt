@@ -1,6 +1,7 @@
 asgiref==3.8.1
 attrs==23.2.0
 certifi==2024.2.2
+cfgv==3.4.0
 charset-normalizer==3.3.2
 coverage==7.4.4
 distlib==0.3.8
@@ -26,6 +27,7 @@ flake8-eradicate==1.5.0
 flake8-markdown==0.5.0
 flake8-print==5.0.0
 gunicorn==21.2.0
+identify==2.5.35
 idna==3.7
 inflection==0.5.1
 iniconfig==2.0.0
@@ -44,6 +46,7 @@ phonenumberslite==8.13.27
 platformdirs==4.1.0
 pluggy==1.4.0
 pprintpp==0.4.0
+pre-commit==3.7.0
 psycopg2-binary==2.9.9
 pycodestyle==2.11.1
 pyflakes==3.2.0
