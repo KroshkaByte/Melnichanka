@@ -1,12 +1,6 @@
-import datetime
-import openpyxl
-
-from django.http import HttpResponse
-from dateutil.relativedelta import relativedelta
-from clients.models import Clients, Director_position
-from logistics.models import City, RailwayStations, TripsAuto, TripsRailway
+from clients.models import Clients
+from logistics.models import RailwayStations
 from users.models import CustomUser
-from .constants import MONTHS_AGREEMENT, MONTHS_SHIPMENT
 
 
 def get_rw(request):
