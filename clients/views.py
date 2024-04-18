@@ -1,8 +1,8 @@
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 
-from .models import Client, Director_position
-from .serializers import ClientSerializer, DirectorpositionSerializer
+from .models import Client, DirectorPosition
+from .serializers import ClientSerializer, DirectorPositionSerializer
 from .permissions import ClientAccessPermission
 
 
@@ -29,6 +29,6 @@ class ClientAPIDeleteView(generics.DestroyAPIView):
 
 # Передача списка позиций директора для фронтенда
 class DirectorPositionListView(generics.ListAPIView):
-    queryset = Director_position.objects.all()
-    serializer_class = DirectorpositionSerializer
+    queryset = DirectorPosition.objects.all()
+    serializer_class = DirectorPositionSerializer
     permission_classes = (IsAuthenticated,)

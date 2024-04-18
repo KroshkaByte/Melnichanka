@@ -1,11 +1,11 @@
 from rest_framework import serializers
 
-from .models import Client, Director_position
+from .models import Client, DirectorPosition
 
 
-class DirectorpositionSerializer(serializers.ModelSerializer):
+class DirectorPositionSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Director_position
+        model = DirectorPosition
         fields = ["id", "director_position"]
 
 
