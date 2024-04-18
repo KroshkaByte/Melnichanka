@@ -2,20 +2,20 @@ repos:
 - repo: https://github.com/pre-commit/pre-commit-hooks
   rev: v4.6.0
   hooks:
-  - id: trailing-whitespace
-  - id: end-of-file-fixer
-  - id: check-yaml
-  - id: debug-statements
+    - id: trailing-whitespace
+    - id: end-of-file-fixer
+    - id: check-yaml
+    - id: debug-statements
 
 - repo: https://github.com/PyCQA/flake8
   rev: 7.0.0
   hooks:
-  - id: flake8
-    additional_dependencies:
-    - flake8-eradicate
-    - flake8-print
-    - flake8-markdown
-    exclude: migrations/.*|tests/.*
+    - id: flake8
+      additional_dependencies:
+      - flake8-eradicate
+      - flake8-print
+      - flake8-markdown
+      exclude: migrations/.*|tests/.*
 
 - repo: https://github.com/astral-sh/ruff-pre-commit
   rev: v0.3.7
