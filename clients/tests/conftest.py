@@ -2,14 +2,14 @@ import pytest
 from rest_framework.test import APIClient
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from clients.models import Client, Director_position
+from clients.models import Client, DirectorPosition
 from logistics.models import City, RailwayStation
 from users.models import CustomUser
 
 
 @pytest.fixture
 def director_position_object(faker):
-    return Director_position.objects.create(id=faker.pyint(), director_position=faker.pystr())
+    return DirectorPosition.objects.create(id=faker.pyint(), director_position=faker.pystr())
 
 
 @pytest.fixture
