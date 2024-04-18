@@ -5,7 +5,7 @@ from .models import CustomUser, Department, Position
 
 
 # Сериализатор для создания новой записи
-class CustomUserSerializer(serializers.ModelSerializer):
+class CustomUserSerializer(serializers.ModelSerializer[CustomUser]):
     password = serializers.CharField(write_only=True, required=True)
     password_confirm = serializers.CharField(write_only=True, required=True)
 
@@ -44,7 +44,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
 
 # Сериализатор для редактирования существующей записи + изменения пароля
-class UserUpdateSerializer(serializers.ModelSerializer):
+class UserUpdateSerializer(serializers.ModelSerializer[CustomUser]):
     class Meta:
         model = CustomUser
         fields = [
@@ -58,7 +58,7 @@ class UserUpdateSerializer(serializers.ModelSerializer):
         ]
 
 
-class UserUpdatePasswordSerializer(serializers.ModelSerializer):
+class UserUpdatePasswordSerializer(serializers.ModelSerializer[CustomUser]):
     old_password = serializers.CharField(write_only=True, required=True)
     new_password = serializers.CharField(write_only=True, required=True)
     new_password_confirm = serializers.CharField(write_only=True, required=True)
@@ -103,13 +103,13 @@ class UserUpdatePasswordSerializer(serializers.ModelSerializer):
         return super().update(instance, validated_data)
 
 
-class DepartmentSerializer(serializers.ModelSerializer):
+class DepartmentSerializer(serializers.ModelSerializer[Department]):
     class Meta:
         model = Department
         fields = ["id", "department"]
 
 
-class PositionSerializer(serializers.ModelSerializer):
+class PositionSerializer(serializers.ModelSerializer[Position]):
     class Meta:
         model = Position
         fields = ["id", "position"]

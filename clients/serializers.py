@@ -1,15 +1,15 @@
 from rest_framework import serializers
 
-from .models import Client, Director_position
+from .models import Client, DirectorPosition
 
 
-class DirectorpositionSerializer(serializers.ModelSerializer):
+class DirectorpositionSerializer(serializers.ModelSerializer[DirectorPosition]):
     class Meta:
-        model = Director_position
+        model = DirectorPosition
         fields = ["id", "director_position"]
 
 
-class ClientSerializer(serializers.ModelSerializer):
+class ClientSerializer(serializers.ModelSerializer[Client]):
     # Устанавливает текущего авторизованого пользователя в поле user
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 

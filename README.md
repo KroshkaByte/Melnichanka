@@ -22,7 +22,7 @@ Once you have Docker and Docker Compose installed, follow these steps to start t
 ```
 git clone https://github.com/KroshkaByte/Melnichanka.git
 ```
-```
+
    - Start the project from root directory:
 
 ```
@@ -65,15 +65,20 @@ API documentation is available through Swagger UI and ReDoc.
 To run the tests, navigate to the root directory of the project (where the manage.py file is located) and run the following command:
 
 ```
-pytest
+pytest .
+```
+or
+```
+python3 -m pytest .
 ```
 
 - To run tests for a specific model, such as Goods, use the following command:
 ```
-pytest goods/tests/
-pytest logistics/tests/
-pytest users/tests/
-pytest clients/tests/
+pytest goods
+pytest logistics
+pytest users
+pytest clients
+pytest makedoc
 ```
 ## Contributing
 

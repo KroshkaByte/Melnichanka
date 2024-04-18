@@ -33,8 +33,7 @@ class LoginView(TokenObtainPairView):
             )
         try:
             return super().post(request, *args, **kwargs)
-        except Exception as e:
-            print(e)
+        except Exception:
             return Response(
                 {"detail": "Неверные учетные данные."},
                 status=status.HTTP_401_UNAUTHORIZED,
@@ -50,13 +49,12 @@ class LogoutView(APIView):
             token = RefreshToken(refresh_token)
             token.blacklist()
             return Response(status=status.HTTP_205_RESET_CONTENT)
-        except Exception as e:
-            print(e)
+        except Exception:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 # Класс регистрации пользователя
-class UserCreateView(generics.CreateAPIView):
+class UserCreateView(generics.CreateAPIView[CustomUser]):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
 
@@ -93,12 +91,12 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
 
 
 # Передача списка департаментов для фронтенда
-class DepartmentListView(generics.ListAPIView):
+class DepartmentListView(generics.ListAPIView[Department]):
     queryset = Department.objects.all()
     serializer_class = DepartmentSerializer
 
 
 # Передача списка позиций для фронтенда
-class PositionListView(generics.ListAPIView):
+class PositionListView(generics.ListAPIView[Position]):
     queryset = Position.objects.all()
     serializer_class = PositionSerializer
