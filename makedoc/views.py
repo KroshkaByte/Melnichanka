@@ -3,7 +3,7 @@ import openpyxl
 
 from django.http import HttpResponse
 from dateutil.relativedelta import relativedelta
-from .services import get_client, get_user, get_client_rw, get_rw
+from .services import get_client, get_user, get_client_rw, get_rw, get_logistics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -130,6 +130,35 @@ def write_to_excel_rw(request):
 
     # Сохранить файл
     new_file_path = f"rw_{user.full_name.split()[0]}_{current_date.strftime('%d.%m.%Y')}.xlsx"
+    workbook.save(new_file_path)
+
+    return HttpResponse(f"Документ сохранен как {new_file_path}")
+
+
+def write_to_excel_sluzebnyi(request):
+    user = get_user(request)
+    # logistics = get_logistics(request)
+    # Открытие файла шаблона
+    template_path = "exel-templates/sluz.xlsx"
+    workbook = openpyxl.load_workbook(template_path)
+    worksheet = workbook.active
+
+    # Сегодняшняя дата
+    current_date = datetime.datetime.today()
+    formatted_date_agreement = f'«{current_date.day}» {MONTHS_AGREEMENT[current_date.strftime("%B")]} {current_date.year} г.'
+
+    # Разьеденить ячейки
+    worksheet.unmerge_cells("A19:H19")
+
+    # Записка
+    worksheet["A15"] = f"{formatted_date_agreement} № 12/2.2/23/3-"
+    worksheet["A19"] = f"..."
+
+    # Объединить ячейки
+    worksheet.merge_cells("A19:H19")
+
+    # Сохранить файл
+    new_file_path = f"sluz_{user.full_name.split()[0]}_{current_date.strftime('%d.%m.%Y')}.xlsx"
     workbook.save(new_file_path)
 
     return HttpResponse(f"Документ сохранен как {new_file_path}")
