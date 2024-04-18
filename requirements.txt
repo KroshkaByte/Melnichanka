@@ -14,8 +14,9 @@ django-stubs-ext==4.2.7
 djangorestframework==3.14.0
 djangorestframework-simplejwt==5.3.1
 drf-spectacular==0.27.1
+et-xmlfile==1.1.0
 exceptiongroup==1.2.0
-Faker==24.8.0
+Faker==24.11.0
 filelock==3.13.1
 gunicorn==21.2.0
 identify==2.5.33
@@ -28,6 +29,7 @@ mdurl==0.1.2
 mypy==1.7.1
 mypy-extensions==1.0.0
 nodeenv==1.8.0
+openpyxl==3.1.2
 packaging==23.2
 phonenumberslite==8.13.27
 platformdirs==4.1.0
@@ -41,6 +43,7 @@ pytest==8.0.2
 pytest-clarity==1.0.1
 pytest-cov==4.1.0
 pytest-django==4.8.0
+pytest-faker==2.0.0
 pytest-testdox==3.1.0
 python-dateutil==2.9.0.post0
 python-dotenv==1.0.0
@@ -55,9 +58,11 @@ setuptools==69.1.1
 six==1.16.0
 sqlparse==0.4.4
 tomli==2.0.1
+types-python-dateutil==2.9.0.20240316
 types-pytz==2024.1.0.20240203
 types-PyYAML==6.0.12.12
 typing_extensions==4.9.0
 tzdata==2023.4
 uritemplate==4.1.1
 virtualenv==20.25.0
+XlsxWriter==3.2.0

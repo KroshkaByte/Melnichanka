@@ -4,7 +4,7 @@ from logistics.models import City, RailwayStation
 from users.models import CustomUser
 
 
-class Director_position(models.Model):
+class DirectorPosition(models.Model):
     director_position = models.CharField(max_length=40)
 
     class Meta:
@@ -21,7 +21,7 @@ class Client(models.Model):
     contract_number = models.CharField(max_length=50, verbose_name="Номер договора")
     contract_date = models.DateField(verbose_name="Дата заключения договора")
     director_position = models.ForeignKey(
-        Director_position,
+        DirectorPosition,
         on_delete=models.PROTECT,
         verbose_name="Должность директора",
     )
