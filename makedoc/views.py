@@ -24,19 +24,11 @@ def write_to_excel_auto(request):
 
     # Сегодняшняя дата
     current_date = datetime.datetime.today()
-    formatted_date_agreement = (
-        f"«{current_date.day}» "
-        f"{MONTHS_AGREEMENT[current_date.strftime("%B")]}"
-        f"{current_date.year} г."
-    )
+    formatted_date_agreement = f'«{current_date.day}» {MONTHS_AGREEMENT[current_date.strftime("%B")]} {current_date.year} г.'  # noqa501
 
     # Отгрузка
     next_month_date = current_date + relativedelta(months=+1)
-    formatted_date_shipment = (
-        f"{MONTHS_SHIPMENT[current_date.strftime('%B')]}-"
-        f"{MONTHS_SHIPMENT[next_month_date.strftime('%B')]} "
-        f"{current_date.year} г."
-    )
+    formatted_date_shipment = f"{MONTHS_SHIPMENT[current_date.strftime('%B')]}-{MONTHS_SHIPMENT[next_month_date.strftime('%B')]} {current_date.year} г."  # noqa501
 
     # Разьеденить ячейки
     worksheet.unmerge_cells("A1:F1")
@@ -54,10 +46,7 @@ def write_to_excel_auto(request):
     worksheet["A4"] = f"ООО  (ИП, АО)  «{client.client_name}»"
     worksheet["F6"] = formatted_date_agreement
     worksheet["A17"] = (
-        f"▪Настоящее приложение составлено и подписано в двух экземплярах, имеющих одинаковую "
-        f"юридическую силу, по одному для каждой из сторон, вступает в силу с момента подписания "
-        f"и является неотъемлемой частью договора № {client.contract_number}"
-        f" от {formatted_contract_date}г."
+        f"▪Настоящее приложение составлено и подписано в двух экземплярах, имеющих одинаковую юридическую силу, по одному для каждой из сторон, вступает в силу с момента подписания и является неотъемлемой частью договора № {client.contract_number} от {formatted_contract_date}г."  # noqa501
     )
     worksheet["C14"] = formatted_date_shipment
     worksheet["A35"] = f"{client.director_position}"
@@ -95,19 +84,11 @@ def write_to_excel_rw(request):
 
     # Сегодняшняя дата
     current_date = datetime.datetime.today()
-    formatted_date_agreement = (
-        f"«{current_date.day}» "
-        f"{MONTHS_AGREEMENT[current_date.strftime("%B")]} "
-        f"{current_date.year} г."
-    )
+    formatted_date_agreement = f'«{current_date.day}» {MONTHS_AGREEMENT[current_date.strftime("%B")]} {current_date.year} г.'  # noqa501
 
     # Отгрузка
     next_month_date = current_date + relativedelta(months=+1)
-    formatted_date_shipment = (
-        f"{MONTHS_SHIPMENT[current_date.strftime('%B')]}-"
-        f"{MONTHS_SHIPMENT[next_month_date.strftime('%B')]} "
-        f"{current_date.year} г."
-    )
+    formatted_date_shipment = f"{MONTHS_SHIPMENT[current_date.strftime('%B')]}-{MONTHS_SHIPMENT[next_month_date.strftime('%B')]} {current_date.year} г."  # noqa501
 
     # Разьеденить ячейки
     worksheet.unmerge_cells("A1:F1")
@@ -125,10 +106,7 @@ def write_to_excel_rw(request):
     worksheet["A4"] = f"ООО  (ИП, АО)  «{client.client_name}»"
     worksheet["F6"] = formatted_date_agreement
     worksheet["A26"] = (
-        f"▪Настоящее приложение составлено и подписано в двух экземплярах, имеющих одинаковую "
-        f"юридическую силу, по одному для каждой из сторон, вступает в силу с момента подписания "
-        f"и является неотъемлемой частью договора № "
-        f"{client.contract_number} от {formatted_contract_date}г."
+        f"▪Настоящее приложение составлено и подписано в двух экземплярах, имеющих одинаковую юридическую силу, по одному для каждой из сторон, вступает в силу с момента подписания и является неотъемлемой частью договора № {client.contract_number} от {formatted_contract_date}г."  # noqa501
     )
     worksheet["C16"] = formatted_date_shipment
     worksheet["C19"] = rw.station_name
@@ -153,6 +131,34 @@ def write_to_excel_rw(request):
 
     # Сохранить файл
     new_file_path = f"rw_{user.full_name.split()[0]}_{current_date.strftime('%d.%m.%Y')}.xlsx"
+    workbook.save(new_file_path)
+
+    return HttpResponse(f"Документ сохранен как {new_file_path}")
+
+
+def write_to_excel_sluzebnyi(request):
+    user = get_user(request)
+    # Открытие файла шаблона
+    template_path = "exel-templates/sluz.xlsx"
+    workbook = openpyxl.load_workbook(template_path)
+    worksheet = workbook.active
+
+    # Сегодняшняя дата
+    current_date = datetime.datetime.today()
+    formatted_date_agreement = f'«{current_date.day}» {MONTHS_AGREEMENT[current_date.strftime("%B")]} {current_date.year} г.'  # noqa501
+
+    # Разьеденить ячейки
+    worksheet.unmerge_cells("A19:H19")
+
+    # Записка
+    worksheet["A15"] = f"{formatted_date_agreement} № 12/2.2/23/3-"
+    worksheet["A19"] = ""
+
+    # Объединить ячейки
+    worksheet.merge_cells("A19:H19")
+
+    # Сохранить файл
+    new_file_path = f"sluz_{user.full_name.split()[0]}_{current_date.strftime('%d.%m.%Y')}.xlsx"
     workbook.save(new_file_path)
 
     return HttpResponse(f"Документ сохранен как {new_file_path}")
