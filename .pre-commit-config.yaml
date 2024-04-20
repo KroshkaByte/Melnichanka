@@ -15,6 +15,7 @@ repos:
       - flake8-eradicate
       - flake8-print
       - flake8-markdown
+      - flake8-bugbear
       exclude: migrations/.*|tests/.*
 
 - repo: https://github.com/astral-sh/ruff-pre-commit
