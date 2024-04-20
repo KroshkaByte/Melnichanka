@@ -107,4 +107,4 @@ class TripRailway(models.Model):
         unique_together = ["departure_station_name", "destination_station_name"]
 
     def __str__(self) -> str:
-        return f"{self.departure_station_name} - {self.destination_station_name}: {self.cost_per_tonn_rw} руб./тн"
+        return f"{self.departure_station_name} - {self.destination_station_name}: {self.cost_per_tonn_rw} руб./тн"  # noqa 501

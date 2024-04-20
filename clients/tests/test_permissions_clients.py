@@ -15,13 +15,13 @@ def test__client_access_permission__has_permission_authenticated_user():
     factory = RequestFactory()
     request = factory.get("/")
     request.user = user
+
     assert permission.has_permission(request, view=None)
 
 
 @pytest.mark.django_db
 def test__client_access_permission__has_object_permission(clients_object):
     user = clients_object.user
-
     permission = ClientAccessPermission()
     factory = RequestFactory()
     request = factory.get("/")
@@ -39,5 +39,6 @@ def test__client_access_permission__has_object_permission_other_user(clients_obj
     factory = RequestFactory()
     request = factory.get("/")
     request.user = other_user
+
     with pytest.raises(PermissionDenied):
         permission.has_object_permission(request, view=None, obj=clients_object)
