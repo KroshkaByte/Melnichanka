@@ -21,3 +21,7 @@ def get_client_rw(request):
 def get_user(request):
     user = CustomUser.objects.get(id=1)
     return user
+
+
+def get_logistics(request):
+    pass
