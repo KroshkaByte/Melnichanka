@@ -159,9 +159,9 @@ def create_flour():
 # Создаем бренды муки из заданного списка
 def create_brand():
     brands = [
-        ("Бело-Нежная", "Бело-Нежная"),
-        ("Славна", "Славна"),
-        ("Старооскольская", "Старооскольская"),
+        "Бело-Нежная",
+        "Славна",
+        "Старооскольская",
     ]
     for brand in brands:
         Brand.objects.create(brand=brand)
@@ -214,13 +214,13 @@ def run():
     create_departments()
     create_superuser()
     create_user(2)
-    create_director_position(3)
+    create_director_position()
     create_city(3)
     create_railway_station(3)
     create_trip_auto(3)
     create_trip_railway(3)
     create_client(5)
-    create_flour(3)
+    create_flour()
     create_brand()
     create_factory(3)
     create_package(3)
