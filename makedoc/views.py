@@ -50,13 +50,13 @@ def write_to_excel_auto(request):
     worksheet[
         "A17"
     ] = f"▪Настоящее приложение составлено и подписано в двух экземплярах, имеющих одинаковую \
-            юридическую силу, по одному для каждой из сторон, вступает в силу с момента \
-                подписания и является неотъемлемой частью договора № {client.contract_number} от \
-                    {formatted_contract_date}г."
+    юридическую силу, по одному для каждой из сторон, вступает в силу с момента \
+    подписания и является неотъемлемой частью договора № {client.contract_number} от \
+    {formatted_contract_date}г."
     worksheet["C14"] = formatted_date_shipment
-    worksheet["A35"] = f"{client.director_position}"
-    worksheet["A36"] = f"{client.client_name}"
-    worksheet["F36"] = f"{client.director_name}"
+    worksheet["A35"] = client.director_position
+    worksheet["A36"] = client.client_name
+    worksheet["F36"] = client.director_name
     worksheet["A49"] = f"Ваш персональный менеджер: {user.full_name}"
     worksheet["A50"] = f"Тел. {user.phone_number_personal}, моб. {user.phone_number_work}"
 
@@ -122,12 +122,12 @@ def write_to_excel_rw(request):
     worksheet["C19"] = rw.station_name
     worksheet["C20"] = rw.station_id
     worksheet["C21"] = f"ООО  (ИП, АО) {client.receiver_name}"
-    worksheet["C22"] = f"{client.receiver_id}"
-    worksheet["C23"] = f"{client.receiver_okpo}"
-    worksheet["C24"] = f"{client.receiver_adress}"
-    worksheet["A42"] = f"{client.director_position}"
-    worksheet["A43"] = f"{client.client_name}"
-    worksheet["F43"] = f"{client.director_name}"
+    worksheet["C22"] = client.receiver_id
+    worksheet["C23"] = client.receiver_okpo
+    worksheet["C24"] = client.receiver_adress
+    worksheet["A42"] = client.director_position
+    worksheet["A43"] = client.client_name
+    worksheet["F43"] = client.director_name
     worksheet["A49"] = f"Ваш персональный менеджер: {user.full_name}"
     worksheet["A50"] = f"Тел. {user.phone_number_personal}, моб. {user.phone_number_work}"
 
