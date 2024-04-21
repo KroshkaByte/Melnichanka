@@ -13,6 +13,7 @@ RUN apt update && apt install -y --no-install-recommends locales; rm -rf /var/li
 
 RUN locale -a
 
+
 RUN pip install --upgrade pip \
  && pip install -r requirements.txt
 
