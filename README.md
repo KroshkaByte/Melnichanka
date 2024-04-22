@@ -26,7 +26,7 @@ git clone https://github.com/KroshkaByte/Melnichanka.git
    - Start the project from root directory:
 
 ```
-docker-compose up -d
+docker-compose up -d --build
 ```
    - Open your web browser and navigate to http://localhost:80 to access the application.
 
@@ -72,7 +72,7 @@ or
 python3 -m pytest .
 ```
 
-- To run tests for a specific model, such as Goods, use the following command:
+- To run tests for a specific application (such as goods, logistics, users, etc.) use the following command:
 ```
 pytest goods
 pytest logistics

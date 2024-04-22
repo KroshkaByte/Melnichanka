@@ -30,7 +30,7 @@ services:
       - melnichanka
 
   web:
-    build: .
+    image: ghcr.io/kroshkabyte/melnichanka:v0.1.0
     env_file: .env
     ports:
       - "8000:8000"
