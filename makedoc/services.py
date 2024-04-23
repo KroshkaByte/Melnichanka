@@ -1,13 +1,17 @@
 import os
-from datetime import date, timedelta
-
-import babel.dates
+import locale
 import openpyxl
 import pymorphy3
 
+
+from datetime import date, timedelta
 from clients.models import Client
 from logistics.models import RailwayStation
 from users.models import CustomUser
+
+
+morph = pymorphy3.MorphAnalyzer()
+locale.setlocale(locale.LC_TIME, "ru_RU.UTF-8")
 
 
 def get_rw(request):
@@ -29,9 +33,6 @@ def get_logistics(request):
     pass
 
 
-morph = pymorphy3.MorphAnalyzer()
-
-
 def get_current_date():
     # Сегодняшняя дата
     current_date = date.today()
@@ -39,9 +40,9 @@ def get_current_date():
 
 
 def get_formatted_date_agreement():
-    # Форматируем дату согласно русской локали
-    formatted_date_agreement = babel.dates.format_date(
-        get_current_date(), "«d» MMMM y г.", locale="ru_RU"
+    formatted_date_agreement = (
+        f'«{get_current_date().day}» '
+        f'{get_current_date().strftime("%B")} {get_current_date().year} г.'
     )
     return formatted_date_agreement
 
@@ -50,18 +51,15 @@ def get_formatted_date_shipment():
     current_date = get_current_date()
     next_month_date = current_date + timedelta(days=30)
     if next_month_date.month == current_date.month:
-        month_name = babel.dates.format_date(current_date, "MMMM", locale="ru_RU")
-        # Склоняем имя месяца
-        month_name = morph.parse(month_name)[0].inflect({"nomn"}).word
-        formatted_date_shipment = f"{month_name} {current_date.year} г."
-    else:
-        current_month_name = babel.dates.format_date(current_date, "MMMM", locale="ru_RU")
-        next_month_name = babel.dates.format_date(next_month_date, "MMMM", locale="ru_RU")
-        # Склоняем имена месяцев
-        current_month_name = morph.parse(current_month_name)[0].inflect({"nomn"}).word
-        next_month_name = morph.parse(next_month_name)[0].inflect({"nomn"}).word
         formatted_date_shipment = (
-            f"{current_month_name}-" f"{next_month_name} " f"{current_date.year} г."
+            f"{morph.parse(current_date.strftime('%B'))[0].inflect({'nomn'}).word} "
+            f"{current_date.year} г."
+        )
+    else:
+        formatted_date_shipment = (
+            f"{morph.parse(current_date.strftime('%B'))[0].inflect({'nomn'}).word}-"
+            f"{morph.parse(next_month_date.strftime('%B'))[0].inflect({'nomn'}).word} "
+            f"{current_date.year} г."
         )
     return formatted_date_shipment
 
