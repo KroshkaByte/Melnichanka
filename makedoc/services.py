@@ -1,5 +1,5 @@
-import os
 import locale
+import os
 import openpyxl
 import pymorphy3
 
@@ -11,7 +11,7 @@ from users.models import CustomUser
 
 
 morph = pymorphy3.MorphAnalyzer()
-locale.setlocale(locale.LC_ALL, "ru_RU.UTF-8")
+locale.setlocale(locale.LC_TIME, "ru_RU.UTF-8")
 
 
 def get_rw(request):
