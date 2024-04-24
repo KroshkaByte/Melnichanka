@@ -1,7 +1,7 @@
 import os
 from datetime import date, timedelta
 
-import babel.dates
+import babel.dates as bd
 import openpyxl
 import pymorphy3
 
@@ -34,36 +34,35 @@ morph = pymorphy3.MorphAnalyzer()
 
 def get_current_date():
     # Сегодняшняя дата
-    current_date = date.today()
-    return current_date
+    return date.today()
+
+
+def format_date_nomn_case(date_object):
+    # Приводим дату к именительному падежу
+    return morph.parse(date_object)[0].inflect({"nomn"}).word
+
+
+def format_month_ru_locale(date_object):
+    # Форматируем месяц  согласно русской локали
+    return bd.format_date(date_object, "MMMM", locale="ru_RU")
 
 
 def get_formatted_date_agreement():
-    # Форматируем дату согласно русской локали
-    formatted_date_agreement = babel.dates.format_date(
-        get_current_date(), "«d» MMMM y г.", locale="ru_RU"
-    )
-    return formatted_date_agreement
+    # Форматируем текущую дату согласно русской локали
+    return bd.format_date(get_current_date(), "«d» MMMM y г.", locale="ru_RU")
 
 
 def get_formatted_date_shipment():
     current_date = get_current_date()
-    next_month_date = current_date + timedelta(days=30)
-    if next_month_date.month == current_date.month:
-        month_name = babel.dates.format_date(current_date, "MMMM", locale="ru_RU")
-        # Склоняем имя месяца
-        month_name = morph.parse(month_name)[0].inflect({"nomn"}).word
-        formatted_date_shipment = f"{month_name} {current_date.year} г."
+    next_month_date = current_date.replace(day=1) + timedelta(days=31)
+    raw_current_month = format_month_ru_locale(current_date)
+    raw_next_month = format_month_ru_locale(next_month_date)
+    current_month = format_date_nomn_case(raw_current_month)
+    next_month = format_date_nomn_case(raw_next_month)
+    if current_date.year == next_month_date.year:
+        return f"{current_month}-{next_month} {current_date.year} г."
     else:
-        current_month_name = babel.dates.format_date(current_date, "MMMM", locale="ru_RU")
-        next_month_name = babel.dates.format_date(next_month_date, "MMMM", locale="ru_RU")
-        # Склоняем имена месяцев
-        current_month_name = morph.parse(current_month_name)[0].inflect({"nomn"}).word
-        next_month_name = morph.parse(next_month_name)[0].inflect({"nomn"}).word
-        formatted_date_shipment = (
-            f"{current_month_name}-" f"{next_month_name} " f"{current_date.year} г."
-        )
-    return formatted_date_shipment
+        return f"{current_month} {current_date.year} г.-{next_month} {next_month_date.year} г."
 
 
 def write_to_excel_auto(request):
