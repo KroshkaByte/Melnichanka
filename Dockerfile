@@ -13,5 +13,6 @@ RUN pip install --upgrade pip \
 
 COPY . .
 
-RUN apt-get update && apt-get install -y locales
-RUN localedef -i ru_RU -f UTF-8 ru_RU
+RUN apt-get update && apt-get install -y locales \
+ && localedef -i ru_RU -f UTF-8 ru_RU.UTF-8 \
+ && dpkg-reconfigure locales
