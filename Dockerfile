@@ -2,6 +2,10 @@ FROM python:3.12.2-slim
 
 WORKDIR /app
 
+ENV LANG C.UTF-8
+ENV LC_ALL C.UTF-8
+
+
 ENV DJANGO_SETTINGS_MODULE=melnichanka.settings
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
@@ -13,5 +17,7 @@ RUN apt-get update && apt-get install -y locales \
  && dpkg-reconfigure locales \
  && pip install --upgrade pip \
  && pip install -r requirements.txt
+
+ ENV LANG ru_RU.UTF-8
 
 COPY . .
