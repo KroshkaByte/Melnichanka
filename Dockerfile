@@ -12,6 +12,3 @@ RUN pip install --upgrade pip \
  && pip install -r requirements.txt
 
 COPY . .
-
-RUN apt-get update && apt-get install -y locales
-RUN localedef -i ru_RU -f UTF-8 ru_RU
