@@ -31,12 +31,14 @@ DEBUG = str(os.getenv("DEBUG"))
 load_dotenv()
 
 # CORS
-CORS_ORIGIN_ALLOW_ALL = os.getenv("CORS_ORIGIN_ALLOW_ALL").lower() == "true"
-CORS_ALLOW_CREDENTIALS = os.getenv("CORS_ALLOW_CREDENTIALS").lower() == "true"
-CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS").split(",")
+CORS_ORIGIN_ALLOW_ALL = False
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS_RAW = os.getenv("CORS_ALLOWED_ORIGINS")
+CORS_ALLOWED_ORIGINS = CORS_ALLOWED_ORIGINS_RAW.split(",") if CORS_ALLOWED_ORIGINS_RAW else []
 
 # Allowed hosts
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS").split(",")
+ALLOWED_HOSTS_RAW = os.getenv("ALLOWED_HOSTS")
+ALLOWED_HOSTS = ALLOWED_HOSTS_RAW.split(",") if ALLOWED_HOSTS_RAW else []
 
 # Application definition
 
@@ -177,9 +179,10 @@ SIMPLE_JWT = {
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = os.getenv("EMAIL_HOST")
-EMAIL_PORT = int(os.getenv("EMAIL_PORT"))
+EMAIL_PORT_RAW = os.getenv("EMAIL_PORT")
+EMAIL_PORT = int(EMAIL_PORT_RAW) if EMAIL_PORT_RAW else 0
 EMAIL_USE_TLS = False
-EMAIL_USE_SSL = os.getenv("EMAIL_USE_SSL").lower() == 'true'
+EMAIL_USE_SSL = True
 EMAIL_HOST_USER = str(os.getenv("EMAIL_HOST_USER"))
 EMAIL_HOST_PASSWORD = str(os.getenv("EMAIL_HOST_PASSWORD"))
 
