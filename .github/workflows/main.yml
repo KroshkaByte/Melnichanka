@@ -73,7 +73,6 @@ jobs:
   build:
     needs: test
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Copy repository contents via scp
@@ -83,6 +82,27 @@ jobs:
         username: ${{ secrets.USERNAME }}
         port: ${{ secrets.PORT }}
         key: ${{ secrets.SSHKEY }}
+        script: |
+          cd /var/www/mywebsite
+          sudo rm .env
+          sudo touch .env
+          sudo chmod 666 .env
+          sudo echo DEBUG=${{ secrets.DEBUG }} >> .env
+          sudo echo CORS_ORIGIN_ALLOW_ALL=${{ secrets.CORS_ORIGIN_ALLOW_ALL }} >> .env
+          sudo echo CORS_ALLOW_CREDENTIALS=${{ secrets.CORS_ALLOW_CREDENTIALS }} >> .env
+          sudo echo CORS_ALLOWED_ORIGINS=${{ secrets.CORS_ALLOWED_ORIGINS }} >> .env
+          sudo echo ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }} >> .env
+          sudo echo DATABASE_NAME=${{ secrets.DATABASE_NAME }} >> .env
+          sudo echo DATABASE_USER=${{ secrets.DATABASE_USER }} >> .env
+          sudo echo DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} >> .env
+          sudo echo DATABASE_HOST=${{ secrets.DATABASE_HOST }} >> .env
+          sudo echo DATABASE_PORT=${{ secrets.DATABASE_PORT }} >> .env
+          sudo echo SECRET_KEY=${{ secrets.SECRET_KEY }} >> .env
+          sudo echo EMAIL_HOST=${{ secrets.EMAIL_HOST }} >> .env
+          sudo echo EMAIL_PORT=${{ secrets.EMAIL_PORT }} >> .env
+          sudo echo EMAIL_USE_SSL=${{ secrets.EMAIL_USE_SSL }} >> .env
+          sudo echo EMAIL_HOST_USER=${{ secrets.EMAIL_HOST_USER }} >> .env
+          sudo echo EMAIL_HOST_PASSWORD=${{ secrets.EMAIL_HOST_PASSWORD }} >> .env
         source: "."
         target: "/var/www/mywebsite"
 
