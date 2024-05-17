@@ -16,6 +16,8 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
+load_dotenv()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -27,12 +29,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = str(os.getenv("SECRET_KEY"))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = str(os.getenv("DEBUG"))
-load_dotenv()
+DEBUG = bool(os.getenv("DEBUG", "False"))
+
 
 # CORS
-CORS_ORIGIN_ALLOW_ALL = False
-CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_ALLOW_ALL = bool(os.getenv("CORS_ORIGIN_ALLOW_ALL"))
+CORS_ALLOW_CREDENTIALS = bool(os.getenv("CORS_ALLOW_CREDENTIALS"))
 CORS_ALLOWED_ORIGINS_RAW = os.getenv("CORS_ALLOWED_ORIGINS")
 CORS_ALLOWED_ORIGINS = CORS_ALLOWED_ORIGINS_RAW.split(",") if CORS_ALLOWED_ORIGINS_RAW else []
 
@@ -182,7 +184,7 @@ EMAIL_HOST = os.getenv("EMAIL_HOST")
 EMAIL_PORT_RAW = os.getenv("EMAIL_PORT")
 EMAIL_PORT = int(EMAIL_PORT_RAW) if EMAIL_PORT_RAW else 0
 EMAIL_USE_TLS = False
-EMAIL_USE_SSL = True
+EMAIL_USE_SSL = bool(os.getenv("EMAIL_USE_SSL"))
 EMAIL_HOST_USER = str(os.getenv("EMAIL_HOST_USER"))
 EMAIL_HOST_PASSWORD = str(os.getenv("EMAIL_HOST_PASSWORD"))
 
