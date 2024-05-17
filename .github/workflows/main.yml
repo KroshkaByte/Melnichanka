@@ -1,4 +1,4 @@
-name: Check
+name: CI/CD
 
 on: push
 
@@ -14,7 +14,6 @@ jobs:
         run: ruff check .
       - name: Lint Flake8
         run: flake8 .
-
   types:
     runs-on: ubuntu-latest
     steps:
@@ -24,7 +23,6 @@ jobs:
         run: pip install -r requirements.txt
       - name: Check types
         run: mypy .
-
   test:
     runs-on: ubuntu-latest
     needs: [lint, types]
@@ -85,6 +83,7 @@ jobs:
   build:
     needs: test
     runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && github.ref == 'refs/heads/main'
     steps:
     - uses: actions/checkout@v2
     - name: Copy repository contents via scp
@@ -133,4 +132,4 @@ jobs:
         key: ${{ secrets.SSHKEY }}
         script: |
           cd /var/www/mywebsite
-          docker-compose up -d
+          docker-compose up -d --build
