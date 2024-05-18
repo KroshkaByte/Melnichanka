@@ -57,13 +57,6 @@ jobs:
           DATABASE_HOST: postgres
           DATABASE_PORT: 5432
           DEBUG: ${{ secrets.DEBUG }}
-          CORS_ALLOWED_ORIGINS: ${{ secrets.CORS_ALLOWED_ORIGINS }}
-          ALLOWED_HOSTS: ${{ secrets.ALLOWED_HOSTS }}
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          EMAIL_HOST: ${{ secrets.EMAIL_HOST }}
-          EMAIL_PORT: ${{ secrets.EMAIL_PORT }}
-          EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
-          EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
         run: python3 manage.py migrate
       - name: Tests
         env:
@@ -85,7 +78,7 @@ jobs:
   build:
     needs: test
     runs-on: ubuntu-latest
-
+    if: github.event_name == 'pull_request' && github.ref == 'refs/heads/main'
     steps:
     - uses: actions/checkout@v2
     - name: Copy repository contents via scp

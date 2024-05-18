@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   db:
-    image: postgres:16.2-alpine3.18
+    image: postgres:16.3-alpine
     env_file:
       - .env
     environment:
