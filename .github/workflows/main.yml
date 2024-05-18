@@ -57,6 +57,7 @@ jobs:
           DATABASE_HOST: postgres
           DATABASE_PORT: 5432
           DEBUG: ${{ secrets.DEBUG }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
         run: python3 manage.py migrate
       - name: Tests
         env:
