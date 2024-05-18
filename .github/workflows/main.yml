@@ -16,6 +16,8 @@ jobs:
         run: flake8 .
   types:
     runs-on: ubuntu-latest
+    env:
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
