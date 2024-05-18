@@ -83,7 +83,7 @@ jobs:
   build:
     needs: test
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' && github.ref == 'refs/heads/main'
+
     steps:
     - uses: actions/checkout@v2
     - name: Copy repository contents via scp
@@ -107,22 +107,24 @@ jobs:
           sudo rm -f .env
           sudo touch .env
           sudo chmod 666 .env
-          sudo echo DEBUG=${{ secrets.DEBUG }} >> .env
-          sudo echo CORS_ORIGIN_ALLOW_ALL=${{ secrets.CORS_ORIGIN_ALLOW_ALL }} >> .env
-          sudo echo CORS_ALLOW_CREDENTIALS=${{ secrets.CORS_ALLOW_CREDENTIALS }} >> .env
-          sudo echo CORS_ALLOWED_ORIGINS=${{ secrets.CORS_ALLOWED_ORIGINS }} >> .env
-          sudo echo ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }} >> .env
-          sudo echo DATABASE_NAME=${{ secrets.DATABASE_NAME }} >> .env
-          sudo echo DATABASE_USER=${{ secrets.DATABASE_USER }} >> .env
-          sudo echo DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} >> .env
-          sudo echo DATABASE_HOST=${{ secrets.DATABASE_HOST }} >> .env
-          sudo echo DATABASE_PORT=${{ secrets.DATABASE_PORT }} >> .env
-          sudo echo SECRET_KEY=${{ secrets.SECRET_KEY }} >> .env
-          sudo echo EMAIL_HOST=${{ secrets.EMAIL_HOST }} >> .env
-          sudo echo EMAIL_PORT=${{ secrets.EMAIL_PORT }} >> .env
-          sudo echo EMAIL_USE_SSL=${{ secrets.EMAIL_USE_SSL }} >> .env
-          sudo echo EMAIL_HOST_USER=${{ secrets.EMAIL_HOST_USER }} >> .env
-          sudo echo EMAIL_HOST_PASSWORD=${{ secrets.EMAIL_HOST_PASSWORD }} >> .env
+          sudo cat <<EOF > .env
+          DEBUG=${{ secrets.DEBUG }}
+          CORS_ORIGIN_ALLOW_ALL=${{ secrets.CORS_ORIGIN_ALLOW_ALL }}
+          CORS_ALLOW_CREDENTIALS=${{ secrets.CORS_ALLOW_CREDENTIALS }}
+          CORS_ALLOWED_ORIGINS=${{ secrets.CORS_ALLOWED_ORIGINS }}
+          ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }}
+          DATABASE_NAME=${{ secrets.DATABASE_NAME }}
+          DATABASE_USER=${{ secrets.DATABASE_USER }}
+          DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}
+          DATABASE_HOST=${{ secrets.DATABASE_HOST }}
+          DATABASE_PORT=${{ secrets.DATABASE_PORT }}
+          SECRET_KEY=${{ secrets.SECRET_KEY }}
+          EMAIL_HOST=${{ secrets.EMAIL_HOST }}
+          EMAIL_PORT=${{ secrets.EMAIL_PORT }}
+          EMAIL_USE_SSL=${{ secrets.EMAIL_USE_SSL }}
+          EMAIL_HOST_USER=${{ secrets.EMAIL_HOST_USER }}
+          EMAIL_HOST_PASSWORD=${{ secrets.EMAIL_HOST_PASSWORD }}
+          EOF
     - name: Executing remote command
       uses: appleboy/ssh-action@master
       with:

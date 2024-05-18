@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = str(os.getenv("SECRET_KEY"))
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(os.getenv("DEBUG", "False"))
@@ -107,11 +107,11 @@ WSGI_APPLICATION = "melnichanka.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": str(os.getenv("DATABASE_NAME")),
-        "USER": str(os.getenv("DATABASE_USER")),
-        "PASSWORD": str(os.getenv("DATABASE_PASSWORD")),
-        "HOST": str(os.getenv("DATABASE_HOST")),
-        "PORT": str(os.getenv("DATABASE_PORT")),
+        "NAME": os.getenv("DATABASE_NAME"),
+        "USER": os.getenv("DATABASE_USER"),
+        "PASSWORD": os.getenv("DATABASE_PASSWORD"),
+        "HOST": os.getenv("DATABASE_HOST"),
+        "PORT": os.getenv("DATABASE_PORT"),
     },
 }
 
@@ -185,8 +185,8 @@ EMAIL_PORT_RAW = os.getenv("EMAIL_PORT")
 EMAIL_PORT = int(EMAIL_PORT_RAW) if EMAIL_PORT_RAW else 0
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = bool(os.getenv("EMAIL_USE_SSL"))
-EMAIL_HOST_USER = str(os.getenv("EMAIL_HOST_USER"))
-EMAIL_HOST_PASSWORD = str(os.getenv("EMAIL_HOST_PASSWORD"))
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 
 EMAIL_SERVER = EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
