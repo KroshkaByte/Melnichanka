@@ -1,11 +1,13 @@
 version: '3.8'
 services:
   db:
-    image: postgres:16.2-alpine3.18
+    image: postgres:16.3-alpine
+    env_file:
+      - .env
     environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: Melnichanka123
-      POSTGRES_DB: meln_db
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     ports:
@@ -13,7 +15,7 @@ services:
     networks:
       - melnichanka
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U admin -d meln_db"]
+      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USER} -d ${DATABASE_NAME}"]
       interval: 10s
       timeout: 1s
       retries: 5
@@ -23,9 +25,12 @@ services:
     restart: on-failure
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - /home/ubuntu/nginx-selfsigned.crt:/etc/nginx/ssl/nginx-selfsigned.crt
+      - /home/ubuntu/nginx-selfsigned.key:/etc/nginx/ssl/nginx-selfsigned.key
       - static_volume:/app/static/
     ports:
       - "80:80"
+      - "443:443"
     networks:
       - melnichanka
 

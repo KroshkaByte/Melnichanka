@@ -16,6 +16,8 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
+load_dotenv()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -24,20 +26,21 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = str(os.getenv("SECRET_KEY"))
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-load_dotenv()
+DEBUG = bool(os.getenv("DEBUG", "False"))
 
-CORS_ORIGIN_ALLOW_ALL = False
-CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://localhost:8080",  # React app
-]
 
-ALLOWED_HOSTS = ["0.0.0.0", "127.0.0.1", "localhost", "localhost:8080"]
+# CORS
+CORS_ORIGIN_ALLOW_ALL = bool(os.getenv("CORS_ORIGIN_ALLOW_ALL"))
+CORS_ALLOW_CREDENTIALS = bool(os.getenv("CORS_ALLOW_CREDENTIALS"))
+CORS_ALLOWED_ORIGINS_RAW = os.getenv("CORS_ALLOWED_ORIGINS")
+CORS_ALLOWED_ORIGINS = CORS_ALLOWED_ORIGINS_RAW.split(",") if CORS_ALLOWED_ORIGINS_RAW else []
+
+# Allowed hosts
+ALLOWED_HOSTS_RAW = os.getenv("ALLOWED_HOSTS")
+ALLOWED_HOSTS = ALLOWED_HOSTS_RAW.split(",") if ALLOWED_HOSTS_RAW else []
 
 # Application definition
 
@@ -104,11 +107,11 @@ WSGI_APPLICATION = "melnichanka.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": str(os.getenv("DATABASE_NAME")),
-        "USER": str(os.getenv("DATABASE_USER")),
-        "PASSWORD": str(os.getenv("DATABASE_PASSWORD")),
-        "HOST": str(os.getenv("DATABASE_HOST")),
-        "PORT": str(os.getenv("DATABASE_PORT")),
+        "NAME": os.getenv("DATABASE_NAME"),
+        "USER": os.getenv("DATABASE_USER"),
+        "PASSWORD": os.getenv("DATABASE_PASSWORD"),
+        "HOST": os.getenv("DATABASE_HOST"),
+        "PORT": os.getenv("DATABASE_PORT"),
     },
 }
 
@@ -177,12 +180,13 @@ SIMPLE_JWT = {
 
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.yandex.ru"
-EMAIL_PORT = 465
+EMAIL_HOST = os.getenv("EMAIL_HOST")
+EMAIL_PORT_RAW = os.getenv("EMAIL_PORT")
+EMAIL_PORT = int(EMAIL_PORT_RAW) if EMAIL_PORT_RAW else 0
 EMAIL_USE_TLS = False
-EMAIL_USE_SSL = True
-EMAIL_HOST_USER = str(os.getenv("EMAIL_HOST_USER"))
-EMAIL_HOST_PASSWORD = str(os.getenv("EMAIL_HOST_PASSWORD"))
+EMAIL_USE_SSL = bool(os.getenv("EMAIL_USE_SSL"))
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 
 EMAIL_SERVER = EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
