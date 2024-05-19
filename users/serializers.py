@@ -103,6 +103,10 @@ class UserUpdatePasswordSerializer(serializers.ModelSerializer[CustomUser]):
         return super().update(instance, validated_data)
 
 
+class LogoutSerializer(serializers.Serializer):  # type: ignore
+    refresh_token = serializers.CharField()
+
+
 class DepartmentSerializer(serializers.ModelSerializer[Department]):
     class Meta:
         model = Department
