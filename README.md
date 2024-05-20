@@ -1,3 +1,14 @@
+[![Python](https://img.shields.io/badge/-Python-3776AB?style=flat&logo=Python&logoColor=yellow)](https://www.python.org/)
+[![Django REST Framework](https://img.shields.io/badge/-Django%20REST%20Framework-092E20?style=flat&logo=django&logoColor=white)](https://www.django-rest-framework.org/)
+[![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-336791?style=flat&logo=PostgreSQL&logoColor=white)](https://www.postgresql.org/)
+[![Docker](https://img.shields.io/badge/-Docker-2496ED?style=flat&logo=Docker&logoColor=white)](https://www.docker.com/)
+[![Nginx](https://img.shields.io/badge/-Nginx-269539?style=flat&logo=Nginx&logoColor=white)](https://www.nginx.com/)
+[![Psycopg2-binary](https://img.shields.io/badge/-Psycopg2--binary-4169E1?style=flat)](https://pypi.org/project/psycopg2-binary/)
+[![Gunicorn](https://img.shields.io/badge/-Gunicorn-FFD700?style=flat&logo=Gunicorn&logoColor=white)](https://gunicorn.org/)
+[![pytest](https://img.shields.io/badge/-pytest-0A9EDC?style=flat&logo=pytest&logoColor=white)](https://docs.pytest.org/)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+[![SimpleJWT](https://img.shields.io/badge/SimpleJWT-orange?style=flat&logo=jwt&logoColor=white)](https://github.com/jazzband/djangorestframework-simplejwt)
+
 # Melnichanka
 
 ## Table of Contents
