@@ -117,6 +117,8 @@ We welcome contributions to Melnichanka. To contribute:
 
 5. Submit a pull request.
 
+We will review your pull request and provide feedback as needed.
+
 ## License
 
 This project is licensed under the MIT License. See the LICENSE file for more information.
