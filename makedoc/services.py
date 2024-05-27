@@ -70,6 +70,13 @@ def get_formatted_date_shipment():
     next_month = format_date_nomn_case(raw_next_month)
     if current_date.year == next_month_date.year:
         return f"{current_month}-{next_month} {current_date.year} г."
+    next_month_date = current_date.replace(day=1) + timedelta(days=31)
+    raw_current_month = format_month_ru_locale(current_date)
+    raw_next_month = format_month_ru_locale(next_month_date)
+    current_month = format_date_nomn_case(raw_current_month)
+    next_month = format_date_nomn_case(raw_next_month)
+    if current_date.year == next_month_date.year:
+        return f"{current_month}-{next_month} {current_date.year} г."
     else:
         return f"{current_month} {current_date.year} г.-{next_month} {next_month_date.year} г."
 
@@ -201,6 +208,7 @@ def write_to_excel_auto(request):
         directory,
         f"auto_{user.full_name.split()[0]}_{get_current_date().strftime('%d.%m.%Y')}.xlsx",
     )
+    wb.save(new_file_path)
     wb.save(new_file_path)
 
 
