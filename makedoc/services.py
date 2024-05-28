@@ -7,10 +7,18 @@ import pymorphy3
 
 from clients.models import Client
 from goods.models import Factory, Product
-from logistics.models import RailwayStation
+from logistics.models import City, RailwayStation
 from users.models import CustomUser
 
 morph = pymorphy3.MorphAnalyzer()
+
+
+def get_region(request):
+    return City.objects.first()
+
+
+def get_factory(request):
+    return Factory.objects.first()
 
 
 def get_rw(request):
@@ -62,6 +70,13 @@ def get_formatted_date_shipment():
     next_month = format_date_nomn_case(raw_next_month)
     if current_date.year == next_month_date.year:
         return f"{current_month}-{next_month} {current_date.year} г."
+    next_month_date = current_date.replace(day=1) + timedelta(days=31)
+    raw_current_month = format_month_ru_locale(current_date)
+    raw_next_month = format_month_ru_locale(next_month_date)
+    current_month = format_date_nomn_case(raw_current_month)
+    next_month = format_date_nomn_case(raw_next_month)
+    if current_date.year == next_month_date.year:
+        return f"{current_month}-{next_month} {current_date.year} г."
     else:
         return f"{current_month} {current_date.year} г.-{next_month} {next_month_date.year} г."
 
@@ -70,9 +85,10 @@ def write_to_excel_auto(request):
     user = get_user(request)
     client = get_client(request)
     product = get_product(request)
+    factory = get_factory(request)
 
     # Открытие файла шаблона
-    template_path = "makedoc/excel-templates/auto.xlsx"
+    template_path = "makedoc/excel-templates/spec.xlsx"
     wb = openpyxl.load_workbook(template_path)
     ws = wb.active
 
@@ -114,7 +130,7 @@ def write_to_excel_auto(request):
     # Берем из реквеста (рефакторинг)
     ws.merge_cells(start_row=caret, start_column=1, end_row=caret, end_column=2)
     ws.cell(row=caret, column=1, value="Грузоотправитель:")
-    ws.cell(row=caret, column=3, value=str(Factory.objects.first()))
+    ws.cell(row=caret, column=3, value=factory.full_name)
     caret += 1
 
     # Автоуслуги
@@ -193,62 +209,164 @@ def write_to_excel_auto(request):
         f"auto_{user.full_name.split()[0]}_{get_current_date().strftime('%d.%m.%Y')}.xlsx",
     )
     wb.save(new_file_path)
+    wb.save(new_file_path)
 
 
 def write_to_excel_rw(request):
     user = get_user(request)
     client = get_client(request)
+    product = get_product(request)
     rw = get_rw(request)
+    factory = get_factory(request)
 
     # Открытие файла шаблона
-    template_path = "makedoc/excel-templates/rw.xlsx"
-    workbook = openpyxl.load_workbook(template_path)
-    worksheet = workbook.active
+    template_path = "makedoc/excel-templates/spec.xlsx"
+    wb = openpyxl.load_workbook(template_path)
+    ws = wb.active
 
     # Форматирование даты договора
     formatted_contract_date = client.contract_date.strftime("%d.%m.%Y")
 
-    # Разьеденить ячейки
-    worksheet.unmerge_cells("A1:F1")
-    worksheet.unmerge_cells("A2:F2")
-    worksheet.unmerge_cells("A4:F4")
-    worksheet.unmerge_cells("A26:F26")
-    worksheet.unmerge_cells("A49:F49")
-    worksheet.unmerge_cells("A50:F50")
+    # Номер приложения
+    ws.cell(row=1, column=1, value=f"Приложение № {client.last_application_number}")
 
-    # Записать значений в ячейки
-    worksheet["A1"] = f"Приложение № {client.last_application_number}"
-    worksheet["A2"] = (
-        f"к договору поставки № {client.contract_number} от {formatted_contract_date}г."
+    # Номер договора
+    ws.cell(
+        row=2,
+        column=1,
+        value=f"к договору поставки № {client.contract_number} от {formatted_contract_date}г.",
     )
-    worksheet["A4"] = f"ООО  (ИП, АО)  «{client.client_name}»"
-    worksheet["F6"] = get_formatted_date_agreement()
-    worksheet[
-        "A26"
-    ] = f"▪Настоящее приложение составлено и подписано в двух экземплярах, имеющих одинаковую \
-            юридическую силу, по одному для каждой из сторон, вступает в силу с момента \
-                подписания и является неотъемлемой частью договора № {client.contract_number} \
-                    от {formatted_contract_date}г."
-    worksheet["C16"] = get_formatted_date_shipment()
-    worksheet["C19"] = rw.station_name
-    worksheet["C20"] = rw.station_id
-    worksheet["C21"] = f"ООО  (ИП, АО) {client.receiver_name}"
-    worksheet["C22"] = client.receiver_id
-    worksheet["C23"] = client.receiver_okpo
-    worksheet["C24"] = client.receiver_adress
-    worksheet["A42"] = f"{client.director_position}"
-    worksheet["A43"] = client.client_name
-    worksheet["F43"] = client.director_name
-    worksheet["A49"] = f"Ваш персональный менеджер: {user.full_name}"
-    worksheet["A50"] = f"Тел. {user.phone_number_personal}, моб. {user.phone_number_work}"
+    ws.cell(row=4, column=1, value=client.client_name)
+    ws.cell(row=6, column=6, value=get_formatted_date_agreement())
 
-    # Объединить ячейки
-    worksheet.merge_cells("A1:F1")
-    worksheet.merge_cells("A2:F2")
-    worksheet.merge_cells("A4:F4")
-    worksheet.merge_cells("A26:F26")
-    worksheet.merge_cells("A49:F49")
-    worksheet.merge_cells("A50:F50")
+    # Значение строки для стартовой подвижной ячейки
+    caret = 10
+
+    # Берем количество товаров из реквеста
+    goods_quantity = 3
+
+    ws.cell(row=4, column=1, value=client.client_name)
+    ws.cell(row=6, column=6, value=get_formatted_date_agreement())
+
+    # Наполняем таблицу товарами
+    for _ in range(goods_quantity):
+        ws.merge_cells(start_row=caret, start_column=1, end_row=caret, end_column=3)
+        ws.cell(row=caret, column=1, value=f"{str(product.flour_name)} {product.brand}")
+        ws.cell(row=caret, column=4, value=product.package.package)
+        # Берем из  реквеста (рефакторинг)
+        ws.cell(row=caret, column=5, value=20)
+        #  Возможно применить скидку тут
+        ws.cell(row=caret, column=6, value=str(product.price))
+        caret += 1
+
+    caret += 1
+
+    ws.cell(row=caret, column=1, value="Поставка осуществляется:")
+    ws.cell(row=caret, column=3, value="ж/д транспортом")
+
+    caret += 1
+
+    # Станция назначения
+    ws.cell(row=caret, column=1, value="Станция отправления:")
+    ws.cell(row=caret, column=3, value=rw.station_name)
+
+    caret += 1
+
+    # Грузоотправитель
+    ws.cell(row=caret, column=1, value="Грузоотправитель:")
+    ws.cell(row=caret, column=3, value=factory.full_name)
+
+    caret += 1
+
+    # Условия поставки
+    ws.cell(row=caret, column=1, value="Условия поставки")
+    ws.cell(
+        row=caret,
+        column=3,
+        value="франко-вагон станция отправления" if 0 else "франко-вагон станция назначения",
+    )
+
+    caret += 1
+
+    # Срок отгрузки
+    ws.cell(row=caret, column=1, value="Срок отгрузки:")
+    ws.cell(row=caret, column=3, value=get_formatted_date_shipment())
+
+    caret += 2
+
+    # Отгрузочные реквизиты
+    ws.cell(row=caret, column=1, value="Отгрузочные реквизиты:")
+
+    caret += 1
+
+    ws.cell(row=caret, column=1, value="Станция назначения:")
+    ws.cell(row=caret, column=3, value=client.railway_station.station_name)
+
+    caret += 1
+
+    # Код станции
+    ws.cell(row=caret, column=1, value="Код станции:")
+    ws.cell(row=caret, column=3, value=client.railway_station.station_id)
+
+    caret += 1
+
+    # Получатель
+    ws.cell(row=caret, column=1, value="Получатель:")
+    ws.cell(row=caret, column=3, value=client.receiver_name)
+
+    caret += 1
+
+    # Код получателя
+    ws.cell(row=caret, column=1, value="Код получателя:")
+    ws.cell(row=caret, column=3, value=client.receiver_id)
+
+    caret += 1
+
+    # ОКПО
+    ws.cell(row=caret, column=1, value="ОКПО:")
+    ws.cell(row=caret, column=3, value=client.receiver_okpo)
+
+    caret += 1
+
+    # Адрес
+    ws.cell(row=caret, column=1, value="Адрес:")
+    ws.cell(row=caret, column=3, value=client.receiver_adress)
+
+    caret += 2
+
+    contract_option = f"▪Настоящее приложение составлено и подписано в двух экземплярах, имеющих \
+одинаковую юридическую силу, по одному для каждой из сторон, вступает в силу с момента \
+подписания и является неотъемлемой частью договора № \
+{client.contract_number} от {formatted_contract_date}г."
+    ws.cell(row=caret, column=1, value=contract_option)
+    caret += 4
+
+    # Подписант продавца
+    ws.cell(row=caret, column=1, value="Генеральный директор")
+    caret += 1
+    ws.cell(row=caret, column=1, value="ООО  «Торговый дом «Оскольская мука»")
+    ws.cell(row=caret, column=6, value="С.А. Годизов")
+    caret += 8
+
+    # Подписант покупателя
+    ws.cell(row=caret, column=1, value=str(client.director_position))
+    caret += 1
+    ws.cell(row=caret, column=1, value=client.client_name)
+    # Нужно спарсить имя директора и вывести в сокращенном виде
+    ws.cell(row=caret, column=6, value=client.director_name)
+
+    caret = 49
+    # Контакты менеджера
+    ws.merge_cells(start_row=caret, start_column=1, end_row=caret, end_column=6)
+    ws.cell(row=caret, column=1, value=f"Ваш персональный менеджер: {user.full_name}")
+    caret += 1
+
+    ws.merge_cells(start_row=caret, start_column=1, end_row=caret, end_column=6)
+    ws.cell(
+        row=caret,
+        column=1,
+        value=f"Тел. {user.phone_number_personal}, моб. {user.phone_number_work}",
+    )
 
     # Создать структуру каталогов
     directory = os.path.join(
@@ -260,26 +378,28 @@ def write_to_excel_rw(request):
     new_file_path = os.path.join(
         directory, f"rw_{user.full_name.split()[0]}_{get_current_date().strftime('%d.%m.%Y')}.xlsx"
     )
-    workbook.save(new_file_path)
+    wb.save(new_file_path)
 
 
 def write_to_excel_sluzebnyi(request):
     user = get_user(request)
+    city = get_region(request)
+    client = get_client(request)
+
+    # Принимаем с фронта макс размер скидки (пока хардкод)
+    discount = 15
 
     # Открытие файла шаблона
     template_path = "makedoc/excel-templates/sluz.xlsx"
-    workbook = openpyxl.load_workbook(template_path)
-    worksheet = workbook.active
-
-    # Разьеденить ячейки
-    worksheet.unmerge_cells("A19:H19")
+    wb = openpyxl.load_workbook(template_path)
+    ws = wb.active
 
     # Записка
-    worksheet["A15"] = f"{get_formatted_date_agreement()} № 12/2.2/23/3-"
-    worksheet["A19"] = ""
-
-    # Объединить ячейки
-    worksheet.merge_cells("A19:H19")
+    ws.cell(row=15, column=1, value=f"{get_formatted_date_agreement()} № 12/2.2/23/3-")
+    text = f"В целях увеличения объема продаж на территории {city.region} прошу Вашего \
+согласования применить скидку для контрагента {client.client_name} (г. {city.city}) до {discount}%\
+в {get_formatted_date_shipment} на продукцию следующего ассортимента: "
+    ws.cell(row=19, column=1, value=text)
 
     # Создать структуру каталогов
     directory = os.path.join(
@@ -292,4 +412,4 @@ def write_to_excel_sluzebnyi(request):
         directory,
         f"sluz_{user.full_name.split()[0]}_{get_current_date().strftime('%d.%m.%Y')}.xlsx",
     )
-    workbook.save(new_file_path)
+    wb.save(new_file_path)
