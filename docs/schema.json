@@ -1405,11 +1405,11 @@ components:
           type: integer
           readOnly: true
         flour_name:
-          type: integer
+          type: string
         brand:
-          type: integer
+          type: string
         package:
-          type: integer
+          type: string
         price:
           type: string
           format: decimal
@@ -1524,11 +1524,11 @@ components:
           type: integer
           readOnly: true
         flour_name:
-          type: integer
+          type: string
         brand:
-          type: integer
+          type: string
         package:
-          type: integer
+          type: string
         price:
           type: string
           format: decimal
