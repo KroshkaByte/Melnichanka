@@ -17,7 +17,7 @@ from .serializers import (
     DepartmentSerializer,
     PositionSerializer,
     UserUpdatePasswordSerializer,
-    UserUpdateSerializer,
+    UserUpdateSerializer, LogoutSerializer,
 )
 from .services import UserRelatedView
 
@@ -42,10 +42,13 @@ class LoginView(TokenObtainPairView):
 
 class LogoutView(APIView):
     permission_classes = (IsAuthenticated,)
+    serializer_class = LogoutSerializer
 
     def post(self, request):
         try:
-            refresh_token = request.data["refresh_token"]
+            serializer = self.serializer_class(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            refresh_token = serializer.validated_data["refresh_token"]
             token = RefreshToken(refresh_token)
             token.blacklist()
             return Response(status=status.HTTP_205_RESET_CONTENT)

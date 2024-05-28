@@ -1,0 +1,1828 @@
+openapi: 3.0.3
+info:
+  title: Melnichanka API
+  version: 1.0.0
+  description: ' Melnichanka is a web application designed to generate a package of
+    documents required for shipment'
+paths:
+  /api/v1/autotrip/:
+    get:
+      operationId: v1_autotrip_list
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TripAuto'
+          description: ''
+    post:
+      operationId: v1_autotrip_create
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TripAuto'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TripAuto'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TripAuto'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TripAuto'
+          description: ''
+  /api/v1/autotrip/{id}/:
+    get:
+      operationId: v1_autotrip_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Перевозки авто.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TripAuto'
+          description: ''
+    put:
+      operationId: v1_autotrip_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Перевозки авто.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TripAuto'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TripAuto'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TripAuto'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TripAuto'
+          description: ''
+    patch:
+      operationId: v1_autotrip_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Перевозки авто.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedTripAuto'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedTripAuto'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedTripAuto'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TripAuto'
+          description: ''
+    delete:
+      operationId: v1_autotrip_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Перевозки авто.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/city/:
+    get:
+      operationId: v1_city_list
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/City'
+          description: ''
+    post:
+      operationId: v1_city_create
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/City'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/City'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/City'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/City'
+          description: ''
+  /api/v1/city/{id}/:
+    get:
+      operationId: v1_city_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Населенный пункт.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/City'
+          description: ''
+    put:
+      operationId: v1_city_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Населенный пункт.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/City'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/City'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/City'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/City'
+          description: ''
+    patch:
+      operationId: v1_city_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Населенный пункт.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCity'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCity'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCity'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/City'
+          description: ''
+    delete:
+      operationId: v1_city_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Населенный пункт.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/clients/:
+    get:
+      operationId: v1_clients_list
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Client'
+          description: ''
+    post:
+      operationId: v1_clients_create
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Client'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Client'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Client'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+          description: ''
+  /api/v1/clients/{id}/:
+    get:
+      operationId: v1_clients_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+          description: ''
+    put:
+      operationId: v1_clients_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Client'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Client'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Client'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+          description: ''
+    patch:
+      operationId: v1_clients_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedClient'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedClient'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedClient'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+          description: ''
+  /api/v1/clients/delete/{id}/:
+    delete:
+      operationId: v1_clients_delete_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/clients/directorposition/:
+    get:
+      operationId: v1_clients_directorposition_list
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DirectorPosition'
+          description: ''
+  /api/v1/goods/:
+    get:
+      operationId: v1_goods_list
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Goods'
+          description: ''
+    post:
+      operationId: v1_goods_create
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Goods'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Goods'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Goods'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Goods'
+          description: ''
+  /api/v1/goods/{id}/:
+    get:
+      operationId: v1_goods_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Товар.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Goods'
+          description: ''
+    put:
+      operationId: v1_goods_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Товар.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Goods'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Goods'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Goods'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Goods'
+          description: ''
+    patch:
+      operationId: v1_goods_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Товар.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedGoods'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedGoods'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedGoods'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Goods'
+          description: ''
+    delete:
+      operationId: v1_goods_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Товар.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/rwtrip/:
+    get:
+      operationId: v1_rwtrip_list
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TripRailway'
+          description: ''
+    post:
+      operationId: v1_rwtrip_create
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TripRailway'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TripRailway'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TripRailway'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TripRailway'
+          description: ''
+  /api/v1/rwtrip/{id}/:
+    get:
+      operationId: v1_rwtrip_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Перевозки ж/д.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TripRailway'
+          description: ''
+    put:
+      operationId: v1_rwtrip_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Перевозки ж/д.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TripRailway'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TripRailway'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TripRailway'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TripRailway'
+          description: ''
+    patch:
+      operationId: v1_rwtrip_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Перевозки ж/д.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedTripRailway'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedTripRailway'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedTripRailway'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TripRailway'
+          description: ''
+    delete:
+      operationId: v1_rwtrip_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Перевозки ж/д.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/stations/:
+    get:
+      operationId: v1_stations_list
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RailwayStation'
+          description: ''
+    post:
+      operationId: v1_stations_create
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RailwayStation'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RailwayStation'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RailwayStation'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RailwayStation'
+          description: ''
+  /api/v1/stations/{id}/:
+    get:
+      operationId: v1_stations_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Ж/д станция.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RailwayStation'
+          description: ''
+    put:
+      operationId: v1_stations_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Ж/д станция.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RailwayStation'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RailwayStation'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RailwayStation'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RailwayStation'
+          description: ''
+    patch:
+      operationId: v1_stations_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Ж/д станция.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedRailwayStation'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedRailwayStation'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedRailwayStation'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RailwayStation'
+          description: ''
+    delete:
+      operationId: v1_stations_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Ж/д станция.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/users/departments/:
+    get:
+      operationId: v1_users_departments_list
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Department'
+          description: ''
+  /api/v1/users/edit/:
+    get:
+      operationId: v1_users_edit_retrieve
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserUpdate'
+          description: ''
+    put:
+      operationId: v1_users_edit_update
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserUpdate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserUpdate'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserUpdate'
+          description: ''
+    patch:
+      operationId: v1_users_edit_partial_update
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUserUpdate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUserUpdate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUserUpdate'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserUpdate'
+          description: ''
+  /api/v1/users/edit_password/:
+    get:
+      operationId: v1_users_edit_password_retrieve
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserUpdatePassword'
+          description: ''
+    put:
+      operationId: v1_users_edit_password_update
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdatePassword'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserUpdatePassword'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserUpdatePassword'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserUpdatePassword'
+          description: ''
+    patch:
+      operationId: v1_users_edit_password_partial_update
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUserUpdatePassword'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUserUpdatePassword'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUserUpdatePassword'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserUpdatePassword'
+          description: ''
+  /api/v1/users/login/:
+    post:
+      operationId: v1_users_login_create
+      description: |-
+        Takes a set of user credentials and returns an access and refresh JSON web
+        token pair to prove the authentication of those credentials.
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenObtainPair'
+          description: ''
+  /api/v1/users/logout/:
+    post:
+      operationId: v1_users_logout_create
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Logout'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Logout'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Logout'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Logout'
+          description: ''
+  /api/v1/users/password_reset/:
+    post:
+      operationId: v1_users_password_reset_create
+      description: |-
+        An Api View which provides a method to request a password reset token based on an e-mail address
+
+        Sends a signal reset_password_token_created when a reset token was created
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Email'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Email'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Email'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Email'
+          description: ''
+  /api/v1/users/password_reset/confirm/:
+    post:
+      operationId: v1_users_password_reset_confirm_create
+      description: An Api View which provides a method to reset a password based on
+        a unique token
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasswordToken'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PasswordToken'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PasswordToken'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PasswordToken'
+          description: ''
+  /api/v1/users/password_reset/validate_token/:
+    post:
+      operationId: v1_users_password_reset_validate_token_create
+      description: An Api View which provides a method to verify that a token is valid
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetToken'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ResetToken'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ResetToken'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResetToken'
+          description: ''
+  /api/v1/users/positions/:
+    get:
+      operationId: v1_users_positions_list
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Position'
+          description: ''
+  /api/v1/users/registration/:
+    post:
+      operationId: v1_users_registration_create
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CustomUser'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CustomUser'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomUser'
+          description: ''
+  /api/v1/users/token/refresh/:
+    post:
+      operationId: v1_users_token_refresh_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+components:
+  schemas:
+    City:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        city:
+          type: string
+          title: Населенный пункт
+          maxLength: 100
+        region:
+          type: string
+          title: Субъект федерации
+          maxLength: 100
+        federal_district:
+          allOf:
+          - $ref: '#/components/schemas/FederalDistrictEnum'
+          title: Федеральный округ
+      required:
+      - city
+      - federal_district
+      - id
+      - region
+    Client:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        client_name:
+          type: string
+          title: Наименование организации
+          maxLength: 100
+        contract_number:
+          type: string
+          title: Номер договора
+          maxLength: 50
+        contract_date:
+          type: string
+          format: date
+          title: Дата заключения договора
+        director_name:
+          type: string
+          title: ФИО директора
+          maxLength: 100
+        receiver_name:
+          type: string
+          title: Имя получателя
+          maxLength: 100
+        receiver_id:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+          title: Номер получателя
+        receiver_okpo:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+          title: ОКПО
+        receiver_adress:
+          type: string
+          title: Адрес получателя
+          maxLength: 200
+        special_marks:
+          type: string
+          title: Особые отметки
+          maxLength: 200
+        last_application_number:
+          type: string
+          title: Номер приложения
+          maxLength: 50
+        director_position:
+          type: integer
+          title: Должность директора
+        destination_city:
+          type: integer
+          title: Город доставки
+        railway_station:
+          type: integer
+          nullable: true
+          title: ЖД станция
+      required:
+      - client_name
+      - contract_date
+      - contract_number
+      - destination_city
+      - director_name
+      - director_position
+      - id
+    CustomUser:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        email:
+          type: string
+          format: email
+          title: E-mail
+          maxLength: 50
+        full_name:
+          type: string
+          title: ФИО
+          maxLength: 75
+        position:
+          type: integer
+          nullable: true
+          title: Позиция
+        department:
+          type: integer
+          nullable: true
+          title: Департамент
+        phone_number_work:
+          type: string
+          title: Рабочий телефон
+          maxLength: 128
+        phone_number_personal:
+          type: string
+          title: Личный телефон
+          maxLength: 128
+        password:
+          type: string
+          writeOnly: true
+        password_confirm:
+          type: string
+          writeOnly: true
+      required:
+      - email
+      - full_name
+      - id
+      - password
+      - password_confirm
+      - phone_number_personal
+      - phone_number_work
+    Department:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        department:
+          type: string
+          maxLength: 50
+      required:
+      - department
+      - id
+    DirectorPosition:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        director_position:
+          type: string
+          maxLength: 40
+      required:
+      - director_position
+      - id
+    Email:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+      required:
+      - email
+    FederalDistrictEnum:
+      enum:
+      - ЦФО
+      - СЗФО
+      - ЮФО
+      - ПФО
+      - УФО
+      - СФО
+      - ДВФО
+      type: string
+      description: |-
+        * `ЦФО` - Центральный федеральный округ
+        * `СЗФО` - Северо-Западный федеральный округ
+        * `ЮФО` - Южный федеральный округ
+        * `ПФО` - Приволжский федеральный округ
+        * `УФО` - Уральский федеральный округ
+        * `СФО` - Сибирский федеральный округ
+        * `ДВФО` - Дальневосточный федеральный округ
+    Goods:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+          title: Цена, руб./тн
+        flour_name:
+          type: integer
+        brand:
+          type: integer
+        package:
+          type: integer
+      required:
+      - brand
+      - flour_name
+      - id
+      - package
+      - price
+    Logout:
+      type: object
+      properties:
+        refresh_token:
+          type: string
+      required:
+      - refresh_token
+    PasswordToken:
+      type: object
+      properties:
+        password:
+          type: string
+          title: Пароль
+        token:
+          type: string
+      required:
+      - password
+      - token
+    PatchedCity:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        city:
+          type: string
+          title: Населенный пункт
+          maxLength: 100
+        region:
+          type: string
+          title: Субъект федерации
+          maxLength: 100
+        federal_district:
+          allOf:
+          - $ref: '#/components/schemas/FederalDistrictEnum'
+          title: Федеральный округ
+    PatchedClient:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        client_name:
+          type: string
+          title: Наименование организации
+          maxLength: 100
+        contract_number:
+          type: string
+          title: Номер договора
+          maxLength: 50
+        contract_date:
+          type: string
+          format: date
+          title: Дата заключения договора
+        director_name:
+          type: string
+          title: ФИО директора
+          maxLength: 100
+        receiver_name:
+          type: string
+          title: Имя получателя
+          maxLength: 100
+        receiver_id:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+          title: Номер получателя
+        receiver_okpo:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+          title: ОКПО
+        receiver_adress:
+          type: string
+          title: Адрес получателя
+          maxLength: 200
+        special_marks:
+          type: string
+          title: Особые отметки
+          maxLength: 200
+        last_application_number:
+          type: string
+          title: Номер приложения
+          maxLength: 50
+        director_position:
+          type: integer
+          title: Должность директора
+        destination_city:
+          type: integer
+          title: Город доставки
+        railway_station:
+          type: integer
+          nullable: true
+          title: ЖД станция
+    PatchedGoods:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+          title: Цена, руб./тн
+        flour_name:
+          type: integer
+        brand:
+          type: integer
+        package:
+          type: integer
+    PatchedRailwayStation:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        station_name:
+          type: string
+          title: Станция
+          maxLength: 100
+        station_id:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        station_branch:
+          $ref: '#/components/schemas/StationBranchEnum'
+    PatchedTripAuto:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        cost_per_tonn_auto:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          title: Цена за рейс, руб./тн
+        departure_city:
+          type: integer
+        destination_city:
+          type: integer
+    PatchedTripRailway:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        cost_per_tonn_rw:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        departure_station_name:
+          type: integer
+        destination_station_name:
+          type: integer
+    PatchedUserUpdate:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        email:
+          type: string
+          format: email
+          title: E-mail
+          maxLength: 50
+        full_name:
+          type: string
+          title: ФИО
+          maxLength: 75
+        position:
+          type: integer
+          nullable: true
+          title: Позиция
+        department:
+          type: integer
+          nullable: true
+          title: Департамент
+        phone_number_work:
+          type: string
+          title: Рабочий телефон
+          maxLength: 128
+        phone_number_personal:
+          type: string
+          title: Личный телефон
+          maxLength: 128
+    PatchedUserUpdatePassword:
+      type: object
+      properties:
+        old_password:
+          type: string
+          writeOnly: true
+        new_password:
+          type: string
+          writeOnly: true
+        new_password_confirm:
+          type: string
+          writeOnly: true
+    Position:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        position:
+          type: string
+          maxLength: 30
+      required:
+      - id
+      - position
+    RailwayStation:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        station_name:
+          type: string
+          title: Станция
+          maxLength: 100
+        station_id:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        station_branch:
+          $ref: '#/components/schemas/StationBranchEnum'
+      required:
+      - id
+      - station_branch
+      - station_id
+      - station_name
+    ResetToken:
+      type: object
+      properties:
+        token:
+          type: string
+      required:
+      - token
+    StationBranchEnum:
+      enum:
+      - ОЖД
+      - КаЖД
+      - МЖД
+      - ГЖД
+      - СеЖД
+      - СКЖД
+      - ЮВЖД
+      - ПЖД
+      - КуЖД
+      - СвЖД
+      - ЮУЖД
+      - ЗСЖД
+      - КЖД
+      - ВСЖД
+      - ЗЖД
+      - ДВЖД
+      type: string
+      description: |-
+        * `ОЖД` - Октябрьская ж/д
+        * `КаЖД` - Калининградская ж/д
+        * `МЖД` - Московская ж/д
+        * `ГЖД` - Горьковская ж/д
+        * `СеЖД` - Северная ж/д
+        * `СКЖД` - Северо-Кавказская ж/д
+        * `ЮВЖД` - Юго-Восточная ж/д
+        * `ПЖД` - Приволжская ж/д
+        * `КуЖД` - Куйбышевская ж/д
+        * `СвЖД` - Свердловская ж/д
+        * `ЮУЖД` - Южно-Уральская ж/д
+        * `ЗСЖД` - Западно-Сибирская ж/д
+        * `КЖД` - Красноярская ж/д
+        * `ВСЖД` - Восточно-Сибирская ж/д
+        * `ЗЖД` - Забайкальская ж/д
+        * `ДВЖД` - Дальневосточная ж/д
+    TokenObtainPair:
+      type: object
+      properties:
+        email:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          readOnly: true
+      required:
+      - access
+      - email
+      - password
+      - refresh
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+      required:
+      - access
+      - refresh
+    TripAuto:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        cost_per_tonn_auto:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          title: Цена за рейс, руб./тн
+        departure_city:
+          type: integer
+        destination_city:
+          type: integer
+      required:
+      - cost_per_tonn_auto
+      - departure_city
+      - destination_city
+      - id
+    TripRailway:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        cost_per_tonn_rw:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        departure_station_name:
+          type: integer
+        destination_station_name:
+          type: integer
+      required:
+      - cost_per_tonn_rw
+      - departure_station_name
+      - destination_station_name
+      - id
+    UserUpdate:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        email:
+          type: string
+          format: email
+          title: E-mail
+          maxLength: 50
+        full_name:
+          type: string
+          title: ФИО
+          maxLength: 75
+        position:
+          type: integer
+          nullable: true
+          title: Позиция
+        department:
+          type: integer
+          nullable: true
+          title: Департамент
+        phone_number_work:
+          type: string
+          title: Рабочий телефон
+          maxLength: 128
+        phone_number_personal:
+          type: string
+          title: Личный телефон
+          maxLength: 128
+      required:
+      - email
+      - full_name
+      - id
+      - phone_number_personal
+      - phone_number_work
+    UserUpdatePassword:
+      type: object
+      properties:
+        old_password:
+          type: string
+          writeOnly: true
+        new_password:
+          type: string
+          writeOnly: true
+        new_password_confirm:
+          type: string
+          writeOnly: true
+      required:
+      - new_password
+      - new_password_confirm
+      - old_password
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
