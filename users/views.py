@@ -17,7 +17,8 @@ from .serializers import (
     DepartmentSerializer,
     PositionSerializer,
     UserUpdatePasswordSerializer,
-    UserUpdateSerializer, LogoutSerializer,
+    UserUpdateSerializer,
+    LogoutSerializer,
 )
 from .services import UserRelatedView
 
