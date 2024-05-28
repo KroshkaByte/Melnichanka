@@ -1404,17 +1404,17 @@ components:
         id:
           type: integer
           readOnly: true
-        price:
-          type: string
-          format: decimal
-          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
-          title: Цена, руб./тн
         flour_name:
           type: integer
         brand:
           type: integer
         package:
           type: integer
+        price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+          title: Цена, руб./тн
       required:
       - brand
       - flour_name
@@ -1523,17 +1523,17 @@ components:
         id:
           type: integer
           readOnly: true
-        price:
-          type: string
-          format: decimal
-          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
-          title: Цена, руб./тн
         flour_name:
           type: integer
         brand:
           type: integer
         package:
           type: integer
+        price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+          title: Цена, руб./тн
     PatchedRailwayStation:
       type: object
       properties:
