@@ -2,10 +2,10 @@ from rest_framework import serializers
 from .models import Product
 
 
-class GoodsSerializer(serializers.ModelSerializer):
-    flour_name = serializers.StringRelatedField()
-    brand = serializers.StringRelatedField()
-    package = serializers.StringRelatedField()
+class GoodsSerializer(serializers.ModelSerializer[Product]):
+    flour_name: serializers.CharField = serializers.CharField()
+    brand: serializers.CharField = serializers.CharField()
+    package: serializers.CharField = serializers.CharField()
 
     class Meta:
         model = Product
