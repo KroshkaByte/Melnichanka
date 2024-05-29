@@ -10,6 +10,9 @@ class CitySerializer(serializers.ModelSerializer[City]):
 
 
 class TripAutoSerializer(serializers.ModelSerializer[TripAuto]):
+    departure_city: serializers.CharField = serializers.CharField()
+    destination_city: serializers.CharField = serializers.CharField()
+
     class Meta:
         model = TripAuto
         fields = "__all__"
@@ -22,6 +25,9 @@ class RailwayStationSerializer(serializers.ModelSerializer[RailwayStation]):
 
 
 class TripRailwaySerializer(serializers.ModelSerializer[TripRailway]):
+    departure_station_name: serializers.CharField = serializers.CharField()
+    destination_station_name: serializers.CharField = serializers.CharField()
+
     class Meta:
         model = TripRailway
         fields = "__all__"
