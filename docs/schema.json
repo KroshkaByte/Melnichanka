@@ -1404,17 +1404,17 @@ components:
         id:
           type: integer
           readOnly: true
+        flour_name:
+          type: string
+        brand:
+          type: string
+        package:
+          type: string
         price:
           type: string
           format: decimal
           pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
           title: Цена, руб./тн
-        flour_name:
-          type: integer
-        brand:
-          type: integer
-        package:
-          type: integer
       required:
       - brand
       - flour_name
@@ -1523,17 +1523,17 @@ components:
         id:
           type: integer
           readOnly: true
+        flour_name:
+          type: string
+        brand:
+          type: string
+        package:
+          type: string
         price:
           type: string
           format: decimal
           pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
           title: Цена, руб./тн
-        flour_name:
-          type: integer
-        brand:
-          type: integer
-        package:
-          type: integer
     PatchedRailwayStation:
       type: object
       properties:
@@ -1556,29 +1556,29 @@ components:
         id:
           type: integer
           readOnly: true
+        departure_city:
+          type: string
+        destination_city:
+          type: string
         cost_per_tonn_auto:
           type: integer
           maximum: 2147483647
           minimum: 0
           title: Цена за рейс, руб./тн
-        departure_city:
-          type: integer
-        destination_city:
-          type: integer
     PatchedTripRailway:
       type: object
       properties:
         id:
           type: integer
           readOnly: true
+        departure_station_name:
+          type: string
+        destination_station_name:
+          type: string
         cost_per_tonn_rw:
           type: integer
           maximum: 2147483647
           minimum: 0
-        departure_station_name:
-          type: integer
-        destination_station_name:
-          type: integer
     PatchedUserUpdate:
       type: object
       properties:
@@ -1735,15 +1735,15 @@ components:
         id:
           type: integer
           readOnly: true
+        departure_city:
+          type: string
+        destination_city:
+          type: string
         cost_per_tonn_auto:
           type: integer
           maximum: 2147483647
           minimum: 0
           title: Цена за рейс, руб./тн
-        departure_city:
-          type: integer
-        destination_city:
-          type: integer
       required:
       - cost_per_tonn_auto
       - departure_city
@@ -1755,14 +1755,14 @@ components:
         id:
           type: integer
           readOnly: true
+        departure_station_name:
+          type: string
+        destination_station_name:
+          type: string
         cost_per_tonn_rw:
           type: integer
           maximum: 2147483647
           minimum: 0
-        departure_station_name:
-          type: integer
-        destination_station_name:
-          type: integer
       required:
       - cost_per_tonn_rw
       - departure_station_name
