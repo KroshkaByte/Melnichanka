@@ -1,11 +1,13 @@
 from django.http import HttpResponse
 
-from .services import write_to_excel_auto, write_to_excel_rw, write_to_excel_sluzebnyi
+from makedoc.services import Documents
 
 
 def create_docs(request):
-    write_to_excel_auto(request)
-    write_to_excel_rw(request)
-    # Если применяется скидка, пишем служебную записку
-    write_to_excel_sluzebnyi(request) if 0 else None
+    docs = Documents()
+    docs.update_documents(["auto", "rw", "sluz", "sopr_list"])
+
+    if docs.auto:
+        docs.form_auto_document(request)
+
     return HttpResponse("Документы сохранены")
