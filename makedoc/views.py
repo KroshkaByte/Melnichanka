@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from rest_framework import generics, status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from .serializers import DataDocSerializer
@@ -16,6 +17,7 @@ def create_docs(request):
 
 class DataDocView(generics.GenericAPIView):  # type: ignore
     serializer_class = DataDocSerializer
+    permission_classes = (IsAuthenticated,)
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
