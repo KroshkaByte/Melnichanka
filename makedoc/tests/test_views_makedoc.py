@@ -16,11 +16,11 @@ def test_data_doc_view_status_code(api_client: APIClient) -> None:
         "destination": "New York"
     }
     response = api_client.post(url, data, format='json')
-    assert response.status_code == 200
+    assert response.status_code == 401  # Unauthorized
 
 
 @pytest.mark.django_db
-def test_data_doc_view_response_data(api_client: APIClient) -> None:
+def test_data_doc_view_response_data(authorized_client) -> None:
     url = reverse('data')
     data = {
         "client_id": 123,
@@ -31,5 +31,6 @@ def test_data_doc_view_response_data(api_client: APIClient) -> None:
         "factory_id": 1,
         "destination": "New York"
     }
-    response = api_client.post(url, data, format='json')
+    response = authorized_client.post(url, data, format='json')
+    assert response.status_code == 200
     assert response.json() == data
