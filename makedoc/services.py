@@ -8,6 +8,7 @@ from openpyxl.styles import Alignment, Border, Font, Side
 
 from clients.models import Client
 from goods.models import Factory, Product
+from logistics.models import RailwayStation
 from users.models import CustomUser
 
 morph = pymorphy3.MorphAnalyzer()
@@ -60,6 +61,7 @@ class Documents:
             self.sopr_list = 1
 
     def form_auto_document(self, request):
+        self.docname = "auto"
         try:
             user = self.get_user(request)
             client = self.get_client(request)
@@ -178,7 +180,7 @@ class Documents:
         self.caret_signatures = caret + 11
 
     def fill_manager_contact(self, ws, user):
-        caret = 49
+        caret = 59
         ws.merge_cells(start_row=caret, start_column=1, end_row=caret, end_column=6)
         manager = ws.cell(
             row=caret, column=1, value=f"Ваш персональный менеджер: {user.full_name}"
@@ -194,12 +196,16 @@ class Documents:
 
     def save_workbook(self, wb, user):
         directory = os.path.join(
-            "makedoc", get_current_date().strftime("%d.%m.%Y"), user.full_name.split()[0]
+            "makedoc",
+            "tempdoc",
+            get_current_date().strftime("%d.%m.%Y"),
+            user.full_name.split()[0],
         )
         os.makedirs(directory, exist_ok=True)
         new_file_path = os.path.join(
             directory,
-            f"auto_{user.full_name.split()[0]}_{get_current_date().strftime('%d.%м.%Y')}.xlsx",
+            f"{self.docname}_{user.full_name.split()[0]}_{get_current_date().
+                                                          strftime('%d.%m.%Y')}.xlsx",
         )
         wb.save(new_file_path)
 
@@ -237,3 +243,101 @@ class Documents:
             return Factory.objects.first()
         except Factory.DoesNotExist:
             raise Exception("Factory not found")
+
+    def get_rw(self, request):
+        try:
+            return RailwayStation.objects.all().first()
+        except RailwayStation.DoesNotExist:
+            raise Exception("Railway station not found")
+
+    def form_rw_document(self, request):
+        self.docname = "rw"
+        try:
+            user = self.get_user(request)
+            client = self.get_client(request)
+            product = self.get_product(request)
+            rw = self.get_rw(request)
+            factory = self.get_factory(request)
+        except Exception as e:
+            return f"Error fetching data: {e}"
+
+        template_path = "makedoc/excel-templates/spec.xlsx"
+        wb = openpyxl.load_workbook(template_path)
+        ws = wb.active
+
+        self.fill_contract_info(ws, client)
+        self.fill_product_info(ws, product)
+        self.fill_factory_info(ws, factory)
+        self.fill_rw_services(ws, rw, factory, client)
+        self.fill_debt_info(ws)
+        self.fill_legal_info(ws, client)
+        self.fill_signatures(ws, client)
+        self.fill_manager_contact(ws, user)
+
+        self.apply_styles(ws)
+
+        self.save_workbook(wb, user)
+
+    def fill_rw_services(self, ws, rw, factory, client):
+        caret = self.caret_factory
+        ws.merge_cells(start_row=caret, start_column=1, end_row=caret, end_column=2)
+        ws.cell(row=caret, column=1, value="Поставка осуществляется:")
+        ws.cell(row=caret, column=3, value="ж/д транспортом")
+        caret += 1
+
+        # Станция назначения
+        ws.cell(row=caret, column=1, value="Станция отправления:")
+        ws.cell(row=caret, column=3, value=rw.station_name)
+        caret += 1
+
+        # Грузоотправитель
+        ws.cell(row=caret, column=1, value="Грузоотправитель:")
+        ws.cell(row=caret, column=3, value=factory.full_name)
+        caret += 1
+
+        # Условия поставки
+        ws.cell(row=caret, column=1, value="Условия поставки")
+        ws.cell(
+            row=caret,
+            column=3,
+            value="франко-вагон станция отправления" if 0 else "франко-вагон станция назначения",
+        )
+        caret += 2
+
+        # Отгрузочные реквизиты
+        ws.cell(row=caret, column=1, value="Отгрузочные реквизиты:")
+        caret += 1
+
+        ws.cell(row=caret, column=1, value="Станция назначения:")
+        ws.cell(row=caret, column=3, value=client.railway_station.station_name)
+        caret += 1
+
+        # Код станции
+        ws.cell(row=caret, column=1, value="Код станции:")
+        station_code_value = ws.cell(row=caret, column=3, value=client.railway_station.station_id)
+        station_code_value.alignment = Alignment(horizontal="left")
+        caret += 1
+
+        # Получатель
+        ws.cell(row=caret, column=1, value="Получатель:")
+        ws.cell(row=caret, column=3, value=client.receiver_name)
+        caret += 1
+
+        # Код получателя
+        ws.cell(row=caret, column=1, value="Код получателя:")
+        receiver_code_value = ws.cell(row=caret, column=3, value=client.receiver_id)
+        receiver_code_value.alignment = Alignment(horizontal="left")
+        caret += 1
+
+        # ОКПО
+        ws.cell(row=caret, column=1, value="ОКПО:")
+        okpo_value = ws.cell(row=caret, column=3, value=client.receiver_okpo)
+        okpo_value.alignment = Alignment(horizontal="left")
+        caret += 1
+
+        # Адрес
+        ws.cell(row=caret, column=1, value="Адрес:")
+        ws.cell(row=caret, column=3, value=client.receiver_adress)
+        caret += 1
+
+        self.caret_services = caret + 1

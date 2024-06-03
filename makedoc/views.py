@@ -9,5 +9,7 @@ def create_docs(request):
 
     if docs.auto:
         docs.form_auto_document(request)
+    if docs.rw:
+        docs.form_rw_document(request)
 
     return HttpResponse("Документы сохранены")
