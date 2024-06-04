@@ -76,7 +76,7 @@ class Documents:
         ws = wb.active
 
         self.fill_contract_info(ws, client)
-        self.fill_product_info(ws, product)
+        self.fill_product_info(ws, product, 10)
         self.fill_factory_info(ws, factory)
         self.fill_auto_services(ws)
         self.fill_debt_info(ws)
@@ -101,8 +101,7 @@ class Documents:
         ws.cell(row=4, column=1, value=client.client_name)
         ws.cell(row=6, column=6, value=get_formatted_date_agreement())
 
-    def fill_product_info(self, ws, product):
-        caret = 10
+    def fill_product_info(self, ws, product, caret):
         goods_quantity = 7
         thin_border = Border(
             left=Side(style="thin"),
@@ -277,7 +276,7 @@ class Documents:
         ws = wb.active
 
         self.fill_contract_info(ws, client)
-        self.fill_product_info(ws, product)
+        self.fill_product_info(ws, product, 10)
         self.fill_factory_info(ws, factory)
         self.fill_rw_services(ws, rw, factory, client)
         self.fill_debt_info(ws)
@@ -360,6 +359,7 @@ class Documents:
             discount = self.get_discount(request)
             city = self.get_city(request)
             user = self.get_user(request)
+            product = self.get_product(request)
         except Exception as e:
             return f"Error fetching data: {e}"
 
@@ -368,13 +368,13 @@ class Documents:
         wb = openpyxl.load_workbook(template_path, keep_vba=True)
         ws = wb.active
 
-        self.fill_service_note(ws, client, discount, city)
-
+        self.fill_text_note(ws, client, discount, city)
+        self.fill_product_info(ws, product, 22)
         self.apply_styles(ws)
 
         self.save_workbook(wb, user)
 
-    def fill_service_note(self, ws, client, discount, city):
+    def fill_text_note(self, ws, client, discount, city):
         ws.cell(row=15, column=1, value=f"{get_formatted_date_agreement()} № 12/2.2/23/3-")
         text = f"    В целях увеличения объема продаж на территории {city.region} прошу Вашего \
 согласования применить скидку для контрагента {client.client_name} (г. {city.city}) до {discount}%\
