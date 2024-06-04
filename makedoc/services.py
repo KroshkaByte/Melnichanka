@@ -8,7 +8,7 @@ from openpyxl.styles import Alignment, Border, Font, Side
 
 from clients.models import Client
 from goods.models import Factory, Product
-from logistics.models import RailwayStation
+from logistics.models import City, RailwayStation
 from users.models import CustomUser
 
 morph = pymorphy3.MorphAnalyzer()
@@ -18,8 +18,9 @@ def get_current_date():
     return date.today()
 
 
-def format_date_nomn_case(date_object):
-    return morph.parse(str(date_object))[0].inflect({"nomn"}).word
+def format_date_case(date_object, case):
+    # case - падеж
+    return morph.parse(str(date_object))[0].inflect({case}).word
 
 
 def format_month_ru_locale(date_object):
@@ -30,13 +31,13 @@ def get_formatted_date_agreement():
     return bd.format_date(get_current_date(), "«d» MMMM y г.", locale="ru_RU")
 
 
-def get_formatted_date_shipment():
+def get_formatted_date_shipment(case):
     current_date = get_current_date()
     next_month_date = (current_date.replace(day=1) + timedelta(days=31)).replace(day=1)
     raw_current_month = format_month_ru_locale(current_date)
     raw_next_month = format_month_ru_locale(next_month_date)
-    current_month = format_date_nomn_case(raw_current_month)
-    next_month = format_date_nomn_case(raw_next_month)
+    current_month = format_date_case(raw_current_month, case)
+    next_month = format_date_case(raw_next_month, case)
     if current_date.year == next_month_date.year:
         return f"{current_month}-{next_month} {current_date.year} г."
     else:
@@ -47,7 +48,7 @@ class Documents:
     def __init__(self):
         self.auto = 0
         self.rw = 0
-        self.sluz = 0
+        self.service_note = 0
         self.sopr_list = 0
 
     def update_documents(self, documents_list):
@@ -55,8 +56,8 @@ class Documents:
             self.auto = 1
         if "rw" in documents_list:
             self.rw = 1
-        if "sluz" in documents_list:
-            self.sluz = 1
+        if "service_note" in documents_list:
+            self.service_note = 1
         if "sopr_list" in documents_list:
             self.sopr_list = 1
 
@@ -147,7 +148,7 @@ class Documents:
         caret = self.caret_services
         ws.merge_cells(start_row=caret, start_column=1, end_row=caret, end_column=2)
         ws.cell(row=caret, column=1, value="Срок отгрузки:")
-        ws.cell(row=caret, column=3, value=get_formatted_date_shipment())
+        ws.cell(row=caret, column=3, value=get_formatted_date_shipment("nomn"))
         ws.merge_cells(start_row=caret + 1, start_column=1, end_row=caret + 1, end_column=6)
         pdz = "▪Продавец имеет право не осуществлять отгрузку товара до полного погашения \
 Покупателем просроченной дебиторской задолженности."
@@ -204,8 +205,8 @@ class Documents:
         os.makedirs(directory, exist_ok=True)
         new_file_path = os.path.join(
             directory,
-            f"{self.docname}_{user.full_name.split()[0]}_{get_current_date().
-                                                          strftime('%d.%m.%Y')}.xlsx",
+            f"{self.docname}_{user.full_name.split()[0]}_\
+{get_current_date().strftime('%d.%m.%Y')}.xlsx",
         )
         wb.save(new_file_path)
 
@@ -249,6 +250,16 @@ class Documents:
             return RailwayStation.objects.all().first()
         except RailwayStation.DoesNotExist:
             raise Exception("Railway station not found")
+
+    def get_discount(self, request):
+        # Принимаем с фронта макс размер скидки (пока хардкод)
+        return 15
+
+    def get_city(self, request):
+        try:
+            return City.objects.all().first()
+        except City.DoesNotExist:
+            raise Exception("City not found")
 
     def form_rw_document(self, request):
         self.docname = "rw"
@@ -341,3 +352,31 @@ class Documents:
         caret += 1
 
         self.caret_services = caret + 1
+
+    def form_service_note(self, request):
+        self.docname = "service_note"
+        try:
+            client = self.get_client(request)
+            discount = self.get_discount(request)
+            city = self.get_city(request)
+            user = self.get_user(request)
+        except Exception as e:
+            return f"Error fetching data: {e}"
+
+        # Открытие файла шаблона
+        template_path = "makedoc/excel-templates/service_note.xlsx"
+        wb = openpyxl.load_workbook(template_path, keep_vba=True)
+        ws = wb.active
+
+        self.fill_service_note(ws, client, discount, city)
+
+        self.apply_styles(ws)
+
+        self.save_workbook(wb, user)
+
+    def fill_service_note(self, ws, client, discount, city):
+        ws.cell(row=15, column=1, value=f"{get_formatted_date_agreement()} № 12/2.2/23/3-")
+        text = f"    В целях увеличения объема продаж на территории {city.region} прошу Вашего \
+согласования применить скидку для контрагента {client.client_name} (г. {city.city}) до {discount}%\
+ в {get_formatted_date_shipment("loct")} на продукцию следующего ассортимента: "
+        ws.cell(row=19, column=1, value=text)
