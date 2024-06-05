@@ -49,7 +49,7 @@ class Documents:
         self.auto = 0
         self.rw = 0
         self.service_note = 0
-        self.sopr_list = 0
+        self.transport_sheet = 0
 
     def update_documents(self, documents_list):
         if "auto" in documents_list:
@@ -58,8 +58,8 @@ class Documents:
             self.rw = 1
         if "service_note" in documents_list:
             self.service_note = 1
-        if "sopr_list" in documents_list:
-            self.sopr_list = 1
+        if "transport_sheet" in documents_list:
+            self.transport_sheet = 1
 
     def form_auto_document(self, request):
         self.docname = "auto"
@@ -68,6 +68,7 @@ class Documents:
             client = self.get_client(request)
             product = self.get_product(request)
             factory = self.get_factory(request)
+            logistics = self.get_logistics(request)
         except Exception as e:
             return f"Error fetching data: {e}"
 
@@ -76,9 +77,9 @@ class Documents:
         ws = wb.active
 
         self.fill_contract_info(ws, client)
-        self.fill_product_info(ws, product, 10)
+        self.fill_product_info(ws, product, logistics, 10)
         self.fill_factory_info(ws, factory)
-        self.fill_auto_services(ws)
+        self.fill_auto_services(ws, logistics)
         self.fill_debt_info(ws)
         self.fill_legal_info(ws, client)
         self.fill_signatures(ws, client)
@@ -92,7 +93,6 @@ class Documents:
         formatted_contract_date = client.contract_date.strftime("%d.%m.%Y")
         title = ws.cell(row=1, column=1, value=f"Приложение № {client.last_application_number}")
         title.font = Font(bold=True)
-        ws.cell(row=1, column=1, value=f"Приложение № {client.last_application_number}")
         ws.cell(
             row=2,
             column=1,
@@ -101,7 +101,7 @@ class Documents:
         ws.cell(row=4, column=1, value=client.client_name)
         ws.cell(row=6, column=6, value=get_formatted_date_agreement())
 
-    def fill_product_info(self, ws, product, caret):
+    def fill_product_info(self, ws, product, logistics, caret):
         goods_quantity = 7
         thin_border = Border(
             left=Side(style="thin"),
@@ -116,8 +116,10 @@ class Documents:
             ws.cell(row=caret, column=4, value=product.package.package)
             ws.cell(row=caret, column=5, value=20)
             ws.cell(row=caret, column=6, value=str(product.price))
+            ws.cell(row=caret, column=7, value=logistics)
+            ws.cell(row=caret, column=8, value=product.price - logistics)
 
-            for col_num in range(1, 7):
+            for col_num in range(1, 9):
                 cell = ws.cell(row=caret, column=col_num)
                 cell.border = thin_border
                 if cell.column > 2:
@@ -132,14 +134,16 @@ class Documents:
         ws.cell(row=caret, column=3, value=factory.full_name)
         self.caret_factory = caret + 1
 
-    def fill_auto_services(self, ws):
+    def fill_auto_services(self, ws, logistics):
         caret = self.caret_factory
         ws.merge_cells(start_row=caret, start_column=1, end_row=caret, end_column=2)
         ws.cell(row=caret, column=1, value="Автотранспортные услуги:")
         ws.cell(
             row=caret,
             column=3,
-            value="не входят в стоимость товара" if 0 else "входят в стоимость товара",
+            value="не входят в стоимость товара"
+            if logistics != 0
+            else "входят в стоимость товара",
         )
         self.caret_services = caret + 1
 
@@ -251,7 +255,6 @@ class Documents:
             raise Exception("Railway station not found")
 
     def get_discount(self, request):
-        # Принимаем с фронта макс размер скидки (пока хардкод)
         return 15
 
     def get_city(self, request):
@@ -259,6 +262,9 @@ class Documents:
             return City.objects.all().first()
         except City.DoesNotExist:
             raise Exception("City not found")
+
+    def get_logistics(self, request):
+        return 2500
 
     def form_rw_document(self, request):
         self.docname = "rw"
@@ -268,6 +274,7 @@ class Documents:
             product = self.get_product(request)
             rw = self.get_rw(request)
             factory = self.get_factory(request)
+            logistics = self.get_logistics(request)
         except Exception as e:
             return f"Error fetching data: {e}"
 
@@ -276,7 +283,7 @@ class Documents:
         ws = wb.active
 
         self.fill_contract_info(ws, client)
-        self.fill_product_info(ws, product, 10)
+        self.fill_product_info(ws, product, logistics, 10)
         self.fill_factory_info(ws, factory)
         self.fill_rw_services(ws, rw, factory, client)
         self.fill_debt_info(ws)
@@ -295,17 +302,14 @@ class Documents:
         ws.cell(row=caret, column=3, value="ж/д транспортом")
         caret += 1
 
-        # Станция назначения
         ws.cell(row=caret, column=1, value="Станция отправления:")
         ws.cell(row=caret, column=3, value=rw.station_name)
         caret += 1
 
-        # Грузоотправитель
         ws.cell(row=caret, column=1, value="Грузоотправитель:")
         ws.cell(row=caret, column=3, value=factory.full_name)
         caret += 1
 
-        # Условия поставки
         ws.cell(row=caret, column=1, value="Условия поставки")
         ws.cell(
             row=caret,
@@ -314,7 +318,6 @@ class Documents:
         )
         caret += 2
 
-        # Отгрузочные реквизиты
         ws.cell(row=caret, column=1, value="Отгрузочные реквизиты:")
         caret += 1
 
@@ -322,30 +325,25 @@ class Documents:
         ws.cell(row=caret, column=3, value=client.railway_station.station_name)
         caret += 1
 
-        # Код станции
         ws.cell(row=caret, column=1, value="Код станции:")
         station_code_value = ws.cell(row=caret, column=3, value=client.railway_station.station_id)
         station_code_value.alignment = Alignment(horizontal="left")
         caret += 1
 
-        # Получатель
         ws.cell(row=caret, column=1, value="Получатель:")
         ws.cell(row=caret, column=3, value=client.receiver_name)
         caret += 1
 
-        # Код получателя
         ws.cell(row=caret, column=1, value="Код получателя:")
         receiver_code_value = ws.cell(row=caret, column=3, value=client.receiver_id)
         receiver_code_value.alignment = Alignment(horizontal="left")
         caret += 1
 
-        # ОКПО
         ws.cell(row=caret, column=1, value="ОКПО:")
         okpo_value = ws.cell(row=caret, column=3, value=client.receiver_okpo)
         okpo_value.alignment = Alignment(horizontal="left")
         caret += 1
 
-        # Адрес
         ws.cell(row=caret, column=1, value="Адрес:")
         ws.cell(row=caret, column=3, value=client.receiver_adress)
         caret += 1
@@ -360,6 +358,7 @@ class Documents:
             city = self.get_city(request)
             user = self.get_user(request)
             product = self.get_product(request)
+            logistics = self.get_logistics(request)
         except Exception as e:
             return f"Error fetching data: {e}"
 
@@ -369,7 +368,7 @@ class Documents:
         ws = wb.active
 
         self.fill_text_note(ws, client, discount, city)
-        self.fill_product_info(ws, product, 22)
+        self.fill_product_info(ws, product, logistics, 22)
         self.apply_styles(ws)
 
         self.save_workbook(wb, user)
@@ -380,3 +379,45 @@ class Documents:
 согласования применить скидку для контрагента {client.client_name} (г. {city.city}) до {discount}%\
  в {get_formatted_date_shipment("loct")} на продукцию следующего ассортимента: "
         ws.cell(row=19, column=1, value=text)
+
+    def form_transport_sheet(self, request):
+        self.docname = "transport_sheet"
+        try:
+            user = self.get_user(request)
+            product = self.get_product(request)
+            client = self.get_client(request)
+            logistics = self.get_logistics(request)
+            factory = self.get_factory(request)
+        except Exception as e:
+            return f"Error fetching data: {e}"
+
+        template_path = "makedoc/excel-templates/transport_sheet.xlsx"
+        wb = openpyxl.load_workbook(template_path, keep_vba=True)
+        ws = wb.active
+
+        self.fill_contract_info_transport_sheet(ws, client)
+        self.fill_product_info(ws, product, logistics, 11)
+
+        self.fill_factory_info(ws, factory)
+        self.fill_auto_services(ws, logistics)
+        self.fill_debt_info(ws)
+        self.fill_legal_info(ws, client)
+        self.fill_signatures(ws, client)
+        self.fill_manager_contact(ws, user)
+
+        self.apply_styles(ws)
+
+        self.save_workbook(wb, user)
+
+    def fill_contract_info_transport_sheet(self, ws, client):
+        formatted_contract_date = client.contract_date.strftime("%d.%m.%Y")
+        ws.cell(row=1, column=1, value="СОПРОВОДИТЕЛЬНЫЙ ЛИСТ к")
+        title = ws.cell(row=2, column=1, value=f"Приложению № {client.last_application_number}")
+        title.font = Font(bold=True)
+        ws.cell(
+            row=3,
+            column=1,
+            value=f"к договору поставки № {client.contract_number} от {formatted_contract_date}г.",
+        )
+        ws.cell(row=5, column=1, value=client.client_name)
+        ws.cell(row=7, column=8, value=get_formatted_date_agreement())
