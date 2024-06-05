@@ -33,5 +33,5 @@ def tripsrailway_object(railwaystation_object, faker):
 @pytest.fixture
 def city_object(faker):
     return City.objects.create(
-        city=faker.pystr(), region=faker.pystr(), federal_district=faker.pystr()
+        city=faker.pystr(), region=faker.pystr()
     )

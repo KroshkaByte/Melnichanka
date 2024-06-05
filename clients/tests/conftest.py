@@ -18,7 +18,6 @@ def destination_city_object(faker):
         id=faker.pyint(),
         city=faker.city(),
         region=faker.pystr(),
-        federal_district=faker.pystr(),
     )
 
 

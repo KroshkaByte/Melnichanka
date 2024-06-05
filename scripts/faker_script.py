@@ -78,7 +78,6 @@ def create_city(n):
         City.objects.create(
             city=fake.city(),
             region=fake.region(),
-            federal_district=choice(federal_districts),
         )
 
 

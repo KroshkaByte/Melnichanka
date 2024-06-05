@@ -1,6 +1,6 @@
 from django.db import models
 
-from .constants import BRANCHES, FED_DISCTRICT
+from .constants import BRANCHES
 
 
 class City(models.Model):
@@ -12,20 +12,14 @@ class City(models.Model):
     region = models.CharField(
         max_length=100,
         blank=False,
-        verbose_name="Субъект федерации",
-    )
-    federal_district = models.CharField(
-        max_length=100,
-        blank=False,
-        verbose_name="Федеральный округ",
-        choices=FED_DISCTRICT,
+        verbose_name="Регион",
     )
 
     class Meta:
         verbose_name = "Населенный пункт"
         verbose_name_plural = "Населенные пункты"
         ordering = ["city"]
-        unique_together = ["city", "region", "federal_district"]
+        unique_together = ["city", "region"]
 
     def __str__(self) -> str:
         return f"{self.city}, {self.region}"

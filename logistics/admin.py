@@ -5,12 +5,12 @@ from .models import City, RailwayStation, TripAuto, TripRailway
 
 @admin.register(City)
 class CityAdmin(admin.ModelAdmin):
-    list_display = ["city", "region", "federal_district"]
-    list_display_links = ["city", "region", "federal_district"]
+    list_display = ["city", "region"]
+    list_display_links = ["city", "region"]
     ordering = ["city"]
     list_per_page = 20
-    search_fields = ["city", "region", "federal_district"]
-    list_filter = ["city", "region", "federal_district"]
+    search_fields = ["city", "region"]
+    list_filter = ["city", "region"]
 
 
 @admin.register(RailwayStation)
