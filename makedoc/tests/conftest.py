@@ -12,11 +12,6 @@ def user(django_user_model):
 
 
 @pytest.fixture
-def api_client() -> APIClient:
-    return APIClient()
-
-
-@pytest.fixture
 def authorized_client(user):
     client = APIClient()
     refresh = RefreshToken.for_user(user)
