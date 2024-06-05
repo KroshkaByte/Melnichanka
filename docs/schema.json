@@ -441,6 +441,33 @@ paths:
                 items:
                   $ref: '#/components/schemas/DirectorPosition'
           description: ''
+  /api/v1/data/:
+    post:
+      operationId: v1_data_create
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataDoc'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DataDoc'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DataDoc'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataDoc'
+          description: ''
   /api/v1/goods/:
     get:
       operationId: v1_goods_list
@@ -1348,6 +1375,24 @@ components:
       - password_confirm
       - phone_number_personal
       - phone_number_work
+    DataDoc:
+      type: object
+      properties:
+        client_id:
+          type: integer
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderItem'
+        factory_id:
+          type: integer
+        destination:
+          type: string
+      required:
+      - client_id
+      - destination
+      - factory_id
+      - items
     Department:
       type: object
       properties:
@@ -1428,6 +1473,19 @@ components:
           type: string
       required:
       - refresh_token
+    OrderItem:
+      type: object
+      properties:
+        product_id:
+          type: integer
+        quantity:
+          type: integer
+        discount:
+          type: integer
+          default: 0
+      required:
+      - product_id
+      - quantity
     PasswordToken:
       type: object
       properties:
