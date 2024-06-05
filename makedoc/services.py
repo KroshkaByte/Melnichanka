@@ -285,7 +285,7 @@ class Documents:
         self.fill_contract_info(ws, client)
         self.fill_product_info(ws, product, logistics, 10)
         self.fill_factory_info(ws, factory)
-        self.fill_rw_services(ws, rw, factory, client)
+        self.fill_rw_services(ws, rw, factory, client, logistics)
         self.fill_debt_info(ws)
         self.fill_legal_info(ws, client)
         self.fill_signatures(ws, client)
@@ -295,7 +295,7 @@ class Documents:
 
         self.save_workbook(wb, user)
 
-    def fill_rw_services(self, ws, rw, factory, client):
+    def fill_rw_services(self, ws, rw, factory, client, logistics):
         caret = self.caret_factory
         ws.merge_cells(start_row=caret, start_column=1, end_row=caret, end_column=2)
         ws.cell(row=caret, column=1, value="Поставка осуществляется:")
@@ -314,7 +314,9 @@ class Documents:
         ws.cell(
             row=caret,
             column=3,
-            value="франко-вагон станция отправления" if 0 else "франко-вагон станция назначения",
+            value="не входят в стоимость товара"
+            if logistics != 0
+            else "входят в стоимость товара",
         )
         caret += 2
 
@@ -377,7 +379,7 @@ class Documents:
         ws.cell(row=15, column=1, value=f"{get_formatted_date_agreement()} № 12/2.2/23/3-")
         text = f"    В целях увеличения объема продаж на территории {city.region} прошу Вашего \
 согласования применить скидку для контрагента {client.client_name} (г. {city.city}) до {discount}%\
- в {get_formatted_date_shipment("loct")} на продукцию следующего ассортимента: "
+ в {get_formatted_date_shipment('loct')} на продукцию следующего ассортимента: "
         ws.cell(row=19, column=1, value=text)
 
     def form_transport_sheet(self, request):
