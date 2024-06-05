@@ -3,15 +3,23 @@ from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+from makedoc.services import Documents
+
 from .serializers import DataDocSerializer
-from .services import write_to_excel_auto, write_to_excel_rw, write_to_excel_sluzebnyi
 
 
 def create_docs(request):
-    write_to_excel_auto(request)
-    write_to_excel_rw(request)
-    # Если применяется скидка, пишем служебную записку
-    write_to_excel_sluzebnyi(request) if 0 else None
+    docs = Documents()
+    docs.update_documents(["auto", "rw", "service_note", "transport_sheet"])
+    if docs.auto:
+        docs.form_auto_document(request)
+    if docs.rw:
+        docs.form_rw_document(request)
+    if docs.service_note:
+        docs.form_service_note(request)
+    if docs.transport_sheet:
+        docs.form_transport_sheet(request)
+
     return HttpResponse("Документы сохранены")
 
 
