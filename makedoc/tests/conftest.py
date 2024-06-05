@@ -7,8 +7,9 @@ from users.models import CustomUser
 
 @pytest.fixture
 def user(django_user_model):
-    return CustomUser.objects.create_user(email='test@example.com', full_name='Test User',
-                                          password='testpassword')
+    return CustomUser.objects.create_user(
+        email="test@example.com", full_name="Test User", password="testpassword"
+    )
 
 
 @pytest.fixture
