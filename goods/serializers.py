@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import Product
+
+from .models import Product, Factory
 
 
 class GoodsSerializer(serializers.ModelSerializer[Product]):
@@ -9,4 +10,10 @@ class GoodsSerializer(serializers.ModelSerializer[Product]):
 
     class Meta:
         model = Product
+        fields = "__all__"
+
+
+class FactorySerializer(serializers.ModelSerializer[Factory]):
+    class Meta:
+        model = Factory
         fields = "__all__"
