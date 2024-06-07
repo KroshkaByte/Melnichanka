@@ -74,7 +74,7 @@ class RailwayStation(models.Model):
         unique_together = ["station_name", "station_id"]
 
     def __str__(self) -> str:
-        return f"{self.station_name}, {self.station_branch}"
+        return f"{self.station_name}, {self.station_branch}, {self.station_id}"
 
 
 # Данные по логистике жд
