@@ -40,8 +40,7 @@ class TripRailwayViewSet(viewsets.ModelViewSet[TripRailway]):
 class FactoryListAPIView(generics.ListAPIView[Factory]):
     queryset = Factory.objects.all()
     serializer_class = FactorySerializer
-
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         cached_factories = cache.get("factories_list")
