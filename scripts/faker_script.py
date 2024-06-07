@@ -3,8 +3,8 @@ from random import choice
 from faker import Faker
 
 from clients.models import Client, DirectorPosition
-from goods.models import Brand, Factory, Flour, Package, Product
-from logistics.models import City, RailwayStation, TripAuto, TripRailway
+from goods.models import Brand, Flour, Package, Product
+from logistics.models import City, RailwayStation, TripAuto, TripRailway, Factory
 from users.models import CustomUser, Department, Position
 
 fake = Faker("ru_RU")

@@ -1,12 +1,14 @@
+from rest_framework import generics
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
-from .models import City, RailwayStation, TripAuto, TripRailway
+from .models import City, RailwayStation, TripAuto, TripRailway, Factory
 from .serializers import (
     CitySerializer,
     RailwayStationSerializer,
     TripAutoSerializer,
     TripRailwaySerializer,
+    FactorySerializer,
 )
 
 
@@ -31,4 +33,10 @@ class RailwayStationViewSet(viewsets.ModelViewSet[RailwayStation]):
 class TripRailwayViewSet(viewsets.ModelViewSet[TripRailway]):
     queryset = TripRailway.objects.all()
     serializer_class = TripRailwaySerializer
+    permission_classes = (IsAuthenticated,)
+
+
+class FactoryListAPIView(generics.ListAPIView[Factory]):
+    queryset = Factory.objects.all()
+    serializer_class = FactorySerializer
     permission_classes = (IsAuthenticated,)

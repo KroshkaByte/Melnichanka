@@ -1,10 +1,9 @@
 from django.core.cache import cache
-from rest_framework import generics
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
-from .models import Product, Factory
-from .serializers import GoodsSerializer, FactorySerializer
+from .models import Product
+from .serializers import GoodsSerializer
 
 
 class GoodsViewSet(viewsets.ModelViewSet[Product]):
@@ -20,9 +19,3 @@ class GoodsViewSet(viewsets.ModelViewSet[Product]):
             goods = super().get_queryset()
             cache.set("goods_list", goods, 60 * 15)
             return goods
-
-
-class FactoryListAPIView(generics.ListAPIView[Factory]):
-    queryset = Factory.objects.all()
-    serializer_class = FactorySerializer
-    permission_classes = (IsAuthenticated,)

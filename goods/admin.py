@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Brand, Factory, Flour, Package, Product
+from .models import Brand, Flour, Package, Product
 
 
 @admin.register(Product)
@@ -26,41 +26,6 @@ class GoodsAdmin(admin.ModelAdmin):
         verbose_name_plural = "Товары"
         ordering = ["flour_name", "brand"]
         unique_together = [("flour_name", "brand", "package")]
-
-
-@admin.register(Factory)
-class FactoryAdmin(admin.ModelAdmin):
-    list_display = [
-        "full_name",
-        "full_address",
-        "departure_city",
-        "departure_station_branch",
-        "departure_station_id",
-        "departure_station_name",
-    ]
-    list_display_links = [
-        "full_name",
-        "full_address",
-        "departure_city",
-        "departure_station_branch",
-        "departure_station_id",
-        "departure_station_name",
-    ]
-    ordering = ["full_name"]
-    list_per_page = 10
-    search_fields = [
-        "full_name",
-        "full_address",
-        "departure_city",
-        "departure_station_branch",
-        "departure_station_id",
-        "departure_station_name",
-    ]
-
-    class Meta:
-        verbose_name = "Предприятие"
-        verbose_name_plural = "Предприятия"
-        ordering = ["full_name"]
 
 
 @admin.register(Flour)

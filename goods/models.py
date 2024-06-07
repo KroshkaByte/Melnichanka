@@ -1,6 +1,6 @@
 from django.db import models
 
-from logistics.constants import BRANCHES
+from logistics.models import Factory
 
 
 class Product(models.Model):
@@ -49,7 +49,7 @@ class Brand(models.Model):
 
 class Package(models.Model):
     package = models.IntegerField(verbose_name="Тара")
-    factory = models.ForeignKey("Factory", on_delete=models.PROTECT)
+    factory = models.ForeignKey(Factory, on_delete=models.PROTECT)
     pallet_weight = models.PositiveIntegerField(verbose_name="Вес на паллете")
 
     class Meta:
@@ -60,40 +60,3 @@ class Package(models.Model):
 
     def __str__(self) -> str:
         return f"{self.package} кг, {self.factory}"
-
-
-class Factory(models.Model):
-    full_name = models.CharField(
-        max_length=100, blank=False, verbose_name="Полное название предприятия"
-    )
-    short_name = models.CharField(
-        max_length=100, blank=False, verbose_name="Краткое название предприятия"
-    )
-    full_address = models.CharField(max_length=100, blank=False, verbose_name="Адрес предприятия")
-    departure_city = models.CharField(
-        max_length=100,
-        blank=False,
-        verbose_name="Город отправления",
-    )
-    departure_station_branch = models.CharField(
-        max_length=100, blank=False, verbose_name="Ветка ж/д стации", choices=BRANCHES
-    )
-    departure_station_id = models.PositiveIntegerField(verbose_name="Код ж/д стации")
-    departure_station_name = models.CharField(
-        max_length=100, blank=False, verbose_name="Ж/Д станция"
-    )
-
-    class Meta:
-        verbose_name = "Предприятие"
-        verbose_name_plural = "Предприятия"
-        ordering = ["-full_name"]
-        unique_together = [
-            (
-                "full_name",
-                "short_name",
-                "full_address",
-            )
-        ]
-
-    def __str__(self) -> str:
-        return self.full_name

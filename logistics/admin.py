@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import City, RailwayStation, TripAuto, TripRailway
+from .models import City, RailwayStation, TripAuto, TripRailway, Factory
 
 
 @admin.register(City)
@@ -47,3 +47,38 @@ class RwAdmin(admin.ModelAdmin):
     list_per_page = 20
     search_fields = ["departure_station_name", "destination_station_name"]
     list_filter = ["departure_station_name", "destination_station_name"]
+
+
+@admin.register(Factory)
+class FactoryAdmin(admin.ModelAdmin):
+    list_display = [
+        "full_name",
+        "full_address",
+        "departure_city",
+        "departure_station_branch",
+        "departure_station_id",
+        "departure_station_name",
+    ]
+    list_display_links = [
+        "full_name",
+        "full_address",
+        "departure_city",
+        "departure_station_branch",
+        "departure_station_id",
+        "departure_station_name",
+    ]
+    ordering = ["full_name"]
+    list_per_page = 10
+    search_fields = [
+        "full_name",
+        "full_address",
+        "departure_city",
+        "departure_station_branch",
+        "departure_station_id",
+        "departure_station_name",
+    ]
+
+    class Meta:
+        verbose_name = "Предприятие"
+        verbose_name_plural = "Предприятия"
+        ordering = ["full_name"]

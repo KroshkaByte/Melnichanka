@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import City, RailwayStation, TripAuto, TripRailway
+from .models import City, RailwayStation, TripAuto, TripRailway, Factory
 
 
 class CitySerializer(serializers.ModelSerializer[City]):
@@ -30,4 +30,10 @@ class TripRailwaySerializer(serializers.ModelSerializer[TripRailway]):
 
     class Meta:
         model = TripRailway
+        fields = "__all__"
+
+
+class FactorySerializer(serializers.ModelSerializer[Factory]):
+    class Meta:
+        model = Factory
         fields = "__all__"
