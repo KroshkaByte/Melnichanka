@@ -1,3 +1,4 @@
+from django.core.cache import cache
 from rest_framework import generics
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
@@ -39,4 +40,14 @@ class TripRailwayViewSet(viewsets.ModelViewSet[TripRailway]):
 class FactoryListAPIView(generics.ListAPIView[Factory]):
     queryset = Factory.objects.all()
     serializer_class = FactorySerializer
-    permission_classes = (IsAuthenticated,)
+
+    # permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        cached_factories = cache.get("factories_list")
+        if cached_factories:
+            return cached_factories
+        else:
+            factories = super().get_queryset()
+            cache.set("factories_list", factories, 60 * 30)
+            return factories
