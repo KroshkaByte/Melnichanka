@@ -13,7 +13,7 @@ def test__tripsauto__return_valid_str(tripsauto_object):
 def test__railway_station__return_valid_str(railwaystation_object):
     assert (
         str(railwaystation_object)
-        == f"{railwaystation_object.station_name}, {railwaystation_object.station_branch}"
+        == f"{railwaystation_object.station_name}, {railwaystation_object.station_branch}, {railwaystation_object.station_id}"
     )
 
 
