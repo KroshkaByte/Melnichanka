@@ -5,288 +5,6 @@ info:
   description: ' Melnichanka is a web application designed to generate a package of
     documents required for shipment'
 paths:
-  /api/v1/autotrip/:
-    get:
-      operationId: v1_autotrip_list
-      tags:
-      - v1
-      security:
-      - jwtAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/TripAuto'
-          description: ''
-    post:
-      operationId: v1_autotrip_create
-      tags:
-      - v1
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/TripAuto'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/TripAuto'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/TripAuto'
-        required: true
-      security:
-      - jwtAuth: []
-      responses:
-        '201':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TripAuto'
-          description: ''
-  /api/v1/autotrip/{id}/:
-    get:
-      operationId: v1_autotrip_retrieve
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this Перевозки авто.
-        required: true
-      tags:
-      - v1
-      security:
-      - jwtAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TripAuto'
-          description: ''
-    put:
-      operationId: v1_autotrip_update
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this Перевозки авто.
-        required: true
-      tags:
-      - v1
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/TripAuto'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/TripAuto'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/TripAuto'
-        required: true
-      security:
-      - jwtAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TripAuto'
-          description: ''
-    patch:
-      operationId: v1_autotrip_partial_update
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this Перевозки авто.
-        required: true
-      tags:
-      - v1
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PatchedTripAuto'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/PatchedTripAuto'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/PatchedTripAuto'
-      security:
-      - jwtAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TripAuto'
-          description: ''
-    delete:
-      operationId: v1_autotrip_destroy
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this Перевозки авто.
-        required: true
-      tags:
-      - v1
-      security:
-      - jwtAuth: []
-      responses:
-        '204':
-          description: No response body
-  /api/v1/city/:
-    get:
-      operationId: v1_city_list
-      tags:
-      - v1
-      security:
-      - jwtAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/City'
-          description: ''
-    post:
-      operationId: v1_city_create
-      tags:
-      - v1
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/City'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/City'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/City'
-        required: true
-      security:
-      - jwtAuth: []
-      responses:
-        '201':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/City'
-          description: ''
-  /api/v1/city/{id}/:
-    get:
-      operationId: v1_city_retrieve
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this Населенный пункт.
-        required: true
-      tags:
-      - v1
-      security:
-      - jwtAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/City'
-          description: ''
-    put:
-      operationId: v1_city_update
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this Населенный пункт.
-        required: true
-      tags:
-      - v1
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/City'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/City'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/City'
-        required: true
-      security:
-      - jwtAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/City'
-          description: ''
-    patch:
-      operationId: v1_city_partial_update
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this Населенный пункт.
-        required: true
-      tags:
-      - v1
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PatchedCity'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/PatchedCity'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/PatchedCity'
-      security:
-      - jwtAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/City'
-          description: ''
-    delete:
-      operationId: v1_city_destroy
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this Населенный пункт.
-        required: true
-      tags:
-      - v1
-      security:
-      - jwtAuth: []
-      responses:
-        '204':
-          description: No response body
   /api/v1/clients/:
     get:
       operationId: v1_clients_list
@@ -441,9 +159,9 @@ paths:
                 items:
                   $ref: '#/components/schemas/DirectorPosition'
           description: ''
-  /api/v1/data/:
+  /api/v1/doc/data/:
     post:
-      operationId: v1_data_create
+      operationId: v1_doc_data_create
       tags:
       - v1
       requestBody:
@@ -460,7 +178,6 @@ paths:
         required: true
       security:
       - jwtAuth: []
-      - {}
       responses:
         '200':
           content:
@@ -609,9 +326,307 @@ paths:
       responses:
         '204':
           description: No response body
-  /api/v1/rwtrip/:
+  /api/v1/logistics/auto/:
     get:
-      operationId: v1_rwtrip_list
+      operationId: v1_logistics_auto_list
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TripAuto'
+          description: ''
+    post:
+      operationId: v1_logistics_auto_create
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TripAuto'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TripAuto'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TripAuto'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TripAuto'
+          description: ''
+  /api/v1/logistics/auto/{id}/:
+    get:
+      operationId: v1_logistics_auto_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Перевозки авто.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TripAuto'
+          description: ''
+    put:
+      operationId: v1_logistics_auto_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Перевозки авто.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TripAuto'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TripAuto'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TripAuto'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TripAuto'
+          description: ''
+    patch:
+      operationId: v1_logistics_auto_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Перевозки авто.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedTripAuto'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedTripAuto'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedTripAuto'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TripAuto'
+          description: ''
+    delete:
+      operationId: v1_logistics_auto_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Перевозки авто.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/logistics/city/:
+    get:
+      operationId: v1_logistics_city_list
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/City'
+          description: ''
+    post:
+      operationId: v1_logistics_city_create
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/City'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/City'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/City'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/City'
+          description: ''
+  /api/v1/logistics/city/{id}/:
+    get:
+      operationId: v1_logistics_city_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Населенный пункт.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/City'
+          description: ''
+    put:
+      operationId: v1_logistics_city_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Населенный пункт.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/City'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/City'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/City'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/City'
+          description: ''
+    patch:
+      operationId: v1_logistics_city_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Населенный пункт.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCity'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCity'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCity'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/City'
+          description: ''
+    delete:
+      operationId: v1_logistics_city_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Населенный пункт.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/logistics/factories/:
+    get:
+      operationId: v1_logistics_factories_list
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Factory'
+          description: ''
+  /api/v1/logistics/rw/:
+    get:
+      operationId: v1_logistics_rw_list
       tags:
       - v1
       security:
@@ -626,7 +641,7 @@ paths:
                   $ref: '#/components/schemas/TripRailway'
           description: ''
     post:
-      operationId: v1_rwtrip_create
+      operationId: v1_logistics_rw_create
       tags:
       - v1
       requestBody:
@@ -650,9 +665,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/TripRailway'
           description: ''
-  /api/v1/rwtrip/{id}/:
+  /api/v1/logistics/rw/{id}/:
     get:
-      operationId: v1_rwtrip_retrieve
+      operationId: v1_logistics_rw_retrieve
       parameters:
       - in: path
         name: id
@@ -672,7 +687,7 @@ paths:
                 $ref: '#/components/schemas/TripRailway'
           description: ''
     put:
-      operationId: v1_rwtrip_update
+      operationId: v1_logistics_rw_update
       parameters:
       - in: path
         name: id
@@ -704,7 +719,7 @@ paths:
                 $ref: '#/components/schemas/TripRailway'
           description: ''
     patch:
-      operationId: v1_rwtrip_partial_update
+      operationId: v1_logistics_rw_partial_update
       parameters:
       - in: path
         name: id
@@ -735,7 +750,7 @@ paths:
                 $ref: '#/components/schemas/TripRailway'
           description: ''
     delete:
-      operationId: v1_rwtrip_destroy
+      operationId: v1_logistics_rw_destroy
       parameters:
       - in: path
         name: id
@@ -750,9 +765,9 @@ paths:
       responses:
         '204':
           description: No response body
-  /api/v1/stations/:
+  /api/v1/logistics/stations/:
     get:
-      operationId: v1_stations_list
+      operationId: v1_logistics_stations_list
       tags:
       - v1
       security:
@@ -767,7 +782,7 @@ paths:
                   $ref: '#/components/schemas/RailwayStation'
           description: ''
     post:
-      operationId: v1_stations_create
+      operationId: v1_logistics_stations_create
       tags:
       - v1
       requestBody:
@@ -791,9 +806,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/RailwayStation'
           description: ''
-  /api/v1/stations/{id}/:
+  /api/v1/logistics/stations/{id}/:
     get:
-      operationId: v1_stations_retrieve
+      operationId: v1_logistics_stations_retrieve
       parameters:
       - in: path
         name: id
@@ -813,7 +828,7 @@ paths:
                 $ref: '#/components/schemas/RailwayStation'
           description: ''
     put:
-      operationId: v1_stations_update
+      operationId: v1_logistics_stations_update
       parameters:
       - in: path
         name: id
@@ -845,7 +860,7 @@ paths:
                 $ref: '#/components/schemas/RailwayStation'
           description: ''
     patch:
-      operationId: v1_stations_partial_update
+      operationId: v1_logistics_stations_partial_update
       parameters:
       - in: path
         name: id
@@ -876,7 +891,7 @@ paths:
                 $ref: '#/components/schemas/RailwayStation'
           description: ''
     delete:
-      operationId: v1_stations_destroy
+      operationId: v1_logistics_stations_destroy
       parameters:
       - in: path
         name: id
@@ -1251,15 +1266,10 @@ components:
           maxLength: 100
         region:
           type: string
-          title: Субъект федерации
+          title: Регион
           maxLength: 100
-        federal_district:
-          allOf:
-          - $ref: '#/components/schemas/FederalDistrictEnum'
-          title: Федеральный округ
       required:
       - city
-      - federal_district
       - id
       - region
     Client:
@@ -1268,6 +1278,12 @@ components:
         id:
           type: integer
           readOnly: true
+        director_position:
+          $ref: '#/components/schemas/DirectorPosition'
+        destination_city:
+          type: string
+        railway_station:
+          type: string
         client_name:
           type: string
           title: Наименование организации
@@ -1312,16 +1328,6 @@ components:
           type: string
           title: Номер приложения
           maxLength: 50
-        director_position:
-          type: integer
-          title: Должность директора
-        destination_city:
-          type: integer
-          title: Город доставки
-        railway_station:
-          type: integer
-          nullable: true
-          title: ЖД станция
       required:
       - client_name
       - contract_date
@@ -1330,6 +1336,7 @@ components:
       - director_name
       - director_position
       - id
+      - railway_station
     CustomUser:
       type: object
       properties:
@@ -1405,6 +1412,42 @@ components:
       required:
       - department
       - id
+    DepartureStationBranchEnum:
+      enum:
+      - ОЖД
+      - КаЖД
+      - МЖД
+      - ГЖД
+      - СеЖД
+      - СКЖД
+      - ЮВЖД
+      - ПЖД
+      - КуЖД
+      - СвЖД
+      - ЮУЖД
+      - ЗСЖД
+      - КЖД
+      - ВСЖД
+      - ЗЖД
+      - ДВЖД
+      type: string
+      description: |-
+        * `ОЖД` - Октябрьская ж/д
+        * `КаЖД` - Калининградская ж/д
+        * `МЖД` - Московская ж/д
+        * `ГЖД` - Горьковская ж/д
+        * `СеЖД` - Северная ж/д
+        * `СКЖД` - Северо-Кавказская ж/д
+        * `ЮВЖД` - Юго-Восточная ж/д
+        * `ПЖД` - Приволжская ж/д
+        * `КуЖД` - Куйбышевская ж/д
+        * `СвЖД` - Свердловская ж/д
+        * `ЮУЖД` - Южно-Уральская ж/д
+        * `ЗСЖД` - Западно-Сибирская ж/д
+        * `КЖД` - Красноярская ж/д
+        * `ВСЖД` - Восточно-Сибирская ж/д
+        * `ЗЖД` - Забайкальская ж/д
+        * `ДВЖД` - Дальневосточная ж/д
     DirectorPosition:
       type: object
       properties:
@@ -1425,24 +1468,50 @@ components:
           format: email
       required:
       - email
-    FederalDistrictEnum:
-      enum:
-      - ЦФО
-      - СЗФО
-      - ЮФО
-      - ПФО
-      - УФО
-      - СФО
-      - ДВФО
-      type: string
-      description: |-
-        * `ЦФО` - Центральный федеральный округ
-        * `СЗФО` - Северо-Западный федеральный округ
-        * `ЮФО` - Южный федеральный округ
-        * `ПФО` - Приволжский федеральный округ
-        * `УФО` - Уральский федеральный округ
-        * `СФО` - Сибирский федеральный округ
-        * `ДВФО` - Дальневосточный федеральный округ
+    Factory:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        full_name:
+          type: string
+          title: Полное название предприятия
+          maxLength: 100
+        short_name:
+          type: string
+          title: Краткое название предприятия
+          maxLength: 100
+        full_address:
+          type: string
+          title: Адрес предприятия
+          maxLength: 100
+        departure_city:
+          type: string
+          title: Город отправления
+          maxLength: 100
+        departure_station_branch:
+          allOf:
+          - $ref: '#/components/schemas/DepartureStationBranchEnum'
+          title: Ветка ж/д стации
+        departure_station_id:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          title: Код ж/д стации
+        departure_station_name:
+          type: string
+          title: Ж/Д станция
+          maxLength: 100
+      required:
+      - departure_city
+      - departure_station_branch
+      - departure_station_id
+      - departure_station_name
+      - full_address
+      - full_name
+      - id
+      - short_name
     Goods:
       type: object
       properties:
@@ -1509,18 +1578,20 @@ components:
           maxLength: 100
         region:
           type: string
-          title: Субъект федерации
+          title: Регион
           maxLength: 100
-        federal_district:
-          allOf:
-          - $ref: '#/components/schemas/FederalDistrictEnum'
-          title: Федеральный округ
     PatchedClient:
       type: object
       properties:
         id:
           type: integer
           readOnly: true
+        director_position:
+          $ref: '#/components/schemas/DirectorPosition'
+        destination_city:
+          type: string
+        railway_station:
+          type: string
         client_name:
           type: string
           title: Наименование организации
@@ -1565,16 +1636,6 @@ components:
           type: string
           title: Номер приложения
           maxLength: 50
-        director_position:
-          type: integer
-          title: Должность директора
-        destination_city:
-          type: integer
-          title: Город доставки
-        railway_station:
-          type: integer
-          nullable: true
-          title: ЖД станция
     PatchedGoods:
       type: object
       properties:
