@@ -11,9 +11,9 @@ from .views import (
 
 router = routers.SimpleRouter()
 router.register(r"city", CityViewSet)
-router.register(r"autotrip", TripAutoViewSet)
+router.register(r"auto", TripAutoViewSet)
 router.register(r"stations", RailwayStationViewSet)
-router.register(r"rwtrip", TripRailwayViewSet)
+router.register(r"rw", TripRailwayViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),

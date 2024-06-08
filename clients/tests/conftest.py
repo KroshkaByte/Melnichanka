@@ -19,13 +19,15 @@ def destination_city_object(faker):
 
 @pytest.fixture
 def railway_station_object(faker):
-    return RailwayStation.objects.create(station_name=faker.word(), station_branch=faker.word(),
-                                         station_id=faker.random_int())
+    return RailwayStation.objects.create(
+        station_name=faker.word(), station_branch=faker.word(), station_id=faker.random_int()
+    )
 
 
 @pytest.fixture
-def clients_object(director_position_object, destination_city_object, railway_station_object, user,
-                   faker):
+def clients_object(
+    director_position_object, destination_city_object, railway_station_object, user, faker
+):
     return Client.objects.create(
         client_name=faker.company(),
         contract_number=faker.word(),
@@ -46,8 +48,9 @@ def clients_object(director_position_object, destination_city_object, railway_st
 
 @pytest.fixture
 def user(faker):
-    return CustomUser.objects.create_user(email=faker.email(), full_name=faker.name(),
-                                          password=faker.password())
+    return CustomUser.objects.create_user(
+        email=faker.email(), full_name=faker.name(), password=faker.password()
+    )
 
 
 @pytest.fixture

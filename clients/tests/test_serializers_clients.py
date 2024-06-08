@@ -53,15 +53,17 @@ def test__client_serializer__create_object_valid_director_name(
 
 
 @pytest.mark.django_db
-def test__client_serializer__create_object_valid_destination_city(clients_object,
-                                                                  destination_city_object):
+def test__client_serializer__create_object_valid_destination_city(
+    clients_object, destination_city_object
+):
     serializer_data = ClientSerializer(clients_object).data
     assert serializer_data["destination_city"] == str(destination_city_object)
 
 
 @pytest.mark.django_db
-def test__client_serializer__create_object_valid_railway_station(clients_object,
-                                                                 railway_station_object):
+def test__client_serializer__create_object_valid_railway_station(
+    clients_object, railway_station_object
+):
     serializer_data = ClientSerializer(clients_object).data
     assert serializer_data["railway_station"] == str(railway_station_object)
 
