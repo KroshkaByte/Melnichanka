@@ -6,6 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from makedoc.services import Documents
+from .data_service import DataService
 from .serializers import DataDocSerializer
 
 
@@ -34,4 +35,6 @@ class DataDocView(generics.GenericAPIView[Any]):
 
         validated_data = serializer.validated_data
 
-        return Response(validated_data, status=status.HTTP_200_OK)
+        processed_data = DataService.process_data(validated_data)
+
+        return Response(processed_data, status=status.HTTP_200_OK)
