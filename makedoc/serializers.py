@@ -14,3 +14,4 @@ class DataDocSerializer(serializers.Serializer[Any]):
     items = serializers.ListField(child=OrderItemSerializer())
     factory_id = serializers.IntegerField()
     destination = serializers.CharField()
+    delivery_cost = serializers.IntegerField()
