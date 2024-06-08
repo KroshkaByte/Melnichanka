@@ -1,6 +1,6 @@
 from clients.models import Client
 from goods.models import Product
-from logistics.models import Factory
+from logistics.models import Factory, RailwayStation
 
 
 class DataService:
@@ -75,3 +75,32 @@ class DataService:
             return factory_data
         except Factory.DoesNotExist:
             raise Exception("Factory not found")
+
+    @staticmethod
+    def get_delivery_cost(processed_data):
+        delivery_cost = processed_data.get("delivery_cost")
+        if delivery_cost is None:
+            raise Exception("Delivery cost not found")
+        return delivery_cost
+
+    @staticmethod
+    def get_city(processed_data):
+        city = processed_data.get("destination")
+        if city is None:
+            raise Exception("City not found")
+        return city
+
+    @staticmethod
+    def get_rw(processed_data):
+        try:
+            rw_id = processed_data.get("destination")
+            rw = RailwayStation.objects.get(id=rw_id)
+            rw_data = {
+                "id": int(rw.id),
+                "station_name": str(rw.station_name),
+                "station_id": int(rw.station_id),
+                "station_branch": str(rw.station_branch),
+            }
+            return rw_data
+        except RailwayStation.DoesNotExist:
+            raise Exception("Railway station not found")
