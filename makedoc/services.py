@@ -10,6 +10,7 @@ from clients.models import Client
 from goods.models import Product
 from logistics.models import City, RailwayStation, Factory
 from users.models import CustomUser
+from .data_service import DataService
 
 morph = pymorphy3.MorphAnalyzer()
 
@@ -45,30 +46,84 @@ def get_formatted_date_shipment(case):
 
 
 class Documents:
-    def __init__(self):
+    def __init__(self, validated_data):
+        self.validated_data = validated_data
         self.auto = 0
         self.rw = 0
         self.service_note = 0
         self.transport_sheet = 0
 
-    def update_documents(self, documents_list):
-        if "auto" in documents_list:
+    def update_documents(self):
+        delivery_type = DataService.get_delivery_type(self.validated_data)
+        if delivery_type is None:
+            raise Exception("Type delivery not found")
+        if "auto" in delivery_type:
             self.auto = 1
-        if "rw" in documents_list:
+        if "rw" in delivery_type:
             self.rw = 1
-        if "service_note" in documents_list:
+        if "service_note" in delivery_type:
             self.service_note = 1
-        if "transport_sheet" in documents_list:
+        if "transport_sheet" in delivery_type:
             self.transport_sheet = 1
+
+    def get_user(self, request):
+        try:
+            return CustomUser.objects.first()
+        except CustomUser.DoesNotExist:
+            raise Exception("User not found")
+
+    def get_client(self, request):
+        try:
+            return Client.objects.all().first()
+        except Client.DoesNotExist:
+            raise Exception("Client not found")
+
+    def get_product(self, request):
+        try:
+            return Product.objects.first()
+        except Product.DoesNotExist:
+            raise Exception("Product not found")
+
+    def get_factory(self, request):
+        try:
+            return Factory.objects.first()
+        except Factory.DoesNotExist:
+            raise Exception("Factory not found")
+
+    def get_rw(self, request):
+        try:
+            return RailwayStation.objects.all().first()
+        except RailwayStation.DoesNotExist:
+            raise Exception("Railway station not found")
+
+    def get_discount(self, request):
+        return 15
+
+    def get_city(self, request):
+        try:
+            return City.objects.all().first()
+        except City.DoesNotExist:
+            raise Exception("City not found")
+
+    def get_logistics(self, request):
+        return 2500
 
     def form_auto_document(self, request):
         self.docname = "auto"
         try:
-            user = self.get_user(request)
-            client = self.get_client(request)
+            user = DataService.get_user(request)
+            client = DataService.get_client(self.validated_data)
+
+            # Список товаров
+            # Надо сделать DataService.get_products(self.validated_data)
+            # Выдаст список товаров с количеством каждого товара и скидкой для товара
             product = self.get_product(request)
-            factory = self.get_factory(request)
-            logistics = self.get_logistics(request)
+
+            factory = DataService.get_factory(self.validated_data)
+
+            # logistics = delivery_cost(надо везде поменять)
+            logistics = DataService.get_delivery_cost(self.validated_data)
+
         except Exception as e:
             return f"Error fetching data: {e}"
 
@@ -224,57 +279,23 @@ class Documents:
                 if cell.value is not None:
                     cell.font = Font(bold=True, size=12)
 
-    def get_user(self, request):
-        try:
-            return CustomUser.objects.first()
-        except CustomUser.DoesNotExist:
-            raise Exception("User not found")
-
-    def get_client(self, request):
-        try:
-            return Client.objects.all().first()
-        except Client.DoesNotExist:
-            raise Exception("Client not found")
-
-    def get_product(self, request):
-        try:
-            return Product.objects.first()
-        except Product.DoesNotExist:
-            raise Exception("Product not found")
-
-    def get_factory(self, request):
-        try:
-            return Factory.objects.first()
-        except Factory.DoesNotExist:
-            raise Exception("Factory not found")
-
-    def get_rw(self, request):
-        try:
-            return RailwayStation.objects.all().first()
-        except RailwayStation.DoesNotExist:
-            raise Exception("Railway station not found")
-
-    def get_discount(self, request):
-        return 15
-
-    def get_city(self, request):
-        try:
-            return City.objects.all().first()
-        except City.DoesNotExist:
-            raise Exception("City not found")
-
-    def get_logistics(self, request):
-        return 2500
-
     def form_rw_document(self, request):
         self.docname = "rw"
         try:
-            user = self.get_user(request)
-            client = self.get_client(request)
+            user = DataService.get_user(request)
+            client = DataService.get_client(self.validated_data)
+
+            # Список товаров
+            # Надо сделать DataService.get_products(self.validated_data)
+            # Выдаст список товаров с количеством каждого товара и скидкой для товара
             product = self.get_product(request)
-            rw = self.get_rw(request)
-            factory = self.get_factory(request)
-            logistics = self.get_logistics(request)
+
+            rw = DataService.get_rw(self.validated_data)
+            factory = DataService.get_factory(self.validated_data)
+
+            # logistics = delivery_cost(надо везде поменять)
+            logistics = DataService.get_delivery_cost(self.validated_data)
+
         except Exception as e:
             return f"Error fetching data: {e}"
 
