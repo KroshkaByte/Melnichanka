@@ -5,102 +5,74 @@ from logistics.models import Factory, RailwayStation
 
 class DataService:
     @staticmethod
-    def process_data(data):
-        processed_data = data
-        return processed_data
+    def get_delivery_type(validated_data):
+        delivery_type = validated_data.get("delivery_type")
+        if delivery_type is None:
+            raise Exception("Type delivery not found")
+        return delivery_type
 
     @staticmethod
-    def get_client(processed_data):
+    def get_client(validated_data):
         try:
-            client_id = processed_data.get("client_id")
+            client_id = validated_data.get("client_id")
             client = Client.objects.get(id=client_id)
-            client_data = {
-                "client_name": str(client.client_name),
-                "contract_number": str(client.contract_number),
-                "contract_date": str(client.contract_date),
-                "director_position": str(client.director_position),
-                "director_name": str(client.director_name),
-                "destination_city": str(client.destination_city),
-                "railway_station": str(client.railway_station),
-                "receiver_name": str(client.receiver_name),
-                "receiver_id": str(client.receiver_id),
-                "receiver_okpo": str(client.receiver_okpo),
-                "receiver_adress": str(client.receiver_adress),
-                "special_marks": str(client.special_marks),
-                "last_application_number": str(client.last_application_number),
-            }
-
-            return client_data
+            return client
         except Client.DoesNotExist:
             raise Exception("Client not found")
 
     @staticmethod
-    def get_products(processed_data):
+    def get_products(validated_data):
         try:
-            products_data = processed_data.get("items")
+            products_data = validated_data.get("items")
             results = []
             for item in products_data:
                 product_id = item.get("product_id")
+                product_quantity = item.get("quantity")
+                product_discount = item.get("discount")
                 product = Product.objects.get(id=product_id)
-                product_data = {
-                    "product": product.id,
-                    "flour_name": str(product.flour_name),
-                    "brand": str(product.brand),
-                    "package": str(product.package.package),
-                    "price": str(product.price),
-                    "quantity": item.get("quantity"),
-                    "discount": item.get("discount"),
-                }
-
-                results.append(product_data)
+                results.append(product)
+                results.append(product_quantity)
+                results.append(product_discount)
             return results
         except Product.DoesNotExist:
             raise Exception("Product not found")
 
     @staticmethod
-    def get_factory(processed_data):
+    def get_factory(validated_data):
         try:
-            factory_id = processed_data.get("factory_id")
+            factory_id = validated_data.get("factory_id")
             factory = Factory.objects.get(id=factory_id)
-            factory_data = {
-                "id": int(factory.id),
-                "full_name": str(factory.full_name),
-                "short_name": str(factory.short_name),
-                "full_address": str(factory.full_address),
-                "departure_city": str(factory.departure_city),
-                "departure_station_branch": str(factory.departure_station_branch),
-                "departure_station_id": str(factory.departure_station_id),
-                "departure_station_name": str(factory.departure_station_name),
-            }
-            return factory_data
+            return factory
         except Factory.DoesNotExist:
             raise Exception("Factory not found")
 
     @staticmethod
-    def get_delivery_cost(processed_data):
-        delivery_cost = processed_data.get("delivery_cost")
+    def get_delivery_cost(validated_data):
+        delivery_cost = validated_data.get("delivery_cost")
         if delivery_cost is None:
             raise Exception("Delivery cost not found")
         return delivery_cost
 
     @staticmethod
-    def get_city(processed_data):
-        city = processed_data.get("destination")
+    def get_city(validated_data):
+        city = validated_data.get("destination")
         if city is None:
             raise Exception("City not found")
         return city
 
     @staticmethod
-    def get_rw(processed_data):
+    def get_rw(validated_data):
         try:
-            rw_id = processed_data.get("destination")
+            rw_id = validated_data.get("destination")
             rw = RailwayStation.objects.get(id=rw_id)
-            rw_data = {
-                "id": int(rw.id),
-                "station_name": str(rw.station_name),
-                "station_id": int(rw.station_id),
-                "station_branch": str(rw.station_branch),
-            }
-            return rw_data
+            return rw
         except RailwayStation.DoesNotExist:
             raise Exception("Railway station not found")
+
+    @staticmethod
+    def get_user(request):
+        user = request.user
+        if user:
+            return user
+        else:
+            raise Exception("User is not authenticated")
