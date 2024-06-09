@@ -1,10 +1,11 @@
+from typing import Any
+
 from django.http import HttpResponse
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from makedoc.services import Documents
-
 from .serializers import DataDocSerializer
 
 
@@ -23,7 +24,7 @@ def create_docs(request):
     return HttpResponse("Документы сохранены")
 
 
-class DataDocView(generics.GenericAPIView):  # type: ignore
+class DataDocView(generics.GenericAPIView[Any]):
     serializer_class = DataDocSerializer
     permission_classes = (IsAuthenticated,)
 

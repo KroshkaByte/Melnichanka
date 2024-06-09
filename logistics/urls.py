@@ -6,12 +6,16 @@ from .views import (
     RailwayStationViewSet,
     TripAutoViewSet,
     TripRailwayViewSet,
+    FactoryListAPIView,
 )
 
 router = routers.SimpleRouter()
 router.register(r"city", CityViewSet)
-router.register(r"autotrip", TripAutoViewSet)
+router.register(r"auto", TripAutoViewSet)
 router.register(r"stations", RailwayStationViewSet)
-router.register(r"rwtrip", TripRailwayViewSet)
+router.register(r"rw", TripRailwayViewSet)
 
-urlpatterns = [path("", include(router.urls))]
+urlpatterns = [
+    path("", include(router.urls)),
+    path("factories/", FactoryListAPIView.as_view(), name="factory-list"),
+]

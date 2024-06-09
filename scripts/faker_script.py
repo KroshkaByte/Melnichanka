@@ -3,8 +3,8 @@ from random import choice
 from faker import Faker
 
 from clients.models import Client, DirectorPosition
-from goods.models import Brand, Factory, Flour, Package, Product
-from logistics.models import City, RailwayStation, TripAuto, TripRailway
+from goods.models import Brand, Flour, Package, Product
+from logistics.models import City, RailwayStation, TripAuto, TripRailway, Factory
 from users.models import CustomUser, Department, Position
 
 fake = Faker("ru_RU")
@@ -64,21 +64,10 @@ def create_director_position():
 
 # Создаем случайные названия городов
 def create_city(n):
-    federal_districts = [
-        "Центральный федеральный округ",
-        "Северо-Западный федеральный округ",
-        "Южный федеральный округ",
-        "Северо-Кавказский федеральный округ",
-        "Приволжский федеральный округ",
-        "Уральский федеральный округ",
-        "Сибирский федеральный округ",
-        "Дальневосточный федеральный округ",
-    ]
     for _ in range(n):
         City.objects.create(
             city=fake.city(),
             region=fake.region(),
-            federal_district=choice(federal_districts),
         )
 
 

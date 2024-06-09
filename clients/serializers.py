@@ -10,6 +10,10 @@ class DirectorPositionSerializer(serializers.ModelSerializer[DirectorPosition]):
 
 
 class ClientSerializer(serializers.ModelSerializer[Client]):
+    director_position = DirectorPositionSerializer()
+    destination_city: serializers.CharField = serializers.CharField()
+    railway_station: serializers.CharField = serializers.CharField()
+
     # Устанавливает текущего авторизованого пользователя в поле user
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 

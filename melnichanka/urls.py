@@ -33,9 +33,9 @@ urlpatterns = [
             [
                 path("users/", include("users.urls")),
                 path("clients/", include("clients.urls")),
-                path("", include("logistics.urls")),
-                path("", include("goods.urls")),
-                path("", include("makedoc.urls")),
+                path("logistics/", include("logistics.urls")),
+                path("goods/", include("goods.urls")),
+                path("doc/", include("makedoc.urls")),
             ]
         ),
     ),

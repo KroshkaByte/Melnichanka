@@ -7,8 +7,8 @@ import pymorphy3
 from openpyxl.styles import Alignment, Border, Font, Side
 
 from clients.models import Client
-from goods.models import Factory, Product
-from logistics.models import City, RailwayStation
+from goods.models import Product
+from logistics.models import City, RailwayStation, Factory
 from users.models import CustomUser
 
 morph = pymorphy3.MorphAnalyzer()

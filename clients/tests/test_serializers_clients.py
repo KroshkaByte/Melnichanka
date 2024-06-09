@@ -41,7 +41,7 @@ def test__client_serializer__create_object_valid_director_position(
     clients_object,
 ):
     serializer_data = ClientSerializer(clients_object).data
-    assert serializer_data["director_position"] == director_position_object.id
+    assert serializer_data["director_position"]["id"] == director_position_object.id
 
 
 @pytest.mark.django_db
@@ -54,20 +54,18 @@ def test__client_serializer__create_object_valid_director_name(
 
 @pytest.mark.django_db
 def test__client_serializer__create_object_valid_destination_city(
-    clients_object,
-    destination_city_object,
+    clients_object, destination_city_object
 ):
     serializer_data = ClientSerializer(clients_object).data
-    assert serializer_data["destination_city"] == destination_city_object.id
+    assert serializer_data["destination_city"] == str(destination_city_object)
 
 
 @pytest.mark.django_db
 def test__client_serializer__create_object_valid_railway_station(
-    clients_object,
-    railway_station_object,
+    clients_object, railway_station_object
 ):
     serializer_data = ClientSerializer(clients_object).data
-    assert serializer_data["railway_station"] == railway_station_object.id
+    assert serializer_data["railway_station"] == str(railway_station_object)
 
 
 @pytest.mark.django_db
