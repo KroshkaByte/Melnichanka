@@ -54,6 +54,9 @@ class Documents:
         self.transport_sheet = 0
 
     def update_documents(self):
+        # Надо порешать же с service_note или transport_sheet что из них ждало скидку,
+        # потому что скидка идет с другого места и там уже все сделать красиво,
+        # взяв ее с моих данных
         delivery_type = DataService.get_delivery_type(self.validated_data)
         if delivery_type is None:
             raise Exception("Type delivery not found")

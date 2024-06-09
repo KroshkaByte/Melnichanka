@@ -21,8 +21,9 @@ class CreateDocsView(APIView):
         validated_data = cache.get(cache_key)
 
         if validated_data is None:
-            return Response({"error": "No data found in cache"},
-                            status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"error": "No data found in cache"}, status=status.HTTP_400_BAD_REQUEST
+            )
 
         try:
             validated_data = json.loads(validated_data)
@@ -40,8 +41,9 @@ class CreateDocsView(APIView):
         if docs.transport_sheet:
             docs.form_transport_sheet(request)
 
-        return Response({"message": "Документы сохранены", "data": validated_data},
-                        status=status.HTTP_200_OK)
+        return Response(
+            {"message": "Документы сохранены", "data": validated_data}, status=status.HTTP_200_OK
+        )
 
 
 class DataDocView(generics.GenericAPIView[Any]):
@@ -53,7 +55,7 @@ class DataDocView(generics.GenericAPIView[Any]):
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
         except ValidationError as e:
-            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
         validated_data = serializer.validated_data
 
@@ -61,4 +63,4 @@ class DataDocView(generics.GenericAPIView[Any]):
         cache_key = f"validated_data_{request.user.id}"
         cache.set(cache_key, json.dumps(validated_data), 120)
 
-        return Response({'success': True, 'data': validated_data}, status=status.HTTP_200_OK)
+        return Response({"success": True, "data": validated_data}, status=status.HTTP_200_OK)
