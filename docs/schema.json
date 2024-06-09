@@ -185,6 +185,16 @@ paths:
               schema:
                 $ref: '#/components/schemas/DataDoc'
           description: ''
+  /api/v1/doc/filemake/:
+    get:
+      operationId: v1_doc_filemake_retrieve
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
   /api/v1/goods/:
     get:
       operationId: v1_goods_list
@@ -1385,6 +1395,9 @@ components:
     DataDoc:
       type: object
       properties:
+        delivery_type:
+          type: array
+          items: {}
         client_id:
           type: integer
         items:
@@ -1395,8 +1408,13 @@ components:
           type: integer
         destination:
           type: string
+        delivery_cost:
+          type: integer
+          minimum: 0
       required:
       - client_id
+      - delivery_cost
+      - delivery_type
       - destination
       - factory_id
       - items
@@ -1551,6 +1569,7 @@ components:
           type: integer
         discount:
           type: integer
+          maximum: 100
           default: 0
       required:
       - product_id

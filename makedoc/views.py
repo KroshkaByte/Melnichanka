@@ -9,10 +9,11 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from makedoc.services import Documents
-from .serializers import DataDocSerializer
+from .serializers import DataDocSerializer, DocumentsSimpleSerializer
 
 
 class CreateDocsView(APIView):
+    serializer_class = DocumentsSimpleSerializer
     permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):

@@ -3,6 +3,10 @@ from typing import Any
 from rest_framework import serializers
 
 
+class DocumentsSimpleSerializer(serializers.Serializer[Any]):
+    pass
+
+
 class OrderItemSerializer(serializers.Serializer[Any]):
     product_id = serializers.IntegerField()
     quantity = serializers.IntegerField()
