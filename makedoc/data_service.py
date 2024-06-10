@@ -1,3 +1,5 @@
+from django.core.cache import cache
+
 from clients.models import Client
 from goods.models import Product
 from logistics.models import Factory, RailwayStation
@@ -22,25 +24,49 @@ class DataService:
 
     @staticmethod
     def get_products(validated_data):
-        try:
-            products_data = validated_data.get("items")
-            results = []
-            for item in products_data:
-                product_id = item.get("product_id")
-                product_quantity = item.get("quantity")
-                product_discount = item.get("discount")
-                product = Product.objects.get(id=product_id)
-                results.append(product)
-                results.append(product_quantity)
-                results.append(product_discount)
-            return results
-        except Product.DoesNotExist:
-            raise Exception("Product not found")
+        products_data = validated_data.get("items")
+        results = []
+        cached_goods = cache.get("goods_list")
+        if cached_goods is None:
+            try:
+                cached_goods = list(Product.objects.all())
+                cache.set("goods_list", cached_goods, 1800)
+            except Exception:
+                cached_goods = list(Product.objects.all())
+        for item in products_data:
+            product_id = item.get("product_id")
+            product_quantity = item.get("quantity")
+            product_discount = item.get("discount")
+            # Find prod in cache
+            for product in cached_goods:
+                if product.id == product_id:
+                    results.append((product, product_quantity, product_discount))
+                    break
+                # if product.id == product_id:
+                #     results.append(product)
+                #     results.append(product_quantity)
+                #     results.append(product_discount)
+                #     break
+
+            # for product in cached_goods:
+            #     if product.id == product_id:
+            #         results.append({
+            #             'product': product,
+            #             'quantity': product_quantity,
+            #             'discount': product_discount
+            #         })
+            #         break
+        return results
 
     @staticmethod
     def get_factory(validated_data):
         try:
             factory_id = validated_data.get("factory_id")
+            cached_factories = cache.get("factories_list")
+            if cached_factories:
+                for factory in cached_factories:
+                    if factory.id == factory_id:
+                        return factory
             factory = Factory.objects.get(id=factory_id)
             return factory
         except Factory.DoesNotExist:

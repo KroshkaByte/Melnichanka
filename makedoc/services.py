@@ -121,6 +121,27 @@ class Documents:
             # Надо сделать DataService.get_products(self.validated_data)
             # Выдаст список товаров с количеством каждого товара и скидкой для товара
             product = self.get_product(request)
+            # Сюда прилетят продукты если что, надо заменить у тебя
+            products = DataService.get_products(self.validated_data)
+            # print(products)
+            for produc in products:
+                print(produc)
+            # first_product = products[0]['product']
+            # first_flour_name = first_product.flour_name
+            # first_brand = first_product.brand
+            # first_quantity = products[0]["quantity"]
+            # first_discount = products[0]["discount"]
+            #
+            # print(first_flour_name, first_brand, first_discount, first_quantity)
+            #
+            # # Доступ к полям второго товара
+            # second_product = products[1]['product']
+            # second_flour_name = second_product.flour_name
+            # second_brand = second_product.brand
+            # second_quantity = products[1]["quantity"]
+            # second_discount = products[2]["discount"]
+            #
+            # print(second_flour_name, second_brand, second_discount, second_quantity)
 
             factory = DataService.get_factory(self.validated_data)
 

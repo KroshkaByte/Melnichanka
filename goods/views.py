@@ -16,6 +16,6 @@ class GoodsViewSet(viewsets.ModelViewSet[Product]):
         if cached_goods:
             return cached_goods
         else:
-            goods = super().get_queryset()
-            cache.set("goods_list", goods, 60 * 15)
+            goods = list(super().get_queryset())
+            cache.set("goods_list", goods, 1800)
             return goods
