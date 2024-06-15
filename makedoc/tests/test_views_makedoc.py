@@ -26,7 +26,7 @@ def test__data_doc_view__unauthorized_user_cannot_post_data() -> None:
 def test__data_doc_view__authorized_user_can_post_data(authorized_client) -> None:
     url = reverse("data")
     data = {
-        "delivery_type": ["auto", "rw"],
+        "delivery_type": "auto",
         "client_id": 1,
         "items": [
             {"product_id": 1, "quantity": 2, "discount": 10},
@@ -44,7 +44,7 @@ def test__data_doc_view__authorized_user_can_post_data(authorized_client) -> Non
 def test__data_doc_view__authorized_user_post_data_response_is_correct(authorized_client) -> None:
     url = reverse("data")
     data = {
-        "delivery_type": ["auto", "rw"],
+        "delivery_type": "auto",
         "client_id": 1,
         "items": [
             {"product_id": 1, "quantity": 2, "discount": 10},
