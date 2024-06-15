@@ -4,7 +4,7 @@ from faker import Faker
 
 from clients.models import Client, DirectorPosition
 from goods.models import Brand, Flour, Package, Product
-from logistics.models import City, RailwayStation, TripAuto, TripRailway, Factory
+from logistics.models import City, Factory, RailwayStation, TripAuto, TripRailway
 from users.models import CustomUser, Department, Position
 
 fake = Faker("ru_RU")
@@ -142,18 +142,14 @@ def create_client(n):
 
 # Создаем сорта муки из заданного списка
 def create_flour():
-    flour_names = ["Пшеничная", "Ржаная", "Овсяная"]
+    flour_names = ["Пшеничная", "Ржаная", "Овсяная", "Сахарная", "Пятая"]
     for flour_name in flour_names:
         Flour.objects.create(flour_name=flour_name)
 
 
 # Создаем бренды муки из заданного списка
 def create_brand():
-    brands = [
-        "Бело-Нежная",
-        "Славна",
-        "Старооскольская",
-    ]
+    brands = ["Бело-Нежная", "Славна", "Старооскольская", "Четвертая", "Пятая", "Макфа"]
     for brand in brands:
         Brand.objects.create(brand=brand)
 

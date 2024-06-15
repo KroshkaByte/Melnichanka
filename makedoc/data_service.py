@@ -2,7 +2,7 @@ from django.core.cache import cache
 
 from clients.models import Client
 from goods.models import Product
-from logistics.models import Factory, RailwayStation
+from logistics.models import Factory
 
 
 class DataService:
@@ -10,7 +10,7 @@ class DataService:
     def get_delivery_type(validated_data):
         delivery_type = validated_data.get("delivery_type")
         if delivery_type is None:
-            raise Exception("Type delivery not found")
+            raise Exception("Delivery type not found")
         return delivery_type
 
     @staticmethod
@@ -37,25 +37,17 @@ class DataService:
             product_id = item.get("product_id")
             product_quantity = item.get("quantity")
             product_discount = item.get("discount")
-            # Find prod in cache
             for product in cached_goods:
                 if product.id == product_id:
-                    results.append((product, product_quantity, product_discount))
+                    results.append(
+                        {
+                            "product": product,
+                            "quantity": product_quantity,
+                            "discount": product_discount,
+                            "price": product.price,
+                        }
+                    )
                     break
-                # if product.id == product_id:
-                #     results.append(product)
-                #     results.append(product_quantity)
-                #     results.append(product_discount)
-                #     break
-
-            # for product in cached_goods:
-            #     if product.id == product_id:
-            #         results.append({
-            #             'product': product,
-            #             'quantity': product_quantity,
-            #             'discount': product_discount
-            #         })
-            #         break
         return results
 
     @staticmethod
@@ -85,15 +77,6 @@ class DataService:
         if city is None:
             raise Exception("City not found")
         return city
-
-    @staticmethod
-    def get_rw(validated_data):
-        try:
-            rw_id = validated_data.get("destination")
-            rw = RailwayStation.objects.get(id=rw_id)
-            return rw
-        except RailwayStation.DoesNotExist:
-            raise Exception("Railway station not found")
 
     @staticmethod
     def get_user(request):

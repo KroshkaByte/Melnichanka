@@ -9,7 +9,7 @@ class DocumentsSimpleSerializer(serializers.Serializer[Any]):
 
 class OrderItemSerializer(serializers.Serializer[Any]):
     product_id = serializers.IntegerField()
-    quantity = serializers.IntegerField()
+    quantity = serializers.FloatField(min_value=0.001)
     discount = serializers.IntegerField(required=False, default=0, max_value=100)
 
 
