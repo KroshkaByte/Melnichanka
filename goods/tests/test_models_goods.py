@@ -21,7 +21,7 @@ def test__brand__return_valid_str(brand_object):
 
 @pytest.mark.django_db
 def test__package__return_valid_str(package_object, factory_object):
-    assert str(package_object) == f"{package_object.package} кг, {factory_object.full_name}"
+    assert str(package_object) == f"{package_object.package}"
 
 
 @pytest.mark.django_db

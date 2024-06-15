@@ -47,6 +47,6 @@ class FactoryListAPIView(generics.ListAPIView[Factory]):
         if cached_factories:
             return cached_factories
         else:
-            factories = super().get_queryset()
-            cache.set("factories_list", factories, 60 * 30)
+            factories = list(super().get_queryset())
+            cache.set("factories_list", factories, 3600)
             return factories

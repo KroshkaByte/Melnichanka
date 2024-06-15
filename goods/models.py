@@ -59,4 +59,4 @@ class Package(models.Model):
         unique_together = [("package", "factory", "pallet_weight")]
 
     def __str__(self) -> str:
-        return f"{self.package} кг, {self.factory}"
+        return f"{self.package}"
