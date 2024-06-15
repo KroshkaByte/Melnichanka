@@ -4,7 +4,10 @@ from datetime import date
 import openpyxl
 from openpyxl.styles import Alignment, Border, Font, Side
 
-from makedoc.utils import get_formatted_date_agreement, get_formatted_date_shipment
+from makedoc.utils import (
+    get_formatted_date_agreement,
+    get_formatted_date_shipment,
+)
 
 from .data_service import DataService
 
@@ -19,14 +22,16 @@ class Documents:
 
     def update_documents(self):
         delivery_type = DataService.get_delivery_type(self.validated_data)
-        if "auto" in delivery_type:
+        if delivery_type == "auto":
             self.auto = 1
-        if "rw" in delivery_type:
+        else:
             self.rw = 1
-        if "service_note" in delivery_type:
-            self.service_note = 1
-        if "transport_sheet" in delivery_type:
+
+        if self.validated_data["delivery_cost"] > 0:
             self.transport_sheet = 1
+
+        if max(self.validated_data.get("items"), key=lambda x: x["discount"])["discount"] > 0:
+            self.service_note = 1
 
     def form_auto_document(self, request):
         self.docname = "auto"
@@ -150,7 +155,7 @@ class Documents:
 {formatted_contract_date}г."
         legal = ws.cell(row=caret, column=1, value=contract_option)
         legal.alignment = Alignment(wrap_text=True, horizontal="justify", vertical="center")
-        ws.row_dimensions[caret].height = 40
+        ws.row_dimensions[caret].height = 50
         self.caret_legal = caret + 4
 
     def fill_signatures(self, ws, client):
@@ -297,7 +302,7 @@ class Documents:
         self.docname = "service_note"
         try:
             client = DataService.get_client(self.validated_data)
-            city = DataService.get_city(self.validated_data)
+            destination = DataService.get_destination(self.validated_data)
             user = DataService.get_user(request)
             product = DataService.get_products(self.validated_data)
             discount = max(product, key=lambda x: x["discount"])["discount"]
@@ -311,27 +316,30 @@ class Documents:
         wb = openpyxl.load_workbook(template_path, keep_vba=True)
         ws = wb.active
 
-        self.fill_text_note(ws, client, discount, city)
+        self.fill_text_note(ws, client, discount, destination)
         self.fill_product_info(ws, product, logistics, 22)
         self.apply_styles(ws)
 
         self.save_workbook(wb, user, client)
 
-    def fill_text_note(self, ws, client, discount, city):
+    def fill_text_note(self, ws, client, discount, destination):
+        region = destination.split(",")[1].strip()
         ws.cell(row=15, column=1, value=f"{get_formatted_date_agreement()} № 12/2.2/23/3-")
-        text = f"    В целях увеличения объема продаж на территории {city.region} прошу Вашего \
-согласования применить скидку для контрагента {client.client_name} (г. {city.city}) до {discount}%\
+        # Нужно правильлно разобрать в json регион чтобы склонять только название
+        text = f"    В целях увеличения объема продаж на территории {region} прошу Вашего \
+согласования применить скидку для контрагента {client.client_name} ({destination}) до {discount}%\
  в {get_formatted_date_shipment('loct')} на продукцию следующего ассортимента: "
         ws.cell(row=19, column=1, value=text)
 
     def form_transport_sheet(self, request):
         self.docname = "transport_sheet"
         try:
-            user = self.get_user(request)
-            product = self.get_product(request)
-            client = self.get_client(request)
-            logistics = self.get_logistics(request)
-            factory = self.get_factory(request)
+            user = DataService.get_user(request)
+            product = DataService.get_products(self.validated_data)
+            client = DataService.get_client(self.validated_data)
+            logistics = DataService.get_delivery_cost(self.validated_data)
+            factory = DataService.get_factory(self.validated_data)
+
         except Exception as e:
             return f"Error fetching data: {e}"
 

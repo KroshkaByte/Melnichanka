@@ -14,7 +14,7 @@ class OrderItemSerializer(serializers.Serializer[Any]):
 
 
 class DataDocSerializer(serializers.Serializer[Any]):
-    delivery_type = serializers.ListField()
+    delivery_type = serializers.CharField()
     client_id = serializers.IntegerField()
     items = serializers.ListField(child=OrderItemSerializer())
     factory_id = serializers.IntegerField()

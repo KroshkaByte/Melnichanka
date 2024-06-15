@@ -72,11 +72,11 @@ class DataService:
         return delivery_cost
 
     @staticmethod
-    def get_city(validated_data):
-        city = validated_data.get("destination")
-        if city is None:
+    def get_destination(validated_data):
+        destination = validated_data.get("destination")
+        if destination is None:
             raise Exception("City not found")
-        return city
+        return destination
 
     @staticmethod
     def get_user(request):
