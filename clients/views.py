@@ -9,7 +9,8 @@ from .serializers import ClientSerializer, DirectorPositionSerializer
 
 # Базовый класс  для получения данных по записям клиентов
 class ClientAPIView(generics.ListCreateAPIView[Client]):
-    queryset = Client.objects.all()
+    queryset = Client.objects.select_related("director_position", "destination_city",
+                                             "railway_station").all()
     serializer_class = ClientSerializer
     permission_classes = (IsAuthenticated,)
 

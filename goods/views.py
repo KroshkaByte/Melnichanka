@@ -7,7 +7,7 @@ from .serializers import GoodsSerializer
 
 
 class GoodsViewSet(viewsets.ModelViewSet[Product]):
-    queryset = Product.objects.all()
+    queryset = Product.objects.select_related("flour_name", "brand", "package").all()
     serializer_class = GoodsSerializer
     permission_classes = (IsAuthenticated,)
 
@@ -16,6 +16,6 @@ class GoodsViewSet(viewsets.ModelViewSet[Product]):
         if cached_goods:
             return cached_goods
         else:
-            goods = list(super().get_queryset())
+            goods = super().get_queryset()
             cache.set("goods_list", goods, 1800)
             return goods
