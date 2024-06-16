@@ -8,10 +8,8 @@ domain = settings.DOMAIN_NAME
 
 @shared_task
 def send_reset_email(email, token):
-    email_plaintext_message = (
-        "Для сброса пароля перейдите по ссылке: {}{}?token={}".format(
-            domain, reverse("password_reset:reset-password-confirm"), token
-        )
+    email_plaintext_message = "Для сброса пароля перейдите по ссылке: {}{}?token={}".format(
+        domain, reverse("password_reset:reset-password-confirm"), token
     )
 
     send_mail(

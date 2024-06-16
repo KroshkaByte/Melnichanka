@@ -73,10 +73,7 @@ class UserUpdatePasswordView(UserRelatedView):
 # Сброс пароля
 @receiver(reset_password_token_created)
 def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
-    send_reset_email.delay(
-        reset_password_token.user.email,
-        reset_password_token.key
-    )
+    send_reset_email.delay(reset_password_token.user.email, reset_password_token.key)
 
 
 # Передача списка департаментов для фронтенда
