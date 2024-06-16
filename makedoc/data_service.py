@@ -28,11 +28,7 @@ class DataService:
         results = []
         cached_goods = cache.get("goods_list")
         if cached_goods is None:
-            try:
-                cached_goods = list(Product.objects.all())
-                cache.set("goods_list", cached_goods, 1800)
-            except Exception:
-                cached_goods = list(Product.objects.all())
+            cached_goods = Product.objects.select_related("flour_name", "brand", "package").all()
         for item in products_data:
             product_id = item.get("product_id")
             product_quantity = item.get("quantity")
