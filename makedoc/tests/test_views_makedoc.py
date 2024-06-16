@@ -8,7 +8,7 @@ def test__data_doc_view__unauthorized_user_cannot_post_data() -> None:
     client = APIClient()
     url = reverse("data")
     data = {
-        "delivery_type": ["auto", "rw"],
+        "delivery_type": "auto",
         "client_id": 1,
         "items": [
             {"product_id": 1, "quantity": 2, "discount": 10},

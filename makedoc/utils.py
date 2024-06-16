@@ -7,7 +7,7 @@ morph = pymorphy3.MorphAnalyzer()
 
 
 def format_date_case(date_object, case):
-    # case - падеж
+    # case - падеж, https://pymorphy2.readthedocs.io/en/stable/user/grammemes.html#russian-cases
     return morph.parse(str(date_object))[0].inflect({case}).word
 
 
