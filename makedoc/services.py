@@ -1,5 +1,6 @@
 import os
-from datetime import date
+import zipfile
+from datetime import date, datetime
 
 import openpyxl
 from openpyxl.styles import Alignment, Border, Font, Side
@@ -19,6 +20,7 @@ class Documents:
         self.rw = 0
         self.service_note = 0
         self.transport_sheet = 0
+        self.archive_list = []
 
     def update_documents(self):
         delivery_type = DataService.get_delivery_type(self.validated_data)
@@ -195,6 +197,7 @@ class Documents:
             f"{self.docname} {client.last_application_number} {client.client_name} \
 {date.today().strftime('%d.%m.%Y')}.xlsx",
         )
+        self.archive_list.append(new_file_path)
         wb.save(new_file_path)
 
     def apply_styles(self, ws):
@@ -373,3 +376,17 @@ class Documents:
         )
         ws.cell(row=5, column=1, value=client.client_name)
         ws.cell(row=7, column=8, value=get_formatted_date_agreement())
+
+    def archive_and_remove_files(self, request):
+        client = DataService.get_client(self.validated_data)
+        user = DataService.get_user(request)
+
+        archive_name = f"makedoc/tempdoc/{user.full_name}/\
+{client.client_name} {datetime.today().strftime('%d.%m.%Y %H:%M:%S')}.zip"
+
+        with zipfile.ZipFile(archive_name, "w", zipfile.ZIP_DEFLATED) as zipf:
+            for file_path in self.archive_list:
+                if os.path.isfile(file_path):
+                    arcname = os.path.basename(file_path)
+                    zipf.write(file_path, arcname)
+                    os.remove(file_path)
