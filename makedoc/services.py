@@ -24,7 +24,7 @@ class Documents:
         delivery_type = DataService.get_delivery_type(self.validated_data)
         if delivery_type == "auto":
             self.auto = 1
-        else:
+        if delivery_type == "rw":
             self.rw = 1
 
         if self.validated_data["delivery_cost"] > 0:
