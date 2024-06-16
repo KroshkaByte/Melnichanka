@@ -8,7 +8,6 @@ from makedoc.utils import (
     get_formatted_date_agreement,
     get_formatted_date_shipment,
 )
-
 from .data_service import DataService
 
 
@@ -22,7 +21,7 @@ class Documents:
 
     def update_documents(self):
         delivery_type = DataService.get_delivery_type(self.validated_data)
-        if delivery_type == "auto":
+        if delivery_type in ["auto", "self-delivery"]:
             self.auto = 1
         if delivery_type == "rw":
             self.rw = 1
