@@ -187,7 +187,7 @@ class Documents:
         phone.alignment = Alignment(horizontal="center", vertical="center")
 
     def add_workbook_to_archive(self, wb, user, client):
-        directory = os.path.join("makedoc", "tempdoc", user.full_name)
+        directory = os.path.join("makedoc", "tempdoc", str(user.id))
         os.makedirs(directory, exist_ok=True)
 
         self.archive_name = f"{directory}/\
@@ -331,8 +331,12 @@ class Documents:
         self.add_workbook_to_archive(wb, user, client)
 
     def fill_text_note(self, ws, client, discount, destination):
-        region = destination.split(",")[1].strip()
-        ws.cell(row=15, column=1, value=f"{get_formatted_date_agreement()} № 12/2.2/23/3-")
+        blank = "________"
+        if destination != "0":
+            region = destination.split(",")[1].strip()
+        else:
+            destination, region = blank, blank
+        ws.cell(row=15, column=1, value=f"{get_formatted_date_agreement()} № 12/2.2/23/3-___")
         # Нужно правильлно разобрать в json регион чтобы склонять только название
         text = f"    В целях увеличения объема продаж на территории {region} прошу Вашего \
 согласования применить скидку для контрагента {client.client_name} ({destination}) до {discount}%\
