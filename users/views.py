@@ -1,6 +1,4 @@
-from django.core.mail import send_mail
 from django.dispatch import receiver
-from django.urls import reverse
 from django_rest_passwordreset.signals import reset_password_token_created
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
@@ -8,8 +6,6 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
-
-from melnichanka.settings import EMAIL_HOST_USER
 
 from .models import CustomUser, Department, Position
 from .serializers import (
@@ -21,6 +17,7 @@ from .serializers import (
     LogoutSerializer,
 )
 from .services import UserRelatedView
+from .tasks import send_reset_email
 
 
 class LoginView(TokenObtainPairView):
@@ -76,22 +73,7 @@ class UserUpdatePasswordView(UserRelatedView):
 # Сброс пароля
 @receiver(reset_password_token_created)
 def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
-    email_plaintext_message = (
-        "Для сброса пароля перейдите по ссылке: http://127.0.0.1:8000{}?token={}".format(
-            reverse("password_reset:reset-password-confirm"), reset_password_token.key
-        )
-    )
-
-    send_mail(
-        # title:
-        "Сброс пароля для: {title}".format(title="EDO website"),
-        # message:
-        email_plaintext_message,
-        # from:
-        EMAIL_HOST_USER,
-        # to:
-        [reset_password_token.user.email],
-    )
+    send_reset_email.delay(reset_password_token.user.email, reset_password_token.key)
 
 
 # Передача списка департаментов для фронтенда
