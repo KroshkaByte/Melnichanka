@@ -1,5 +1,7 @@
 import os
-from datetime import date
+import zipfile
+from datetime import date, datetime
+from tempfile import NamedTemporaryFile
 
 import openpyxl
 from openpyxl.styles import Alignment, Border, Font, Side
@@ -8,6 +10,7 @@ from makedoc.utils import (
     get_formatted_date_agreement,
     get_formatted_date_shipment,
 )
+
 from .data_service import DataService
 
 
@@ -18,10 +21,11 @@ class Documents:
         self.rw = 0
         self.service_note = 0
         self.transport_sheet = 0
+        self.archive_name = ""
 
     def update_documents(self):
         delivery_type = DataService.get_delivery_type(self.validated_data)
-        if delivery_type in ["auto", "self-delivery"]:
+        if delivery_type in ("auto", "self-delivery"):
             self.auto = 1
         if delivery_type == "rw":
             self.rw = 1
@@ -33,7 +37,7 @@ class Documents:
             self.service_note = 1
 
     def form_auto_document(self, request):
-        self.docname = "auto"
+        self.docname = "Авто"
         try:
             user = DataService.get_user(request)
             client = DataService.get_client(self.validated_data)
@@ -58,7 +62,7 @@ class Documents:
 
         self.apply_styles(ws)
 
-        self.save_workbook(wb, user, client)
+        self.add_workbook_to_archive(wb, user, client)
 
     def fill_contract_info(self, ws, client):
         formatted_contract_date = client.contract_date.strftime("%d.%m.%Y")
@@ -182,19 +186,24 @@ class Documents:
         )
         phone.alignment = Alignment(horizontal="center", vertical="center")
 
-    def save_workbook(self, wb, user, client):
-        directory = os.path.join(
-            "makedoc",
-            "tempdoc",
-            user.full_name,
-        )
+    def add_workbook_to_archive(self, wb, user, client):
+        directory = os.path.join("makedoc", "tempdoc", user.full_name)
         os.makedirs(directory, exist_ok=True)
-        new_file_path = os.path.join(
-            directory,
-            f"{self.docname} {client.last_application_number} {client.client_name} \
-{date.today().strftime('%d.%m.%Y')}.xlsx",
-        )
-        wb.save(new_file_path)
+
+        self.archive_name = f"{directory}/\
+{client.client_name} {datetime.today().strftime('%d.%m.%Y %H:%M:%S')}.zip"
+
+        filename = f"{client.last_application_number} {self.docname} \
+{client.client_name} {date.today().strftime('%d.%m.%Y')}.xlsx"
+
+        with NamedTemporaryFile(delete=True) as tmp:
+            wb.save(tmp.name)
+            tmp.seek(0)
+            stream = tmp.read()
+            tmp.close()
+
+        with zipfile.ZipFile(self.archive_name, "a") as archive:
+            archive.writestr(filename, stream)
 
     def apply_styles(self, ws):
         for row in ws.iter_rows():
@@ -208,7 +217,7 @@ class Documents:
                     cell.font = Font(bold=True, size=12)
 
     def form_rw_document(self, request):
-        self.docname = "rw"
+        self.docname = "Жд"
         try:
             user = DataService.get_user(request)
             client = DataService.get_client(self.validated_data)
@@ -234,7 +243,7 @@ class Documents:
 
         self.apply_styles(ws)
 
-        self.save_workbook(wb, user, client)
+        self.add_workbook_to_archive(wb, user, client)
 
     def fill_rw_services(self, ws, factory, client, logistics):
         caret = self.caret_factory
@@ -298,7 +307,7 @@ class Documents:
         self.caret_services = caret + 1
 
     def form_service_note(self, request):
-        self.docname = "service_note"
+        self.docname = "Служебная записка"
         try:
             client = DataService.get_client(self.validated_data)
             destination = DataService.get_destination(self.validated_data)
@@ -319,7 +328,7 @@ class Documents:
         self.fill_product_info(ws, product, logistics, 22)
         self.apply_styles(ws)
 
-        self.save_workbook(wb, user, client)
+        self.add_workbook_to_archive(wb, user, client)
 
     def fill_text_note(self, ws, client, discount, destination):
         region = destination.split(",")[1].strip()
@@ -331,7 +340,7 @@ class Documents:
         ws.cell(row=19, column=1, value=text)
 
     def form_transport_sheet(self, request):
-        self.docname = "transport_sheet"
+        self.docname = "Сопроводительный лист"
         try:
             user = DataService.get_user(request)
             product = DataService.get_products(self.validated_data)
@@ -358,7 +367,7 @@ class Documents:
 
         self.apply_styles(ws)
 
-        self.save_workbook(wb, user, client)
+        self.add_workbook_to_archive(wb, user, client)
 
     def fill_contract_info_transport_sheet(self, ws, client):
         formatted_contract_date = client.contract_date.strftime("%d.%m.%Y")
