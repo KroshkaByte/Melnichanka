@@ -42,8 +42,6 @@ class CreateDocsView(APIView):
         if docs.transport_sheet:
             docs.form_transport_sheet(request)
 
-        docs.archive_and_remove_files(request)
-
         return Response(
             {"message": "Документы сохранены", "data": validated_data}, status=status.HTTP_200_OK
         )
