@@ -1,7 +1,7 @@
 import os
 import zipfile
 from datetime import date, datetime
-from tempfile import NamedTemporaryFile
+from io import BytesIO
 
 import openpyxl
 from openpyxl.styles import Alignment, Border, Font, Side
@@ -33,7 +33,11 @@ class Documents:
         if self.validated_data["delivery_cost"] > 0:
             self.transport_sheet = 1
 
-        if max(self.validated_data.get("items"), key=lambda x: x["discount"])["discount"] > 0:
+        have_discount = max(self.validated_data.get("items"), key=lambda x: x["discount"])[
+            "discount"
+        ]
+
+        if have_discount > 0:
             self.service_note = 1
 
     def form_auto_document(self, request):
@@ -62,7 +66,7 @@ class Documents:
 
         self.apply_styles(ws)
 
-        self.add_workbook_to_archive(wb, user, client)
+        self.add_workbook_to_archive_xlsx(wb, user, client)
 
     def fill_contract_info(self, ws, client):
         formatted_contract_date = client.contract_date.strftime("%d.%m.%Y")
@@ -186,24 +190,24 @@ class Documents:
         )
         phone.alignment = Alignment(horizontal="center", vertical="center")
 
-    def add_workbook_to_archive(self, wb, user, client):
-        directory = os.path.join("makedoc", "tempdoc", str(user.id))
-        os.makedirs(directory, exist_ok=True)
+    def add_workbook_to_archive_xlsx(self, wb, user, client):
+        tempdir = os.path.join("makedoc", "tempdoc", str(user.id))
+        os.makedirs(tempdir, exist_ok=True)
 
-        self.archive_name = f"{directory}/\
-{client.client_name} {datetime.today().strftime('%d.%m.%Y %H:%M:%S')}.zip"
+        self.archive_name = (
+            f"{client.client_name} {datetime.today().strftime('%d.%m.%Y %H:%M:%S')}.zip"
+        )
+        archive_path = f"{tempdir}/{self.archive_name}"
 
-        filename = f"{client.last_application_number} {self.docname} \
-{client.client_name} {date.today().strftime('%d.%m.%Y')}.xlsx"
+        xlsx_filename = f"{client.last_application_number} {self.docname} {client.client_name} \
+{date.today().strftime('%d.%m.%Y')}.xlsx"
 
-        with NamedTemporaryFile(delete=True) as tmp:
-            wb.save(tmp.name)
-            tmp.seek(0)
-            stream = tmp.read()
-            tmp.close()
+        xlsx_io = BytesIO()
+        wb.save(xlsx_io)
+        xlsx_io.seek(0)
 
-        with zipfile.ZipFile(self.archive_name, "a") as archive:
-            archive.writestr(filename, stream)
+        with zipfile.ZipFile(archive_path, "a") as archive:
+            archive.writestr(xlsx_filename, xlsx_io.getvalue())
 
     def apply_styles(self, ws):
         for row in ws.iter_rows():
@@ -243,7 +247,7 @@ class Documents:
 
         self.apply_styles(ws)
 
-        self.add_workbook_to_archive(wb, user, client)
+        self.add_workbook_to_archive_xlsx(wb, user, client)
 
     def fill_rw_services(self, ws, factory, client, logistics):
         caret = self.caret_factory
@@ -328,7 +332,7 @@ class Documents:
         self.fill_product_info(ws, product, logistics, 22)
         self.apply_styles(ws)
 
-        self.add_workbook_to_archive(wb, user, client)
+        self.add_workbook_to_archive_xlsx(wb, user, client)
 
     def fill_text_note(self, ws, client, discount, destination):
         blank = "________"
@@ -371,7 +375,7 @@ class Documents:
 
         self.apply_styles(ws)
 
-        self.add_workbook_to_archive(wb, user, client)
+        self.add_workbook_to_archive_xlsx(wb, user, client)
 
     def fill_contract_info_transport_sheet(self, ws, client):
         formatted_contract_date = client.contract_date.strftime("%d.%m.%Y")
