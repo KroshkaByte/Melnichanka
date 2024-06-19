@@ -17,4 +17,5 @@ def authorized_client(user):
     client = APIClient()
     refresh = RefreshToken.for_user(user)
     client.credentials(HTTP_AUTHORIZATION=f"Bearer {str(refresh.access_token)}")
+    client.user = user
     return client
