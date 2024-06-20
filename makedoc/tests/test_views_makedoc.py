@@ -31,7 +31,7 @@ def test__data_doc_view__authorized_user_post_data_response_is_correct(authorize
 
 
 @pytest.mark.django_db
-def test__create_docs_view__get_valid_data(authorized_client, test_data):
+def test__create_docs_view__authorized_user_get_valid_data(authorized_client, test_data):
     url = reverse("file")
     cache_key = f"validated_data_{authorized_client.user.id}"
     cache.set(cache_key, json.dumps(test_data), timeout=120)
@@ -42,7 +42,7 @@ def test__create_docs_view__get_valid_data(authorized_client, test_data):
 
 
 @pytest.mark.django_db
-def test__create_docs_view__get_no_data(authorized_client):
+def test__create_docs_view__authorized_user_get_no_data(authorized_client):
     url = reverse("file")
     response = authorized_client.get(url)
     assert response.status_code == 400
