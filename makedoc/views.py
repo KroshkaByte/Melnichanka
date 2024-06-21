@@ -1,7 +1,9 @@
 import json
+import os
 from typing import Any
 
 from django.core.cache import cache
+from django.http import FileResponse
 from rest_framework import generics, status
 from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticated
@@ -9,7 +11,6 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from makedoc.services import Documents
-
 from .serializers import DataDocSerializer, DocumentsSimpleSerializer
 
 
@@ -42,9 +43,36 @@ class CreateDocsView(APIView):
         if docs.transport_sheet:
             docs.form_transport_sheet(request)
 
-        return Response(
-            {"message": "Документы сохранены", "data": validated_data}, status=status.HTTP_200_OK
-        )
+        cache_key = f"last_created_file_user:{request.user.id}"
+        cache.set(cache_key, docs.archive_name, 300)
+
+        return Response({"message": "Documents saved"}, status=status.HTTP_200_OK)
+
+
+class DownloadDocView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        cache_key = f"last_created_file_user:{request.user.id}"
+        file_name = cache.get(cache_key)
+
+        if not file_name:
+            return Response({"error": "No file found"}, status=status.HTTP_404_NOT_FOUND)
+
+        file_path = os.path.join("makedoc", "tempdoc", str(request.user.id), file_name)
+
+        if not os.path.exists(file_path):
+            return Response({"error": "File path not found!"}, status=status.HTTP_404_NOT_FOUND)
+
+        response = FileResponse(open(file_path, "rb"))
+        response["Content-Disposition"] = f'attachment; filename="{os.path.basename(file_name)}"'
+
+        cache.delete(cache_key)
+
+        response["message"] = "File successfully downloaded"
+        response.status_code = status.HTTP_200_OK
+
+        return response
 
 
 class DataDocView(generics.GenericAPIView[Any]):
@@ -60,8 +88,7 @@ class DataDocView(generics.GenericAPIView[Any]):
 
         validated_data = serializer.validated_data
 
-        # Use a more unique cache key
         cache_key = f"validated_data_{request.user.id}"
         cache.set(cache_key, json.dumps(validated_data), 120)
 
-        return Response({"success": True, "data": validated_data}, status=status.HTTP_200_OK)
+        return Response({"Success": True}, status=status.HTTP_200_OK)
