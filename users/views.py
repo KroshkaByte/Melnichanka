@@ -72,8 +72,10 @@ class UserUpdatePasswordView(UserRelatedView):
     serializer_class = UserUpdatePasswordSerializer
 
 
-# Отображение списка документов пользователя
 class ListUserFilesAPIView(APIView):
+    """
+    Responsible for displaying a list of documents of an authorized user.
+    """
     permission_classes = (IsAuthenticated,)
 
     def get(self, request, *args, **kwargs):
