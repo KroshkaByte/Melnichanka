@@ -1,9 +1,9 @@
 from django.urls import path
 
-from .views import DataDocView, CreateDocsView, DownloadDocAPIView
+from .views import DataDocAPIView, CreateDocsAPIView, DownloadDocAPIView
 
 urlpatterns = [
-    path("filemake/", CreateDocsView.as_view(), name="file"),
+    path("filemake/", CreateDocsAPIView.as_view(), name="file"),
     path("downloadfile/", DownloadDocAPIView.as_view(), name="downloadfile"),
-    path("data/", DataDocView.as_view(), name="data"),
+    path("data/", DataDocAPIView.as_view(), name="data"),
 ]
