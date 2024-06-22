@@ -11,7 +11,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from makedoc.services import Documents
-from .serializers import DataDocSerializer, DocumentsSimpleSerializer
+from .serializers import DataDocSerializer, DocumentsSimpleSerializer, FileNameSerializer
 
 
 class CreateDocsView(APIView):
@@ -49,15 +49,24 @@ class CreateDocsView(APIView):
         return Response({"message": "Documents saved"}, status=status.HTTP_200_OK)
 
 
-class DownloadDocView(APIView):
+class DownloadDocAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request, *args, **kwargs):
-        cache_key = f"last_created_file_user:{request.user.id}"
-        file_name = cache.get(cache_key)
+    def post(self, request, *args, **kwargs):
+        serializer = FileNameSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response({"error": "Incorrect file name"}, status=status.HTTP_404_NOT_FOUND)
+
+        file_name = serializer.validated_data.get("file_name")
 
         if not file_name:
-            return Response({"error": "No file found"}, status=status.HTTP_404_NOT_FOUND)
+            cache_key = f"last_created_file_user:{request.user.id}"
+            file_name = cache.get(cache_key)
+
+            if not file_name:
+                return Response({"error": "No file found"}, status=status.HTTP_404_NOT_FOUND)
+
+            cache.delete(cache_key)
 
         file_path = os.path.join("makedoc", "tempdoc", str(request.user.id), file_name)
 
@@ -66,9 +75,6 @@ class DownloadDocView(APIView):
 
         response = FileResponse(open(file_path, "rb"))
         response["Content-Disposition"] = f'attachment; filename="{os.path.basename(file_name)}"'
-
-        cache.delete(cache_key)
-
         response["message"] = "File successfully downloaded"
         response.status_code = status.HTTP_200_OK
 
