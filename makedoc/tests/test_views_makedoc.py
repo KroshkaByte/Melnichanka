@@ -52,6 +52,6 @@ def test__create_docs_view__authorized_user_get_no_data(authorized_client):
 @pytest.mark.django_db
 def test__download_doc_view__returns_404_when_no_file_exists(authorized_client):
     url = reverse("downloadfile")
-    response = authorized_client.get(url)
+    response = authorized_client.post(url, {}, format="json")
     assert response.status_code == 404
     assert response.json() == {"error": "No file found"}

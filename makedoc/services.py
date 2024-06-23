@@ -10,7 +10,6 @@ from makedoc.utils import (
     get_formatted_date_agreement,
     get_formatted_date_shipment,
 )
-
 from .data_service import DataService
 
 
@@ -194,8 +193,10 @@ class Documents:
         tempdir = os.path.join("makedoc", "tempdoc", str(user.id))
         os.makedirs(tempdir, exist_ok=True)
 
+        client_name = client.client_name.replace(' ', '_')
+        date_today = datetime.today().strftime('%d.%m.%Y_%H:%M:%S')
         self.archive_name = (
-            f"{client.client_name} {datetime.today().strftime('%d.%m.%Y %H:%M:%S')}.zip"
+            f"{client_name}_{date_today}.zip"
         )
         archive_path = f"{tempdir}/{self.archive_name}"
 

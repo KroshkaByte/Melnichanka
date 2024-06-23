@@ -20,3 +20,7 @@ class DataDocSerializer(serializers.Serializer[Any]):
     factory_id = serializers.IntegerField()
     destination = serializers.CharField()
     delivery_cost = serializers.IntegerField(min_value=0)
+
+
+class FileNameSerializer(serializers.Serializer[Any]):
+    file_name = serializers.CharField(required=False, allow_blank=True)

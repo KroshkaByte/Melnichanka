@@ -1,3 +1,5 @@
+import os.path
+
 from django.dispatch import receiver
 from django_rest_passwordreset.signals import reset_password_token_created
 from rest_framework import generics, status
@@ -68,6 +70,32 @@ class UserUpdateView(UserRelatedView):
 # Изменение пароля пользователя
 class UserUpdatePasswordView(UserRelatedView):
     serializer_class = UserUpdatePasswordSerializer
+
+
+class ListUserFilesAPIView(APIView):
+    """
+    Responsible for displaying a list of documents of an authorized user.
+    """
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, *args, **kwargs):
+        user_folder = os.path.join("makedoc", "tempdoc", str(request.user.id))
+
+        if not os.path.exists(user_folder):
+            return Response({"error": "User folder not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        try:
+            files = os.listdir(user_folder)
+        except OSError as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        files_list = []
+        for file_name in files:
+            file_path = os.path.join(user_folder, file_name)
+            if os.path.isfile(file_path):
+                files_list.append(file_name)
+
+        return Response({"files": files_list}, status=status.HTTP_200_OK)
 
 
 # Сброс пароля
