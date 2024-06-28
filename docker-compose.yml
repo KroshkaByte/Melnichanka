@@ -83,6 +83,21 @@ services:
     networks:
       - melnichanka
 
+  beat:
+    build: .
+    command: celery -A melnichanka beat -l info
+    restart: on-failure
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+      - ./makedoc/tempdoc:/app/makedoc/tempdoc
+    depends_on:
+      - db
+      - rabbitmq
+    networks:
+      - melnichanka
+
   redis:
     image: redis:7.2.5-alpine
     hostname: redis

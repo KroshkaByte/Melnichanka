@@ -14,6 +14,7 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
+from celery.schedules import crontab
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -190,7 +191,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=10),
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True,
@@ -214,4 +215,13 @@ SPECTACULAR_SETTINGS = {
     "DESCRIPTION": " Melnichanka is a web application designed to generate a package of documents required for shipment",
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
+}
+
+# Celery
+
+CELERY_BEAT_SCHEDULE = {
+    "delete_files_daily": {
+        "task": "makedoc.tasks.delete_files",
+        "schedule": crontab(hour=23, minute=59),
+    },
 }
