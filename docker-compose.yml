@@ -43,6 +43,7 @@ services:
       - melnichanka
     volumes:
       - static_volume:/app/static/
+      - ./makedoc/tempdoc:/app/makedoc/tempdoc
     depends_on:
       db:
         condition: service_healthy
@@ -73,6 +74,9 @@ services:
       POSTGRES_USER: ${DATABASE_USER}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
       POSTGRES_DB: ${DATABASE_NAME}
+    volumes:
+      - .:/app
+      - ./makedoc/tempdoc:/app/makedoc/tempdoc
     depends_on:
       - db
       - rabbitmq
