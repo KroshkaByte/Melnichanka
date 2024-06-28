@@ -16,7 +16,7 @@ def delete_files():
         try:
             if os.path.isdir(item_path):
                 shutil.rmtree(item_path)
-        except Exception:
+        except Exception as e:
             return f"Failed to delete {item_path}. Reason {e}"
 
     return "Successfully deleted all user folders"
