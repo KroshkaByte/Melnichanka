@@ -5,7 +5,10 @@ from users.models import CustomUser
 
 
 class DirectorPosition(models.Model):
-    director_position = models.CharField(max_length=40)
+    """
+    Model representing a director's position.
+    """
+    director_position = models.CharField(max_length=40, verbose_name="Должность директора")
 
     class Meta:
         verbose_name = "Должность директора"
@@ -16,7 +19,10 @@ class DirectorPosition(models.Model):
 
 
 class Client(models.Model):
-    # Основная информация
+    """
+    Model representing a client organization.
+    """
+    # Main Information
     client_name = models.CharField(
         max_length=100, verbose_name="Наименование организации", db_index=True
     )
@@ -31,7 +37,7 @@ class Client(models.Model):
     destination_city = models.ForeignKey(
         City, on_delete=models.PROTECT, verbose_name="Город доставки", db_index=True
     )
-    # ЖД реквизиты
+    # Railway Details
     railway_station = models.ForeignKey(
         RailwayStation,
         on_delete=models.PROTECT,
@@ -40,7 +46,7 @@ class Client(models.Model):
         blank=True,
         null=True,
     )
-    # Остальные данные
+    # Other Data
     receiver_name = models.CharField(max_length=100, blank=True, verbose_name="Имя получателя")
     receiver_id = models.PositiveIntegerField(
         blank=True, null=True, verbose_name="Номер получателя"
@@ -48,11 +54,11 @@ class Client(models.Model):
     receiver_okpo = models.PositiveIntegerField(blank=True, null=True, verbose_name="ОКПО")
     receiver_adress = models.CharField(max_length=200, blank=True, verbose_name="Адрес получателя")
     special_marks = models.CharField(max_length=200, blank=True, verbose_name="Особые отметки")
-    # Номер приложения
+    # Application Number
     last_application_number = models.CharField(
         max_length=50, blank=True, verbose_name="Номер приложения"
     )
-    # Пользователь который создал запись
+    # User who created the record
     user = models.ForeignKey(
         CustomUser,
         verbose_name="Пользователь",

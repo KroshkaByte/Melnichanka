@@ -7,8 +7,13 @@ from .permissions import ClientAccessPermission
 from .serializers import ClientSerializer, DirectorPositionSerializer
 
 
-# Базовый класс  для получения данных по записям клиентов
 class ClientAPIView(generics.ListCreateAPIView[Client]):
+    """
+    API view for retrieving a list of clients and creating a new client record.
+
+    Retrieves a list of clients with related director position, destination city,
+    and railway station. Caches the client list for 15 minutes if not already cached.
+    """
     queryset = Client.objects.select_related(
         "director_position", "destination_city", "railway_station"
     ).all()
@@ -16,6 +21,10 @@ class ClientAPIView(generics.ListCreateAPIView[Client]):
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
+        """
+        Get the queryset of clients. If cached, return cached data; otherwise, fetch from database
+        and cache for 15 minutes.
+        """
         cached_clients = cache.get("clients_list")
         if cached_clients:
             return cached_clients
@@ -25,22 +34,37 @@ class ClientAPIView(generics.ListCreateAPIView[Client]):
             return clients
 
 
-# Изменение данных записи клиента
 class ClientAPIUpdateView(generics.RetrieveUpdateAPIView[Client]):
+    """
+    API view for updating a client record.
+
+    Retrieves and updates a specific client record based on its primary key.
+    Requires ClientAccessPermission for authorization.
+    """
     queryset = Client.objects.all()
     serializer_class = ClientSerializer
     permission_classes = (ClientAccessPermission,)
 
 
-# Удаление данных записи клиента
 class ClientAPIDeleteView(generics.DestroyAPIView[Client]):
+    """
+    API view for deleting a client record.
+
+    Deletes a specific client record based on its primary key.
+    Requires ClientAccessPermission for authorization.
+    """
     queryset = Client.objects.all()
     serializer_class = ClientSerializer
     permission_classes = (ClientAccessPermission,)
 
 
-# Передача списка позиций директора для фронтенда
 class DirectorPositionListView(generics.ListAPIView[DirectorPosition]):
+    """
+    API view for retrieving a list of director positions.
+
+    Retrieves a list of all available director positions.
+    Requires authentication (IsAuthenticated).
+    """
     queryset = DirectorPosition.objects.all()
     serializer_class = DirectorPositionSerializer
     permission_classes = (IsAuthenticated,)
