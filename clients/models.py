@@ -8,6 +8,7 @@ class DirectorPosition(models.Model):
     """
     Model representing a director's position.
     """
+
     director_position = models.CharField(max_length=40, verbose_name="Должность директора")
 
     class Meta:
@@ -22,6 +23,7 @@ class Client(models.Model):
     """
     Model representing a client organization.
     """
+
     # Main Information
     client_name = models.CharField(
         max_length=100, verbose_name="Наименование организации", db_index=True

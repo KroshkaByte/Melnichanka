@@ -19,7 +19,8 @@ class ClientSerializer(serializers.ModelSerializer[Client]):
     """
     Serializer for the Client model.
 
-    Serializes all fields of the Client model including nested serialization of 'director_position'.
+    Serializes all fields of the Client model
+    including nested serialization of 'director_position'.
     Adds 'destination_city' and 'railway_station' as CharField serializers.
     Sets the current authenticated user as the value for the 'user' field using HiddenField.
 
@@ -32,6 +33,7 @@ class ClientSerializer(serializers.ModelSerializer[Client]):
 
     Note: 'user' field is automatically populated with the current user making the request.
     """
+
     director_position = DirectorPositionSerializer()
     destination_city: serializers.CharField = serializers.CharField()
     railway_station: serializers.CharField = serializers.CharField()

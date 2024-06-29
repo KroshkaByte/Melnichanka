@@ -14,6 +14,7 @@ class ClientAPIView(generics.ListCreateAPIView[Client]):
     Retrieves a list of clients with related director position, destination city,
     and railway station. Caches the client list for 15 minutes if not already cached.
     """
+
     queryset = Client.objects.select_related(
         "director_position", "destination_city", "railway_station"
     ).all()
@@ -41,6 +42,7 @@ class ClientAPIUpdateView(generics.RetrieveUpdateAPIView[Client]):
     Retrieves and updates a specific client record based on its primary key.
     Requires ClientAccessPermission for authorization.
     """
+
     queryset = Client.objects.all()
     serializer_class = ClientSerializer
     permission_classes = (ClientAccessPermission,)
@@ -53,6 +55,7 @@ class ClientAPIDeleteView(generics.DestroyAPIView[Client]):
     Deletes a specific client record based on its primary key.
     Requires ClientAccessPermission for authorization.
     """
+
     queryset = Client.objects.all()
     serializer_class = ClientSerializer
     permission_classes = (ClientAccessPermission,)
@@ -65,6 +68,7 @@ class DirectorPositionListView(generics.ListAPIView[DirectorPosition]):
     Retrieves a list of all available director positions.
     Requires authentication (IsAuthenticated).
     """
+
     queryset = DirectorPosition.objects.all()
     serializer_class = DirectorPositionSerializer
     permission_classes = (IsAuthenticated,)
