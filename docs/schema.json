@@ -162,6 +162,8 @@ paths:
   /api/v1/doc/data/:
     post:
       operationId: v1_doc_data_create
+      description: Responsible for receiving data, validating it and storing it in
+        cache.
       tags:
       - v1
       requestBody:
@@ -185,9 +187,26 @@ paths:
               schema:
                 $ref: '#/components/schemas/DataDoc'
           description: ''
+  /api/v1/doc/downloadfile/:
+    post:
+      operationId: v1_doc_downloadfile_create
+      description: |-
+        To download a file:
+
+        - No parameters: get the last created file.
+
+        - With the parameter {"file_name": "name your file"} - load a specific file from the list.
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
   /api/v1/doc/filemake/:
     get:
       operationId: v1_doc_filemake_retrieve
+      description: Responsible for creating documents based on data from the cache.
       tags:
       - v1
       security:
@@ -1059,6 +1078,18 @@ paths:
               schema:
                 $ref: '#/components/schemas/UserUpdatePassword'
           description: ''
+  /api/v1/users/list_user_files/:
+    get:
+      operationId: v1_users_list_user_files_retrieve
+      description: Responsible for displaying a list of documents of an authorized
+        user.
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
   /api/v1/users/login/:
     post:
       operationId: v1_users_login_create
@@ -1396,8 +1427,7 @@ components:
       type: object
       properties:
         delivery_type:
-          type: array
-          items: {}
+          type: string
         client_id:
           type: integer
         items:
@@ -1566,7 +1596,9 @@ components:
         product_id:
           type: integer
         quantity:
-          type: integer
+          type: number
+          format: double
+          minimum: 0.001
         discount:
           type: integer
           maximum: 100
