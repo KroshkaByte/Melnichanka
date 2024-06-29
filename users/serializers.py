@@ -4,8 +4,11 @@ from rest_framework import serializers
 from .models import CustomUser, Department, Position
 
 
-# Сериализатор для создания новой записи
 class CustomUserSerializer(serializers.ModelSerializer[CustomUser]):
+    """
+    Serializer for creating a new user record.
+    """
+
     password = serializers.CharField(write_only=True, required=True)
     password_confirm = serializers.CharField(write_only=True, required=True)
 
@@ -24,6 +27,9 @@ class CustomUserSerializer(serializers.ModelSerializer[CustomUser]):
         ]
 
     def validate(self, data):
+        """
+        Validate password complexity and match between password and confirmation.
+        """
         password = data.get("password")
         if len(password) < 8:
             raise serializers.ValidationError("Пароль должен содержать не менее 8 символов")
@@ -36,6 +42,9 @@ class CustomUserSerializer(serializers.ModelSerializer[CustomUser]):
         return data
 
     def create(self, validated_data):
+        """
+        Create a new user instance after validating data.
+        """
         validated_data.pop("password_confirm")
         user = CustomUser.objects.create(**validated_data)
         user.set_password(validated_data["password"])
@@ -43,8 +52,11 @@ class CustomUserSerializer(serializers.ModelSerializer[CustomUser]):
         return user
 
 
-# Сериализатор для редактирования существующей записи + изменения пароля
 class UserUpdateSerializer(serializers.ModelSerializer[CustomUser]):
+    """
+    Serializer for updating existing user records.
+    """
+
     class Meta:
         model = CustomUser
         fields = [
@@ -59,6 +71,10 @@ class UserUpdateSerializer(serializers.ModelSerializer[CustomUser]):
 
 
 class UserUpdatePasswordSerializer(serializers.ModelSerializer[CustomUser]):
+    """
+    Serializer for updating user password.
+    """
+
     old_password = serializers.CharField(write_only=True, required=True)
     new_password = serializers.CharField(write_only=True, required=True)
     new_password_confirm = serializers.CharField(write_only=True, required=True)
@@ -72,6 +88,10 @@ class UserUpdatePasswordSerializer(serializers.ModelSerializer[CustomUser]):
         ]
 
     def validate(self, data):
+        """
+        Validate old password, new password complexity,
+        and match between new password and confirmation.
+        """
         # Проверяем, что старый пароль верный
         old_password = data.get("old_password")
         user = self.context["request"].user
@@ -95,6 +115,9 @@ class UserUpdatePasswordSerializer(serializers.ModelSerializer[CustomUser]):
         return super().validate(data)
 
     def update(self, instance, validated_data):
+        """
+        Update user instance with new password if provided.
+        """
         # Если предоставлены новые пароли, устанавливаем новый пароль
         new_password = validated_data.pop("new_password", None)
         if new_password is not None:
@@ -104,16 +127,28 @@ class UserUpdatePasswordSerializer(serializers.ModelSerializer[CustomUser]):
 
 
 class LogoutSerializer(serializers.Serializer):  # type: ignore
+    """
+    Serializer for logging out a user.
+    """
+
     refresh_token = serializers.CharField()
 
 
 class DepartmentSerializer(serializers.ModelSerializer[Department]):
+    """
+    Serializer for Department model.
+    """
+
     class Meta:
         model = Department
         fields = ["id", "department"]
 
 
 class PositionSerializer(serializers.ModelSerializer[Position]):
+    """
+    Serializer for Position model.
+    """
+
     class Meta:
         model = Position
         fields = ["id", "position"]

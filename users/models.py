@@ -4,9 +4,12 @@ from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
 
 
-# Класс позиции пользователя
 class Position(models.Model):
-    position = models.CharField(max_length=30)
+    """
+    A model for storing information about user positions.
+    """
+
+    position = models.CharField(max_length=30, verbose_name="Название позиции")
 
     class Meta:
         verbose_name = "Позиция"
@@ -16,9 +19,12 @@ class Position(models.Model):
         return self.position
 
 
-# Класс департамента пользователя
 class Department(models.Model):
-    department = models.CharField(max_length=50)
+    """
+    A model for storing information about user departments.
+    """
+
+    department = models.CharField(max_length=50, verbose_name="Название департамента")
 
     class Meta:
         verbose_name = "Департамент"
@@ -28,11 +34,14 @@ class Department(models.Model):
         return self.department
 
 
-# Менеджер пользователей
 class CustomUserManager(BaseUserManager["CustomUser"]):
+    """
+    Custom user manager implementing user and superuser creation.
+    """
+
     def create_user(self, email, full_name, password=None, **extra_fields):
         """
-        Создает  и сохраняет пользователя с указанным email, ФИО и другими полями
+        Creates and saves a regular user with the given email and full name.
         """
         if not email:
             raise ValueError(_("Email должен быть указан"))
@@ -50,16 +59,18 @@ class CustomUserManager(BaseUserManager["CustomUser"]):
 
     def create_superuser(self, email, full_name, password=None, **extra_fields):
         """
-        Создает  и сохраняет суперпользователя с указанным email, ФИО и другими полями
-        Проверяет действительно ли суперпользователь является им
+        Creates and saves a superuser with the given email and full name.
         """
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
         return self.create_user(email, full_name, password=password, **extra_fields)
 
 
-# Информация о пользователе приложения
 class CustomUser(AbstractBaseUser, PermissionsMixin):
+    """
+    Custom user model using email as the unique identifier.
+    """
+
     email = models.EmailField(max_length=50, unique=True, db_index=True, verbose_name="E-mail")
     full_name = models.CharField(max_length=75, verbose_name="ФИО")
     position = models.ForeignKey(
