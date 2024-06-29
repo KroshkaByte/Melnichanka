@@ -17,8 +17,10 @@ class DirectorPosition(models.Model):
 
 class Client(models.Model):
     # Основная информация
-    client_name = models.CharField(max_length=100, verbose_name="Наименование организации")
-    contract_number = models.CharField(max_length=50, verbose_name="Номер договора")
+    client_name = models.CharField(
+        max_length=100, verbose_name="Наименование организации", db_index=True
+    )
+    contract_number = models.CharField(max_length=50, verbose_name="Номер договора", db_index=True)
     contract_date = models.DateField(verbose_name="Дата заключения договора")
     director_position = models.ForeignKey(
         DirectorPosition,
@@ -27,7 +29,7 @@ class Client(models.Model):
     )
     director_name = models.CharField(max_length=100, verbose_name="ФИО директора")
     destination_city = models.ForeignKey(
-        City, on_delete=models.PROTECT, verbose_name="Город доставки"
+        City, on_delete=models.PROTECT, verbose_name="Город доставки", db_index=True
     )
     # ЖД реквизиты
     railway_station = models.ForeignKey(
