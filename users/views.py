@@ -83,7 +83,7 @@ class LogoutView(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-class UserCreateView(generics.CreateAPIView):
+class UserCreateView(generics.CreateAPIView[CustomUser]):
     """
     View to handle user registration.
     """
@@ -154,7 +154,7 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
     send_reset_email.delay(reset_password_token.user.email, reset_password_token.key)
 
 
-class DepartmentListView(generics.ListAPIView):
+class DepartmentListView(generics.ListAPIView[Department]):
     """
     View to list departments.
     """
@@ -163,7 +163,7 @@ class DepartmentListView(generics.ListAPIView):
     serializer_class = DepartmentSerializer
 
 
-class PositionListView(generics.ListAPIView):
+class PositionListView(generics.ListAPIView[Position]):
     """
     View to list positions.
     """
