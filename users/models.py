@@ -60,7 +60,7 @@ class CustomUserManager(BaseUserManager["CustomUser"]):
 
 # Информация о пользователе приложения
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(max_length=50, unique=True, verbose_name="E-mail")
+    email = models.EmailField(max_length=50, unique=True, db_index=True, verbose_name="E-mail")
     full_name = models.CharField(max_length=75, verbose_name="ФИО")
     position = models.ForeignKey(
         Position,
