@@ -7,6 +7,13 @@ from django.conf import settings
 
 @shared_task
 def delete_files():
+    """
+    Deletes all user folders from the specified directory.
+
+    Checks if the directory exists, and if it does, deletes all subdirectories
+    within it. If the directory does not exist, it returns an appropriate message.
+    If an error occurs while deleting a subdirectory, it returns the error message.
+    """
     directory = settings.BASE_DIR / "makedoc" / "tempdoc"
 
     if not os.path.exists(directory):

@@ -3,10 +3,11 @@ from rest_framework import permissions, exceptions
 
 class ClientAccessPermission(permissions.BasePermission):
     """
-    Класс разрешений для доступа к записям клиентов.
-    Проверяет, что пользователь аутентифицирован для просмотра записей.
-    Также проверяет, что пользователь является автором записи
-    или администратором для выполнения изменений или удаления записей.
+    Permission class for accessing client records.
+
+    Checks that the user is authenticated to view records.
+    Additionally, verifies that the user is either the author of the record
+    or an administrator to perform changes or deletions on records.
     """
 
     def has_permission(self, request, view):

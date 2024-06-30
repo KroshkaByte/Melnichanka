@@ -4,6 +4,11 @@ from logistics.models import Factory
 
 
 class Product(models.Model):
+    """
+    A model representing a product with specific
+    attributes like flour type, brand, package, and price.
+    """
+
     flour_name = models.ForeignKey(
         "Flour", on_delete=models.PROTECT, related_name="flour_goods", db_index=True
     )
@@ -28,6 +33,10 @@ class Product(models.Model):
 
 
 class Flour(models.Model):
+    """
+    A model representing the type of flour used in products.
+    """
+
     flour_name = models.CharField(max_length=255, blank=False)
 
     class Meta:
@@ -40,6 +49,10 @@ class Flour(models.Model):
 
 
 class Brand(models.Model):
+    """
+    A model representing a brand associated with products.
+    """
+
     brand = models.CharField(max_length=100, verbose_name="Брэнд", blank=True)
 
     class Meta:
@@ -52,6 +65,10 @@ class Brand(models.Model):
 
 
 class Package(models.Model):
+    """
+    A model representing packaging details associated with products.
+    """
+
     package = models.IntegerField(verbose_name="Тара")
     factory = models.ForeignKey(Factory, on_delete=models.PROTECT)
     pallet_weight = models.PositiveIntegerField(verbose_name="Вес на паллете")

@@ -22,8 +22,9 @@ def test__data_doc_view__authorized_user_can_post_data(authorized_client, make_t
 
 
 @pytest.mark.django_db
-def test__data_doc_view__authorized_user_post_data_response_is_correct(authorized_client,
-                                                                       make_test_data):
+def test__data_doc_view__authorized_user_post_data_response_is_correct(
+    authorized_client, make_test_data
+):
     url = reverse("data")
     response = authorized_client.post(url, make_test_data, format="json")
     assert response.status_code == 200

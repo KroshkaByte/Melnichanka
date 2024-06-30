@@ -14,6 +14,10 @@ from .data_service import DataService
 
 
 class Documents:
+    """
+    A class to handle the creation and management of various shipment-related documents.
+    """
+
     def __init__(self, validated_data):
         self.validated_data = validated_data
         self.auto = 0
@@ -23,6 +27,9 @@ class Documents:
         self.archive_name = ""
 
     def update_documents(self):
+        """
+        Updates the document indicators based on the validated data.
+        """
         delivery_type = DataService.get_delivery_type(self.validated_data)
         if delivery_type in ("auto", "self-delivery"):
             self.auto = 1
@@ -40,6 +47,9 @@ class Documents:
             self.service_note = 1
 
     def form_auto_document(self, request):
+        """
+        Creates an auto document based on the validated data and user request.
+        """
         self.docname = "Авто"
         try:
             user = DataService.get_user(request)
@@ -68,6 +78,9 @@ class Documents:
         self.add_workbook_to_archive_xlsx(wb, user, client)
 
     def fill_contract_info(self, ws, client):
+        """
+        Fills the contract information into the worksheet.
+        """
         formatted_contract_date = client.contract_date.strftime("%d.%m.%Y")
         title = ws.cell(row=1, column=1, value=f"Приложение № {client.last_application_number}")
         title.font = Font(bold=True)
@@ -80,6 +93,9 @@ class Documents:
         ws.cell(row=6, column=6, value=get_formatted_date_agreement())
 
     def fill_product_info(self, ws, products, logistics, caret):
+        """
+        Fills the product information into the worksheet.
+        """
         goods_quantity = len(products)
         thin_border = Border(
             left=Side(style="thin"),
@@ -121,6 +137,9 @@ class Documents:
         self.caret_product = caret + 1
 
     def fill_factory_info(self, ws, factory):
+        """
+        Fills the factory information into the worksheet.
+        """
         caret = self.caret_product
         ws.merge_cells(start_row=caret, start_column=1, end_row=caret, end_column=2)
         ws.cell(row=caret, column=1, value="Грузоотправитель:")
@@ -128,6 +147,9 @@ class Documents:
         self.caret_factory = caret + 1
 
     def fill_auto_services(self, ws, logistics):
+        """
+        Fills the auto services information into the worksheet.
+        """
         caret = self.caret_factory
         ws.merge_cells(start_row=caret, start_column=1, end_row=caret, end_column=2)
         ws.cell(row=caret, column=1, value="Автотранспортные услуги:")
@@ -139,6 +161,9 @@ class Documents:
         self.caret_services = caret + 1
 
     def fill_debt_info(self, ws):
+        """
+        Fills the debt information into the worksheet.
+        """
         caret = self.caret_services
         ws.merge_cells(start_row=caret, start_column=1, end_row=caret, end_column=2)
         ws.cell(row=caret, column=1, value="Срок отгрузки:")
@@ -152,6 +177,9 @@ class Documents:
         self.caret_debt = caret + 2
 
     def fill_legal_info(self, ws, client):
+        """
+        Fills the legal information into the worksheet.
+        """
         caret = self.caret_debt
         ws.merge_cells(start_row=caret, start_column=1, end_row=caret, end_column=6)
         formatted_contract_date = client.contract_date.strftime("%d.%m.%Y")
@@ -165,6 +193,9 @@ class Documents:
         self.caret_legal = caret + 4
 
     def fill_signatures(self, ws, client):
+        """
+        Fills the signature information into the worksheet.
+        """
         caret = self.caret_legal
         ws.cell(row=caret, column=1, value="Генеральный директор")
         ws.cell(row=caret + 1, column=1, value="ООО  «Торговый дом «Оскольская мука»")
@@ -175,6 +206,9 @@ class Documents:
         self.caret_signatures = caret + 11
 
     def fill_manager_contact(self, ws, user):
+        """
+        Fills the manager contact information into the worksheet.
+        """
         caret = 59
         ws.merge_cells(start_row=caret, start_column=1, end_row=caret, end_column=6)
         manager = ws.cell(
@@ -190,14 +224,15 @@ class Documents:
         phone.alignment = Alignment(horizontal="center", vertical="center")
 
     def add_workbook_to_archive_xlsx(self, wb, user, client):
+        """
+        Adds the generated workbook to a zip archive.
+        """
         tempdir = os.path.join("makedoc", "tempdoc", str(user.id))
         os.makedirs(tempdir, exist_ok=True)
 
-        client_name = client.client_name.replace(' ', '_')
-        date_today = datetime.today().strftime('%d.%m.%Y_%H:%M:%S')
-        self.archive_name = (
-            f"{client_name}_{date_today}.zip"
-        )
+        client_name = client.client_name.replace(" ", "_")
+        date_today = datetime.today().strftime("%d.%m.%Y_%H:%M:%S")
+        self.archive_name = f"{client_name}_{date_today}.zip"
         archive_path = f"{tempdir}/{self.archive_name}"
 
         xlsx_filename = f"{client.last_application_number} {self.docname} {client.client_name} \
@@ -211,6 +246,9 @@ class Documents:
             archive.writestr(xlsx_filename, xlsx_io.getvalue())
 
     def apply_styles(self, ws):
+        """
+        Applies styles to the cells in the worksheet.
+        """
         for row in ws.iter_rows():
             for cell in row:
                 if cell.value is not None:
@@ -222,6 +260,9 @@ class Documents:
                     cell.font = Font(bold=True, size=12)
 
     def form_rw_document(self, request):
+        """
+        Creates a railways document based on the validated data and user request.
+        """
         self.docname = "Жд"
         try:
             user = DataService.get_user(request)
@@ -251,6 +292,9 @@ class Documents:
         self.add_workbook_to_archive_xlsx(wb, user, client)
 
     def fill_rw_services(self, ws, factory, client, logistics):
+        """
+        Fills the railways services information into the worksheet.
+        """
         caret = self.caret_factory
         ws.merge_cells(start_row=caret, start_column=1, end_row=caret, end_column=2)
         ws.cell(row=caret, column=1, value="Поставка осуществляется:")
@@ -312,6 +356,9 @@ class Documents:
         self.caret_services = caret + 1
 
     def form_service_note(self, request):
+        """
+        Creates a service note based on the validated data and user request.
+        """
         self.docname = "Служебная записка"
         try:
             client = DataService.get_client(self.validated_data)
@@ -336,6 +383,9 @@ class Documents:
         self.add_workbook_to_archive_xlsx(wb, user, client)
 
     def fill_text_note(self, ws, client, discount, destination):
+        """
+        Fills the text note section in the service note Excel sheet.
+        """
         blank = "________"
         if destination != "0":
             region = destination.split(",")[1].strip()
@@ -349,6 +399,9 @@ class Documents:
         ws.cell(row=19, column=1, value=text)
 
     def form_transport_sheet(self, request):
+        """
+        Creates a transport sheet document based on the validated data and user request.
+        """
         self.docname = "Сопроводительный лист"
         try:
             user = DataService.get_user(request)
@@ -379,6 +432,9 @@ class Documents:
         self.add_workbook_to_archive_xlsx(wb, user, client)
 
     def fill_contract_info_transport_sheet(self, ws, client):
+        """
+        Fills the contract information section in the transport sheet Excel sheet.
+        """
         formatted_contract_date = client.contract_date.strftime("%d.%m.%Y")
         ws.cell(row=1, column=1, value="СОПРОВОДИТЕЛЬНЫЙ ЛИСТ к")
         title = ws.cell(row=2, column=1, value=f"Приложению № {client.last_application_number}")

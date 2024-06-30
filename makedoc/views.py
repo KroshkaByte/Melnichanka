@@ -18,6 +18,7 @@ class CreateDocsAPIView(APIView):
     """
     Responsible for creating documents based on data from the cache.
     """
+
     serializer_class = DocumentsSimpleSerializer
     permission_classes = [IsAuthenticated]
 
@@ -52,7 +53,6 @@ class CreateDocsAPIView(APIView):
         return Response({"message": "Documents saved"}, status=status.HTTP_200_OK)
 
 
-# Загрузка документа
 class DownloadDocAPIView(APIView):
     """
     To download a file:
@@ -61,6 +61,7 @@ class DownloadDocAPIView(APIView):
 
     - With the parameter {"file_name": "name your file"} - load a specific file from the list.
     """
+
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
@@ -96,6 +97,7 @@ class DataDocAPIView(generics.GenericAPIView[Any]):
     """
     Responsible for receiving data, validating it and storing it in cache.
     """
+
     serializer_class = DataDocSerializer
     permission_classes = (IsAuthenticated,)
 
