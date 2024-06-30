@@ -8,6 +8,11 @@ paths:
   /api/v1/clients/:
     get:
       operationId: v1_clients_list
+      description: |-
+        API view for retrieving a list of clients and creating a new client record.
+
+        Retrieves a list of clients with related director position, destination city,
+        and railway station. Caches the client list for 15 minutes if not already cached.
       tags:
       - v1
       security:
@@ -23,6 +28,11 @@ paths:
           description: ''
     post:
       operationId: v1_clients_create
+      description: |-
+        API view for retrieving a list of clients and creating a new client record.
+
+        Retrieves a list of clients with related director position, destination city,
+        and railway station. Caches the client list for 15 minutes if not already cached.
       tags:
       - v1
       requestBody:
@@ -49,6 +59,11 @@ paths:
   /api/v1/clients/{id}/:
     get:
       operationId: v1_clients_retrieve
+      description: |-
+        API view for updating a client record.
+
+        Retrieves and updates a specific client record based on its primary key.
+        Requires ClientAccessPermission for authorization.
       parameters:
       - in: path
         name: id
@@ -68,6 +83,11 @@ paths:
           description: ''
     put:
       operationId: v1_clients_update
+      description: |-
+        API view for updating a client record.
+
+        Retrieves and updates a specific client record based on its primary key.
+        Requires ClientAccessPermission for authorization.
       parameters:
       - in: path
         name: id
@@ -99,6 +119,11 @@ paths:
           description: ''
     patch:
       operationId: v1_clients_partial_update
+      description: |-
+        API view for updating a client record.
+
+        Retrieves and updates a specific client record based on its primary key.
+        Requires ClientAccessPermission for authorization.
       parameters:
       - in: path
         name: id
@@ -130,6 +155,11 @@ paths:
   /api/v1/clients/delete/{id}/:
     delete:
       operationId: v1_clients_delete_destroy
+      description: |-
+        API view for deleting a client record.
+
+        Deletes a specific client record based on its primary key.
+        Requires ClientAccessPermission for authorization.
       parameters:
       - in: path
         name: id
@@ -146,6 +176,11 @@ paths:
   /api/v1/clients/directorposition/:
     get:
       operationId: v1_clients_directorposition_list
+      description: |-
+        API view for retrieving a list of director positions.
+
+        Retrieves a list of all available director positions.
+        Requires authentication (IsAuthenticated).
       tags:
       - v1
       security:
@@ -217,6 +252,9 @@ paths:
   /api/v1/goods/:
     get:
       operationId: v1_goods_list
+      description: |-
+        A viewset for managing CRUD operations for products.
+        Retrieves a list of products with caching enabled for 30 minutes.
       tags:
       - v1
       security:
@@ -232,6 +270,9 @@ paths:
           description: ''
     post:
       operationId: v1_goods_create
+      description: |-
+        A viewset for managing CRUD operations for products.
+        Retrieves a list of products with caching enabled for 30 minutes.
       tags:
       - v1
       requestBody:
@@ -258,6 +299,9 @@ paths:
   /api/v1/goods/{id}/:
     get:
       operationId: v1_goods_retrieve
+      description: |-
+        A viewset for managing CRUD operations for products.
+        Retrieves a list of products with caching enabled for 30 minutes.
       parameters:
       - in: path
         name: id
@@ -278,6 +322,9 @@ paths:
           description: ''
     put:
       operationId: v1_goods_update
+      description: |-
+        A viewset for managing CRUD operations for products.
+        Retrieves a list of products with caching enabled for 30 minutes.
       parameters:
       - in: path
         name: id
@@ -310,6 +357,9 @@ paths:
           description: ''
     patch:
       operationId: v1_goods_partial_update
+      description: |-
+        A viewset for managing CRUD operations for products.
+        Retrieves a list of products with caching enabled for 30 minutes.
       parameters:
       - in: path
         name: id
@@ -341,6 +391,9 @@ paths:
           description: ''
     delete:
       operationId: v1_goods_destroy
+      description: |-
+        A viewset for managing CRUD operations for products.
+        Retrieves a list of products with caching enabled for 30 minutes.
       parameters:
       - in: path
         name: id
@@ -358,6 +411,7 @@ paths:
   /api/v1/logistics/auto/:
     get:
       operationId: v1_logistics_auto_list
+      description: A viewset for handling CRUD operations on TripAuto objects.
       tags:
       - v1
       security:
@@ -373,6 +427,7 @@ paths:
           description: ''
     post:
       operationId: v1_logistics_auto_create
+      description: A viewset for handling CRUD operations on TripAuto objects.
       tags:
       - v1
       requestBody:
@@ -399,6 +454,7 @@ paths:
   /api/v1/logistics/auto/{id}/:
     get:
       operationId: v1_logistics_auto_retrieve
+      description: A viewset for handling CRUD operations on TripAuto objects.
       parameters:
       - in: path
         name: id
@@ -419,6 +475,7 @@ paths:
           description: ''
     put:
       operationId: v1_logistics_auto_update
+      description: A viewset for handling CRUD operations on TripAuto objects.
       parameters:
       - in: path
         name: id
@@ -451,6 +508,7 @@ paths:
           description: ''
     patch:
       operationId: v1_logistics_auto_partial_update
+      description: A viewset for handling CRUD operations on TripAuto objects.
       parameters:
       - in: path
         name: id
@@ -482,6 +540,7 @@ paths:
           description: ''
     delete:
       operationId: v1_logistics_auto_destroy
+      description: A viewset for handling CRUD operations on TripAuto objects.
       parameters:
       - in: path
         name: id
@@ -499,6 +558,7 @@ paths:
   /api/v1/logistics/city/:
     get:
       operationId: v1_logistics_city_list
+      description: A viewset for handling CRUD operations on City objects.
       tags:
       - v1
       security:
@@ -514,6 +574,7 @@ paths:
           description: ''
     post:
       operationId: v1_logistics_city_create
+      description: A viewset for handling CRUD operations on City objects.
       tags:
       - v1
       requestBody:
@@ -540,6 +601,7 @@ paths:
   /api/v1/logistics/city/{id}/:
     get:
       operationId: v1_logistics_city_retrieve
+      description: A viewset for handling CRUD operations on City objects.
       parameters:
       - in: path
         name: id
@@ -560,6 +622,7 @@ paths:
           description: ''
     put:
       operationId: v1_logistics_city_update
+      description: A viewset for handling CRUD operations on City objects.
       parameters:
       - in: path
         name: id
@@ -592,6 +655,7 @@ paths:
           description: ''
     patch:
       operationId: v1_logistics_city_partial_update
+      description: A viewset for handling CRUD operations on City objects.
       parameters:
       - in: path
         name: id
@@ -623,6 +687,7 @@ paths:
           description: ''
     delete:
       operationId: v1_logistics_city_destroy
+      description: A viewset for handling CRUD operations on City objects.
       parameters:
       - in: path
         name: id
@@ -640,6 +705,7 @@ paths:
   /api/v1/logistics/factories/:
     get:
       operationId: v1_logistics_factories_list
+      description: A view for listing factories, with caching implemented.
       tags:
       - v1
       security:
@@ -656,6 +722,7 @@ paths:
   /api/v1/logistics/rw/:
     get:
       operationId: v1_logistics_rw_list
+      description: A viewset for handling CRUD operations on TripRailway objects.
       tags:
       - v1
       security:
@@ -671,6 +738,7 @@ paths:
           description: ''
     post:
       operationId: v1_logistics_rw_create
+      description: A viewset for handling CRUD operations on TripRailway objects.
       tags:
       - v1
       requestBody:
@@ -697,6 +765,7 @@ paths:
   /api/v1/logistics/rw/{id}/:
     get:
       operationId: v1_logistics_rw_retrieve
+      description: A viewset for handling CRUD operations on TripRailway objects.
       parameters:
       - in: path
         name: id
@@ -717,6 +786,7 @@ paths:
           description: ''
     put:
       operationId: v1_logistics_rw_update
+      description: A viewset for handling CRUD operations on TripRailway objects.
       parameters:
       - in: path
         name: id
@@ -749,6 +819,7 @@ paths:
           description: ''
     patch:
       operationId: v1_logistics_rw_partial_update
+      description: A viewset for handling CRUD operations on TripRailway objects.
       parameters:
       - in: path
         name: id
@@ -780,6 +851,7 @@ paths:
           description: ''
     delete:
       operationId: v1_logistics_rw_destroy
+      description: A viewset for handling CRUD operations on TripRailway objects.
       parameters:
       - in: path
         name: id
@@ -797,6 +869,7 @@ paths:
   /api/v1/logistics/stations/:
     get:
       operationId: v1_logistics_stations_list
+      description: A viewset for handling CRUD operations on RailwayStation objects.
       tags:
       - v1
       security:
@@ -812,6 +885,7 @@ paths:
           description: ''
     post:
       operationId: v1_logistics_stations_create
+      description: A viewset for handling CRUD operations on RailwayStation objects.
       tags:
       - v1
       requestBody:
@@ -838,6 +912,7 @@ paths:
   /api/v1/logistics/stations/{id}/:
     get:
       operationId: v1_logistics_stations_retrieve
+      description: A viewset for handling CRUD operations on RailwayStation objects.
       parameters:
       - in: path
         name: id
@@ -858,6 +933,7 @@ paths:
           description: ''
     put:
       operationId: v1_logistics_stations_update
+      description: A viewset for handling CRUD operations on RailwayStation objects.
       parameters:
       - in: path
         name: id
@@ -890,6 +966,7 @@ paths:
           description: ''
     patch:
       operationId: v1_logistics_stations_partial_update
+      description: A viewset for handling CRUD operations on RailwayStation objects.
       parameters:
       - in: path
         name: id
@@ -921,6 +998,7 @@ paths:
           description: ''
     delete:
       operationId: v1_logistics_stations_destroy
+      description: A viewset for handling CRUD operations on RailwayStation objects.
       parameters:
       - in: path
         name: id
@@ -938,6 +1016,7 @@ paths:
   /api/v1/users/departments/:
     get:
       operationId: v1_users_departments_list
+      description: View to list departments.
       tags:
       - v1
       security:
@@ -955,6 +1034,7 @@ paths:
   /api/v1/users/edit/:
     get:
       operationId: v1_users_edit_retrieve
+      description: View to handle updating user data.
       tags:
       - v1
       security:
@@ -968,6 +1048,7 @@ paths:
           description: ''
     put:
       operationId: v1_users_edit_update
+      description: View to handle updating user data.
       tags:
       - v1
       requestBody:
@@ -993,6 +1074,7 @@ paths:
           description: ''
     patch:
       operationId: v1_users_edit_partial_update
+      description: View to handle updating user data.
       tags:
       - v1
       requestBody:
@@ -1018,6 +1100,7 @@ paths:
   /api/v1/users/edit_password/:
     get:
       operationId: v1_users_edit_password_retrieve
+      description: View to handle changing user password.
       tags:
       - v1
       security:
@@ -1031,6 +1114,7 @@ paths:
           description: ''
     put:
       operationId: v1_users_edit_password_update
+      description: View to handle changing user password.
       tags:
       - v1
       requestBody:
@@ -1056,6 +1140,7 @@ paths:
           description: ''
     patch:
       operationId: v1_users_edit_password_partial_update
+      description: View to handle changing user password.
       tags:
       - v1
       requestBody:
@@ -1081,8 +1166,11 @@ paths:
   /api/v1/users/list_user_files/:
     get:
       operationId: v1_users_list_user_files_retrieve
-      description: Responsible for displaying a list of documents of an authorized
-        user.
+      description: |-
+        Handle GET requests to list user's files.
+
+        Returns:
+            - List of user's files or error message.
       tags:
       - v1
       security:
@@ -1094,8 +1182,14 @@ paths:
     post:
       operationId: v1_users_login_create
       description: |-
-        Takes a set of user credentials and returns an access and refresh JSON web
-        token pair to prove the authentication of those credentials.
+        Handle POST requests to obtain JWT.
+
+        Params:
+            - email: User's email address.
+            - password: User's password.
+
+        Returns:
+            - JSON response with JWT or error message.
       tags:
       - v1
       requestBody:
@@ -1120,6 +1214,14 @@ paths:
   /api/v1/users/logout/:
     post:
       operationId: v1_users_logout_create
+      description: |-
+        Handle POST requests to logout user.
+
+        Params:
+            - refresh_token: JWT refresh token.
+
+        Returns:
+            - HTTP 205 Reset Content on success, or HTTP 400 Bad Request on failure.
       tags:
       - v1
       requestBody:
@@ -1225,6 +1327,7 @@ paths:
   /api/v1/users/positions/:
     get:
       operationId: v1_users_positions_list
+      description: View to list positions.
       tags:
       - v1
       security:
@@ -1242,6 +1345,7 @@ paths:
   /api/v1/users/registration/:
     post:
       operationId: v1_users_registration_create
+      description: View to handle user registration.
       tags:
       - v1
       requestBody:
@@ -1297,6 +1401,10 @@ components:
   schemas:
     City:
       type: object
+      description: |-
+        Serializer for City model.
+
+        Serializes all fields of the City model.
       properties:
         id:
           type: integer
@@ -1315,6 +1423,22 @@ components:
       - region
     Client:
       type: object
+      description: |-
+        Serializer for the Client model.
+
+        Serializes all fields of the Client model
+        including nested serialization of 'director_position'.
+        Adds 'destination_city' and 'railway_station' as CharField serializers.
+        Sets the current authenticated user as the value for the 'user' field using HiddenField.
+
+        Fields:
+        - id: IntegerField
+        - director_position: Nested serialization using DirectorPositionSerializer
+        - destination_city: CharField for destination city name
+        - railway_station: CharField for railway station name
+        - user: HiddenField that defaults to the current authenticated user
+
+        Note: 'user' field is automatically populated with the current user making the request.
       properties:
         id:
           type: integer
@@ -1380,6 +1504,7 @@ components:
       - railway_station
     CustomUser:
       type: object
+      description: Serializer for creating a new user record.
       properties:
         id:
           type: integer
@@ -1425,6 +1550,7 @@ components:
       - phone_number_work
     DataDoc:
       type: object
+      description: A serializer for document data.
       properties:
         delivery_type:
           type: string
@@ -1450,12 +1576,14 @@ components:
       - items
     Department:
       type: object
+      description: Serializer for Department model.
       properties:
         id:
           type: integer
           readOnly: true
         department:
           type: string
+          title: Название департамента
           maxLength: 50
       required:
       - department
@@ -1498,12 +1626,17 @@ components:
         * `ДВЖД` - Дальневосточная ж/д
     DirectorPosition:
       type: object
+      description: |-
+        Serializer for the DirectorPosition model.
+
+        Serializes the 'id' and 'director_position' fields of DirectorPosition.
       properties:
         id:
           type: integer
           readOnly: true
         director_position:
           type: string
+          title: Должность директора
           maxLength: 40
       required:
       - director_position
@@ -1518,6 +1651,7 @@ components:
       - email
     Factory:
       type: object
+      description: Serializer for Factory model.
       properties:
         id:
           type: integer
@@ -1562,6 +1696,7 @@ components:
       - short_name
     Goods:
       type: object
+      description: Serializer for serializing/deserializing Product objects.
       properties:
         id:
           type: integer
@@ -1585,6 +1720,7 @@ components:
       - price
     Logout:
       type: object
+      description: Serializer for logging out a user.
       properties:
         refresh_token:
           type: string
@@ -1592,6 +1728,7 @@ components:
       - refresh_token
     OrderItem:
       type: object
+      description: A serializer for order items.
       properties:
         product_id:
           type: integer
@@ -1619,6 +1756,10 @@ components:
       - token
     PatchedCity:
       type: object
+      description: |-
+        Serializer for City model.
+
+        Serializes all fields of the City model.
       properties:
         id:
           type: integer
@@ -1633,6 +1774,22 @@ components:
           maxLength: 100
     PatchedClient:
       type: object
+      description: |-
+        Serializer for the Client model.
+
+        Serializes all fields of the Client model
+        including nested serialization of 'director_position'.
+        Adds 'destination_city' and 'railway_station' as CharField serializers.
+        Sets the current authenticated user as the value for the 'user' field using HiddenField.
+
+        Fields:
+        - id: IntegerField
+        - director_position: Nested serialization using DirectorPositionSerializer
+        - destination_city: CharField for destination city name
+        - railway_station: CharField for railway station name
+        - user: HiddenField that defaults to the current authenticated user
+
+        Note: 'user' field is automatically populated with the current user making the request.
       properties:
         id:
           type: integer
@@ -1689,6 +1846,7 @@ components:
           maxLength: 50
     PatchedGoods:
       type: object
+      description: Serializer for serializing/deserializing Product objects.
       properties:
         id:
           type: integer
@@ -1706,6 +1864,7 @@ components:
           title: Цена, руб./тн
     PatchedRailwayStation:
       type: object
+      description: Serializer for RailwayStation model.
       properties:
         id:
           type: integer
@@ -1722,6 +1881,11 @@ components:
           $ref: '#/components/schemas/StationBranchEnum'
     PatchedTripAuto:
       type: object
+      description: |-
+        Serializer for TripAuto model.
+
+        Serializes all fields of the TripAuto model, and includes
+        additional fields for departure_city and destination_city.
       properties:
         id:
           type: integer
@@ -1737,6 +1901,7 @@ components:
           title: Цена за рейс, руб./тн
     PatchedTripRailway:
       type: object
+      description: Serializer for TripRailway model.
       properties:
         id:
           type: integer
@@ -1751,6 +1916,7 @@ components:
           minimum: 0
     PatchedUserUpdate:
       type: object
+      description: Serializer for updating existing user records.
       properties:
         id:
           type: integer
@@ -1782,6 +1948,7 @@ components:
           maxLength: 128
     PatchedUserUpdatePassword:
       type: object
+      description: Serializer for updating user password.
       properties:
         old_password:
           type: string
@@ -1794,18 +1961,21 @@ components:
           writeOnly: true
     Position:
       type: object
+      description: Serializer for Position model.
       properties:
         id:
           type: integer
           readOnly: true
         position:
           type: string
+          title: Название позиции
           maxLength: 30
       required:
       - id
       - position
     RailwayStation:
       type: object
+      description: Serializer for RailwayStation model.
       properties:
         id:
           type: integer
@@ -1901,6 +2071,11 @@ components:
       - refresh
     TripAuto:
       type: object
+      description: |-
+        Serializer for TripAuto model.
+
+        Serializes all fields of the TripAuto model, and includes
+        additional fields for departure_city and destination_city.
       properties:
         id:
           type: integer
@@ -1921,6 +2096,7 @@ components:
       - id
     TripRailway:
       type: object
+      description: Serializer for TripRailway model.
       properties:
         id:
           type: integer
@@ -1940,6 +2116,7 @@ components:
       - id
     UserUpdate:
       type: object
+      description: Serializer for updating existing user records.
       properties:
         id:
           type: integer
@@ -1977,6 +2154,7 @@ components:
       - phone_number_work
     UserUpdatePassword:
       type: object
+      description: Serializer for updating user password.
       properties:
         old_password:
           type: string

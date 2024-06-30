@@ -11,18 +11,57 @@
 [![pytest](https://img.shields.io/badge/pytest-8.0.2-0A9EDC?style=flat&logo=pytest&logoColor=white)](https://docs.pytest.org/)
 [![Ruff](https://img.shields.io/badge/Ruff-0.3-FCC21B?style=flat&logo=ruff&logoColor=white"/)](https://github.com/astral-sh/ruff)
 [![SimpleJWT](https://img.shields.io/badge/SimpleJWT-5.3.1-orange?style=flat&logo=jwt&logoColor=white)](https://github.com/jazzband/djangorestframework-simplejwt)
+[![pre-commit](https://img.shields.io/badge/precommit-0.2-FAB040?style=flat&logo=precommit&logoColor=white)](https://pre-commit.com/)
+[![Flake8](https://img.shields.io/badge/flake8-checked-blueviolet?style=flat)](https://flake8.pycqa.org/en/latest/)
+[![mypy](https://img.shields.io/badge/mypy-checked-blue?style=flat)](https://mypy-lang.org/)
 
 # Melnichanka
 
 ## Table of Contents
 
-- [How to run the project](#how-to-run-the-project)
 - [Project Description](#project-description)
+- [How to run the project](#how-to-run-the-project)
 - [Usage](#usage)
 - [Documentation](#documentation)
 - [Testing](#testing)
 - [Contributing](#contributing)
 - [License](#license)
+
+## Project Description
+
+***Melnichanka: Simplifying Shipment Application Submissions***
+
+Melnichanka is a web application designed to streamline the process of submitting shipment
+applications. It automates the generation of necessary documents based on user input, covering
+details such as goods, brands, factories, and packages.
+
+***Key Benefits:***
+
+- Efficiency: Automates document generation to save time and resources.
+- Accuracy: Reduces errors associated with manual data entry.
+- Accessibility: User-friendly interface ensures ease of use, suitable for all levels of technical
+  proficiency.
+- Convenience: Simplifies the submission process, even for users with minimal technical experience.
+
+***Technological Foundation:***
+
+- Built with Django: Utilizes the robust Django framework for Python, ensuring reliability and
+  flexibility.
+- Containerized with Docker: Deployed using Docker and Docker Compose, enabling easy scalability
+  and
+  deployment.
+
+***Target Audience:***
+
+Designed for companies needing to submit shipment applications regularly.
+Ideal for organizations seeking to enhance efficiency, minimize errors, and optimize resource
+allocation.
+
+***Conclusion:***
+
+Melnichanka empowers companies by automating the creation of shipment documents, enabling them to
+focus on core business activities. It stands as a powerful tool for improving operational
+efficiency and streamlining document submission processes.
 
 ## How to run the project
 
@@ -43,6 +82,10 @@ git clone https://github.com/KroshkaByte/Melnichanka.git
 cd Melnichanka
 ```
 
+- [Configure .env](#environment-configuration)
+
+<p>
+
 - Start the project from root directory:
 
 ```sh
@@ -51,27 +94,21 @@ docker-compose up -d --build
 
 - Open your web browser and navigate to http://localhost:80 to access the application.
 
-## Project Description
+#### Environment Configuration
 
-Melnichanka is a web application designed to facilitate the process of submitting shipment
-applications to consignees. The application generates a package of documents required for shipment
-based on user input, including information about goods, brands, factories, and packages.
+You need to manually update this secret in your `.env` file each time it changes.
 
-The application is intended to be used by companies that need to submit shipment applications on a
-regular basis. By using Melnichanka, companies can streamline the process of generating the
-necessary documents, reduce errors, and save time and resources.
+Additionally, create a `.env` file in the root directory based on the provided `.env.example`. Fill
+in your own data and rename the file to `.env`.
 
-The application includes a user-friendly interface that allows users to easily enter data and
-generate documents. The interface is designed to be intuitive and easy to use, even for users with
-little or no technical experience.
+Please note that the Django secret key used in the `.env.example` is just an example. You can
+generate a new key using the following command:
 
-Melnichanka is built using modern web technologies, including `Django`, a popular web framework for
-Python. The application is containerized using Docker and Docker Compose, making it easy to deploy
-and scale.
-
-Overall, Melnichanka is a powerful and flexible tool that can help companies save time and
-resources when submitting shipment applications. By automating the process of generating documents,
-Melnichanka can help companies reduce errors, improve efficiency, and focus on their core business.
+   ```sh
+   from django.core.management.utils import get_random_secret_key
+   
+   print(get_random_secret_key())
+   ```
 
 ## Usage
 
@@ -79,8 +116,8 @@ To use Melnichanka, follow these steps:
 
 - Enter the required information about the goods, brands, factories, and packages.
 - Click the `Generate Documents` button to generate the package of documents required for shipment.
-- Review the generated documents and make any necessary edits.
-- Download the documents in the desired format (e.g., PDF, Word, Excel).
+- Verify all the data and create an archive with documents.
+- Download the archive of documents in Excel format.
 - Submit the documents to the consignee as required.
 
 ## Database Pre-population
