@@ -4,6 +4,10 @@ from .constants import BRANCHES
 
 
 class City(models.Model):
+    """
+    Model representing a city.
+    """
+
     city = models.CharField(
         max_length=100,
         blank=False,
@@ -25,8 +29,11 @@ class City(models.Model):
         return f"{self.city}, {self.region}"
 
 
-# Данные по логистике авто
 class TripAuto(models.Model):
+    """
+    Model representing auto logistics data.
+    """
+
     departure_city = models.ForeignKey(
         "City",
         db_column="departure_city",
@@ -53,8 +60,11 @@ class TripAuto(models.Model):
         )
 
 
-# Таблица ж/д станций
 class RailwayStation(models.Model):
+    """
+    Model representing a railway station.
+    """
+
     station_name = models.CharField(
         max_length=100,
         blank=False,
@@ -77,8 +87,11 @@ class RailwayStation(models.Model):
         return f"{self.station_name}, {self.station_branch}, {self.station_id}"
 
 
-# Данные по логистике жд
 class TripRailway(models.Model):
+    """
+    Model representing railway logistics data.
+    """
+
     departure_station_name = models.ForeignKey(
         "RailwayStation",
         db_column="departure_station_name",
@@ -105,6 +118,10 @@ class TripRailway(models.Model):
 
 
 class Factory(models.Model):
+    """
+    Model representing a factory.
+    """
+
     full_name = models.CharField(
         max_length=100, blank=False, verbose_name="Полное название предприятия"
     )
