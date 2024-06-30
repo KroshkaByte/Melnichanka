@@ -6,8 +6,16 @@ from logistics.models import Factory
 
 
 class DataService:
+    """
+    Service class providing methods to retrieve and validate data related to delivery,
+    clients, products, factories, delivery costs, destination cities, and authenticated users.
+    """
+
     @staticmethod
     def get_delivery_type(validated_data):
+        """
+        Retrieves the delivery type from validated data.
+        """
         delivery_type = validated_data.get("delivery_type")
         if delivery_type is None:
             raise Exception("Delivery type not found")
@@ -15,6 +23,9 @@ class DataService:
 
     @staticmethod
     def get_client(validated_data):
+        """
+        Retrieves the client object based on the client ID from validated data.
+        """
         try:
             client_id = validated_data.get("client_id")
             client = Client.objects.get(id=client_id)
@@ -24,6 +35,10 @@ class DataService:
 
     @staticmethod
     def get_products(validated_data):
+        """
+        Retrieves a list of products with quantities, discounts,
+        and prices based on product IDs from validated data.
+        """
         products_data = validated_data.get("items")
         results = []
         cached_goods = cache.get("goods_list")
@@ -48,6 +63,9 @@ class DataService:
 
     @staticmethod
     def get_factory(validated_data):
+        """
+        Retrieves the factory object based on the factory ID from validated data.
+        """
         try:
             factory_id = validated_data.get("factory_id")
             cached_factories = cache.get("factories_list")
@@ -62,6 +80,9 @@ class DataService:
 
     @staticmethod
     def get_delivery_cost(validated_data):
+        """
+        Retrieves the delivery cost from validated data.
+        """
         delivery_cost = validated_data.get("delivery_cost")
         if delivery_cost is None:
             raise Exception("Delivery cost not found")
@@ -69,6 +90,9 @@ class DataService:
 
     @staticmethod
     def get_destination(validated_data):
+        """
+        Retrieves the destination city from validated data.
+        """
         destination = validated_data.get("destination")
         if destination is None:
             raise Exception("City not found")
@@ -76,6 +100,9 @@ class DataService:
 
     @staticmethod
     def get_user(request):
+        """
+        Retrieves the authenticated user from the request object.
+        """
         user = request.user
         if user:
             return user
