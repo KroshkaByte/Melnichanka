@@ -33,7 +33,7 @@ def test__data_doc_view__authorized_user_post_data_response_is_correct(
 
 @pytest.mark.django_db
 def test__create_docs_view__authorized_user_get_valid_data(authorized_client, make_test_data):
-    url = reverse("file")
+    url = reverse("file-make")
     cache_key = f"validated_data_{authorized_client.user.id}"
     cache.set(cache_key, json.dumps(make_test_data), timeout=120)
     response = authorized_client.get(url)
@@ -44,7 +44,7 @@ def test__create_docs_view__authorized_user_get_valid_data(authorized_client, ma
 
 @pytest.mark.django_db
 def test__create_docs_view__authorized_user_get_no_data(authorized_client):
-    url = reverse("file")
+    url = reverse("file-make")
     response = authorized_client.get(url)
     assert response.status_code == 400
     assert response.json() == {"error": "No data found in cache"}
@@ -52,7 +52,7 @@ def test__create_docs_view__authorized_user_get_no_data(authorized_client):
 
 @pytest.mark.django_db
 def test__download_doc_view__returns_404_when_no_file_exists(authorized_client):
-    url = reverse("downloadfile")
+    url = reverse("download-file")
     response = authorized_client.post(url, {}, format="json")
     assert response.status_code == 404
     assert response.json() == {"error": "No file found"}
