@@ -222,9 +222,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/DataDoc'
           description: ''
-  /api/v1/doc/downloadfile/:
+  /api/v1/doc/download-file/:
     post:
-      operationId: v1_doc_downloadfile_create
+      operationId: v1_doc_download_file_create
       description: |-
         To download a file:
 
@@ -238,14 +238,26 @@ paths:
       responses:
         '200':
           description: No response body
-  /api/v1/doc/filemake/:
+  /api/v1/doc/file-make/:
     get:
-      operationId: v1_doc_filemake_retrieve
+      operationId: v1_doc_file_make_retrieve
       description: Responsible for creating documents based on data from the cache.
       tags:
       - v1
       security:
       - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/doc/send-archive/:
+    post:
+      operationId: v1_doc_send_archive_create
+      description: API endpoint to send an email with an attachment.
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      - {}
       responses:
         '200':
           description: No response body
