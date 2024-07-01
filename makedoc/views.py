@@ -11,7 +11,13 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from makedoc.services import Documents
-from .serializers import DataDocSerializer, DocumentsSimpleSerializer, FileNameSerializer
+from .serializers import (
+    DataDocSerializer,
+    DocumentsSimpleSerializer,
+    FileNameSerializer,
+    EmailInputSerializer,
+)
+from .tasks import send_email_with_attachment
 
 
 class CreateDocsAPIView(APIView):
@@ -78,8 +84,6 @@ class DownloadDocAPIView(APIView):
             if not file_name:
                 return Response({"error": "No file found"}, status=status.HTTP_404_NOT_FOUND)
 
-            cache.delete(cache_key)
-
         file_path = os.path.join("makedoc", "tempdoc", str(request.user.id), file_name)
 
         if not os.path.exists(file_path):
@@ -114,3 +118,32 @@ class DataDocAPIView(generics.GenericAPIView[Any]):
         cache.set(cache_key, json.dumps(validated_data), 120)
 
         return Response({"Success": True}, status=status.HTTP_200_OK)
+
+
+class SendArchiveAPIView(APIView):
+    """
+    API endpoint to send an email with an attachment.
+    """
+
+    def post(self, request, *args, **kwargs):
+        serializer = EmailInputSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        email = serializer.validated_data.get("email")
+        full_name = request.user.full_name
+
+        cache_key = f"last_created_file_user:{request.user.id}"
+        file_name = cache.get(cache_key)
+
+        if not file_name:
+            return Response({"error": "No file found in cache"}, status=status.HTTP_404_NOT_FOUND)
+
+        file_path = os.path.join("makedoc", "tempdoc", str(request.user.id), file_name)
+
+        if not os.path.exists(file_path):
+            return Response({"error": "File path not found!"}, status=status.HTTP_404_NOT_FOUND)
+
+        send_email_with_attachment.delay(email, file_path, full_name=full_name)
+
+        return Response({"message": "Email will be sent shortly."}, status=status.HTTP_200_OK)

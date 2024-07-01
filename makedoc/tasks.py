@@ -46,8 +46,8 @@ def send_email_with_attachment(self, email, file_path, full_name):
     )
 
     try:
-        with open(file_path, 'rb') as f:
-            email_message.attach(os.path.basename(file_path), f.read(), 'application/zip')
+        with open(file_path, "rb") as f:
+            email_message.attach(os.path.basename(file_path), f.read(), "application/zip")
 
         email_message.send()
 
